@@ -1,0 +1,47 @@
+import { Client } from "discord.js";
+
+function invoke(client: Client) {
+    client.on("messageCreate", async message => {
+        if (message.author.bot || !message.content) return;
+
+        const messageContent = message.content.replace(/(\r|\n|\r\n|<|>)/gm, " ");
+
+        let messageReply = "";
+        for (const word of messageContent.split(" ")) {
+            if (word.match(/^http(?:s)?:\/\/(.*)bsky\.app\//) && !word.match(/^http(?:s)?:\/\/(.*)fxbsky\.app\//)) {
+                if (messageReply != "") {
+                    messageReply += "\n"
+                }
+                messageReply += word.replace(/bsky.app/gm, "fxbsky.app");
+            }
+            
+            if (word.match(/^http(?:s)?:\/\/(.*)reddit\.com\//) && !word.match(/^http(?:s)?:\/\/(.*)rxddit\.com\//)) {
+                if (messageReply != "") {
+                    messageReply += "\n"
+                }
+                messageReply += word.replace(/reddit.com/gm, "rxddit.com");
+            }
+
+            if (word.match(/^http(?:s)?:\/\/(.*)tiktok\.com\//) && !word.match(/^http(?:s)?:\/\/(.*)vxtiktok\.com\//)) {
+                if (messageReply != "") {
+                    messageReply += "\n"
+                }
+                messageReply += word.replace(/tiktok.com/gm, "vxtiktok.com");
+            }
+
+            if ((word.match(/^http(?:s)?:\/\/(.*)twitter\.com\//) || word.match(/^http(?:s)?:\/\/x\.com\//)) && !word.match(/^http(?:s)?:\/\/(.*)fxtwitter\.com\//) && !word.match(/^http(?:s)?:\/\/(.*)vxtwitter\.com\//)) {
+                if (messageReply != "") {
+                    messageReply += "\n"
+                }
+                messageReply += word.replace(/twitter.com/gm, "fxtwitter.com").replace(/x.com/gm, "fxtwitter.com");
+            }
+        }
+
+        if (messageReply != "") {
+            await message.suppressEmbeds(true);
+            await message.reply({ content: messageReply, allowedMentions: { repliedUser: false } });
+        }
+    });
+}
+
+export { invoke };

@@ -1,0 +1,66 @@
+import { Client, EmbedBuilder } from "discord.js";
+import { format } from "date-fns";
+import globals from "../globals.ts";
+
+function invoke(client: Client) {
+    client.on("guildMemberAdd", async guildMember => {
+        const embed = new EmbedBuilder()
+            .setColor(globals.colours.embed)
+            .setTitle("Member Joined")
+            .setAuthor({ name: guildMember.user.displayName, iconURL: guildMember.user.displayAvatarURL() })
+            .addFields(
+                { name: "Username:", value: guildMember.user.username, inline: false },
+                { name: "Created At:", value: format(guildMember.user.createdAt, "MMMM d, yyyy"), inline: false }
+            )
+            .setFooter({ text: `ID: ${guildMember.user.id}` })
+            .setTimestamp();
+
+        await guildMember.guild.systemChannel?.send({ embeds: [embed] });
+    });
+
+    client.on("guildMemberUpdate", async (oldMember, newMember) => {
+        if (oldMember.pending && !newMember.pending) {
+            const embed = new EmbedBuilder()
+                .setColor(globals.colours.embed)
+                .setTitle("Member Accepted Rules")
+                .setAuthor({ name: newMember.user.displayName, iconURL: newMember.user.displayAvatarURL() })
+                .addFields(
+                    { name: "Username:", value: newMember.user.username, inline: false },
+                    { name: "Created At:", value: format(newMember.user.createdAt, "MMMM d, yyyy"), inline: true }
+                )
+                .setFooter({ text: `ID: ${newMember.user.id}` })
+                .setTimestamp();
+
+            if (newMember.joinedAt) {
+                embed.addFields(
+                    { name: "Joined At:", value: format(newMember.joinedAt, "MMMM d, yyyy"), inline: true }
+                );
+            }
+            
+            await newMember.guild.systemChannel?.send({ embeds: [embed] });
+        }
+    });
+
+    client.on("guildMemberRemove", async guildMember => {
+        const embed = new EmbedBuilder()
+            .setColor(globals.colours.embed)
+            .setTitle("Member Left")
+            .setAuthor({ name: guildMember.user.displayName, iconURL: guildMember.user.displayAvatarURL() })
+            .addFields(
+                { name: "Username:", value: guildMember.user.username, inline: false },
+                { name: "Created At:", value: format(guildMember.user.createdAt, "MMMM d, yyyy"), inline: true }
+            )
+            .setFooter({ text: `ID: ${guildMember.user.id}` })
+            .setTimestamp();
+
+        if (guildMember.joinedAt) {
+            embed.addFields(
+                { name: "Joined At:", value: format(guildMember.joinedAt, "MMMM d, yyyy"), inline: true }
+            );
+        }
+
+        await guildMember.guild.systemChannel?.send({ embeds: [embed] });
+    });
+}
+
+export { invoke };
