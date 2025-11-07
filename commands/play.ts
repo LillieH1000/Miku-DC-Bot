@@ -102,7 +102,7 @@ async function invoke(interaction: ChatInputCommandInteraction) {
         }
     }
 
-    const ytrx = /^.*(?:(?:youtu\\.be\/|v\/|vi\/|u\/\\w\/|embed\/|shorts\/)|(?:(?:watch)?\\?vi?=|&vi?=))([^#&?]*).*/;
+    const ytrx = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\\w\/|embed\/|shorts\/)|(?:(?:watch)?\\?vi?=|&vi?=))([^#&?]*).*/;
     if (query.match(ytrx)) {
         return;
     }

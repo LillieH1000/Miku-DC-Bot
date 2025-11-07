@@ -14,7 +14,7 @@ function invoke(client: Client) {
         const messageContent = message.content.replace(/(\r|\n|\r\n|<|>)/gm, " ");
     
         for (const word of messageContent.split(" ")) {
-            const rx = /^.*(?:(?:youtu\\.be\/|v\/|vi\/|u\/\\w\/|embed\/|shorts\/)|(?:(?:watch)?\\?vi?=|&vi?=))([^#&?]*).*/;
+            const rx = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\\w\/|embed\/|shorts\/)|(?:(?:watch)?\\?vi?=|&vi?=))([^#&?]*).*/;
             if (word.match(rx)) {
                 const res = await fetch(`https://returnyoutubedislikeapi.com/votes?videoId=${word.match(rx)![1]}`);
                 if (res.ok) {
