@@ -1,12 +1,12 @@
 if [ $1 == "register" ]
 then
     set -e
-    deno run --allow-env --allow-ffi --allow-net --allow-read=commands --check ./deploy.ts
+    deno run --allow-env --allow-ffi --allow-net --allow-read=commands,/usr/bin/ldd --check ./deploy.ts
 fi
 if [ $1 == "dev" ]
 then
     set -e
-    deno run --allow-env --allow-ffi --allow-net --allow-read=commands,node_modules,utils --allow-run=ffmpeg,yt-dlp --check ./index.ts
+    deno run --allow-env --allow-ffi --allow-net --allow-read=commands,node_modules,utils,/proc/self/exe,/usr/bin/ldd --allow-run=ffmpeg,yt-dlp --allow-sys=cpus,hostname,networkInterfaces --check ./index.ts
 fi
 if [ $1 == "start" ]
 then
