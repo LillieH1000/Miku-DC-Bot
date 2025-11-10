@@ -3,6 +3,7 @@ import globals from "../globals.ts";
 
 const count = new Map();
 
+// Disabled when cloned due to map storage issue for multiple guilds
 function invoke(client: Client) {
     client.on("messageCreate", async message => {
         if (message.author.bot || !message.content || !message.guild) return;
