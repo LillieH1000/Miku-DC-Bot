@@ -1,9 +1,9 @@
 import { Client, EmbedBuilder, PermissionsBitField, TextChannel } from "discord.js";
-import globals from "../globals.js";
+import globals from "../globals.ts";
 
-let count = new Map();
+const count = new Map();
 
-async function invoke(client: Client) {
+function invoke(client: Client) {
     client.on("messageCreate", async message => {
         if (message.author.bot || !message.content || !message.guild) return;
     

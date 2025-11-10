@@ -1,8 +1,8 @@
 import { Client, EmbedBuilder, TextChannel } from "discord.js";
 import { format } from "date-fns";
-import globals from "../globals.js";
+import globals from "../globals.ts";
 
-async function invoke(client: Client) {
+function invoke(client: Client) {
     client.on("messageDelete", async message => {
         if (!message.author || message.author.bot || !message.content || !message.guild) return;
 
