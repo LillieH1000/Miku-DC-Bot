@@ -6,22 +6,32 @@ function invoke(client: Client) {
     client.on("messageDelete", async message => {
         if (!message.author || message.author.bot || !message.content || !message.guild) return;
 
-        // Legacy Update Server
-        if (message.guild.id == "1095995920409178112") {
-            const embed = new EmbedBuilder()
-                .setColor(globals.colours.embed)
-                .setTitle("Message Deleted")
-                .setAuthor({ name: message.author.displayName, iconURL: message.author.displayAvatarURL() })
-                .addFields(
-                    { name: "Username:", value: message.author.username, inline: false },
-                    { name: "Channel:", value: `<#${message.channel.id}>`, inline: false },
-                    { name: "Created At:", value: format(message.createdAt, "MMMM d, yyyy"), inline: false },
-                    { name: "Message:", value: message.content, inline: false }
-                )
-                .setFooter({ text: `ID: ${message.author.id}` })
-                .setTimestamp();
+        // Legacy Update - openplace
+        if (message.guild.id != "1095995920409178112" && message.guild.id != "1422571580181184644") {
+            return;
+        }
 
+        const embed = new EmbedBuilder()
+            .setColor(globals.colours.embed)
+            .setTitle("Message Deleted")
+            .setAuthor({ name: message.author.displayName, iconURL: message.author.displayAvatarURL() })
+            .addFields(
+                { name: "Username:", value: message.author.username, inline: false },
+                { name: "Channel:", value: `<#${message.channel.id}>`, inline: false },
+                { name: "Created At:", value: format(message.createdAt, "MMMM d, yyyy"), inline: false },
+                { name: "Message:", value: message.content, inline: false }
+            )
+            .setFooter({ text: `ID: ${message.author.id}` })
+            .setTimestamp();
+        
+        // Legacy Update
+        if (message.guild.id == "1095995920409178112") {
             const channel = message.guild.channels.cache.get("1197666507925225662") as (TextChannel | undefined);
+            await channel?.send({ embeds: [embed] });
+        }
+        // openplace
+        if (message.guild.id == "1422571580181184644") {
+            const channel = message.guild.channels.cache.get("1437280910558105703") as (TextChannel | undefined);
             await channel?.send({ embeds: [embed] });
         }
     });
@@ -29,8 +39,12 @@ function invoke(client: Client) {
     client.on("messageUpdate", async (oldMessage, newMessage) => {
         if (!newMessage.author || newMessage.author.bot || !oldMessage.content || !newMessage.content || !newMessage.guild) return;
 
-        // Legacy Update Server
-        if (newMessage.guild.id == "1095995920409178112" && oldMessage.content != newMessage.content) {
+        // Legacy Update - openplace
+        if (newMessage.guild.id != "1095995920409178112" && newMessage.guild.id != "1422571580181184644") {
+            return;
+        }
+
+        if (oldMessage.content != newMessage.content) {
             const embed = new EmbedBuilder()
                 .setColor(globals.colours.embed)
                 .setTitle("Message Updated")
@@ -46,8 +60,16 @@ function invoke(client: Client) {
                 .setFooter({ text: `ID: ${newMessage.author.id}` })
                 .setTimestamp();
 
-            const channel = newMessage.guild.channels.cache.get("1197666507925225662") as (TextChannel | undefined);
-            await channel?.send({ embeds: [embed] });
+            // Legacy Update
+            if (newMessage.guild.id == "1095995920409178112") {
+                const channel = newMessage.guild.channels.cache.get("1197666507925225662") as (TextChannel | undefined);
+                await channel?.send({ embeds: [embed] });
+            }
+            // openplace
+            if (newMessage.guild.id == "1422571580181184644") {
+                const channel = newMessage.guild.channels.cache.get("1437280910558105703") as (TextChannel | undefined);
+                await channel?.send({ embeds: [embed] });
+            }
         }
     });
 }
