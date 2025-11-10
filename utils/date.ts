@@ -5,8 +5,8 @@ import { format } from "date-fns";
 function invoke(client: Client) {
     // Town Of Salem Server
     setInterval(async function() {
-        const guild = client.guilds.cache.get("416350699794857986") as Guild;
-        const channel = guild?.channels.cache.get("772878026521182248") as TextChannel;
+        const guild = client.guilds.cache.get("416350699794857986") as (Guild | undefined);
+        const channel = guild?.channels.cache.get("772878026521182248") as (TextChannel | undefined);
         const date = TZDate.tz("America/New_York");
         const formatteddate = format(date, "MMMM d, yyyy");
         await channel?.setName(`Date: ${formatteddate}`);

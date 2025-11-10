@@ -21,7 +21,7 @@ function invoke(client: Client) {
                 .setFooter({ text: `ID: ${message.author.id}` })
                 .setTimestamp();
 
-            const channel = message.guild.channels.cache.get("1197666507925225662") as TextChannel;
+            const channel = message.guild.channels.cache.get("1197666507925225662") as (TextChannel | undefined);
             await channel?.send({ embeds: [embed] });
         }
     });
@@ -46,7 +46,7 @@ function invoke(client: Client) {
                 .setFooter({ text: `ID: ${newMessage.author.id}` })
                 .setTimestamp();
 
-            const channel = newMessage.guild.channels.cache.get("1197666507925225662") as TextChannel;
+            const channel = newMessage.guild.channels.cache.get("1197666507925225662") as (TextChannel | undefined);
             await channel?.send({ embeds: [embed] });
         }
     });

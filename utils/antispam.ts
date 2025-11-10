@@ -35,7 +35,7 @@ function invoke(client: Client) {
                         );
                     }
 
-                    const channel = message.guild.channels.cache.get("1197666541467078787") as TextChannel;
+                    const channel = message.guild.channels.cache.get("1197666541467078787") as (TextChannel | undefined);
                     await channel?.send({
                         content: "<@&1096003733554479135> <@&1195220849435889705>",
                         embeds: [embed]
