@@ -20,5 +20,21 @@
       "tags": ["recommended"]
     }
   },
-  "nodeModulesDir": "auto"
+  "nodeModulesDir": "auto",
+  "permissions": {
+    "default": {
+      "env": true,
+      "ffi": true,
+      "net": true,
+      "read": ["commands","node_modules","utils","/proc/self/exe","/usr/bin/ldd"],
+      "run": ["ffmpeg","yt-dlp"],
+      "sys": ["cpus","hostname","networkInterfaces"]
+    },
+    "register": {
+      "env": true,
+      "ffi": true,
+      "net": true,
+      "read": ["commands","/usr/bin/ldd"]
+    }
+  }
 }

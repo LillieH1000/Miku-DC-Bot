@@ -1,12 +1,12 @@
 if [ $1 == "register" ]
 then
     set -e
-    deno run --allow-env --allow-ffi --allow-net --allow-read=commands,/usr/bin/ldd --check ./deploy.ts
+    deno run --check -P=register ./deploy.ts
 fi
 if [ $1 == "dev" ]
 then
     set -e
-    deno run --allow-env --allow-ffi --allow-net --allow-read=commands,node_modules,utils,/proc/self/exe,/usr/bin/ldd --allow-run=ffmpeg,yt-dlp --allow-sys=cpus,hostname,networkInterfaces --check ./index.ts
+    deno run --check -P ./index.ts
 fi
 if [ $1 == "start" ]
 then
@@ -15,7 +15,7 @@ then
     pm2 delete "discordbot"
     set -e
     pm2 save --force
-    pm2 start ./index.ts --interpreter="deno" --interpreter-args="run --allow-env --allow-ffi --allow-net --allow-read=commands,node_modules,utils,/proc/self/exe,/usr/bin/ldd --allow-run=ffmpeg,yt-dlp --allow-sys=cpus,hostname,networkInterfaces --check" --name "discordbot"
+    pm2 start ./index.ts --interpreter="deno" --interpreter-args="run --check -P ./index.ts" --name "discordbot"
     pm2 save --force
     echo "Successfully started application process."
 fi
