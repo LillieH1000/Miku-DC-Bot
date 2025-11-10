@@ -1,4 +1,4 @@
-import { Client, EmbedBuilder } from "discord.js";
+import { Client, EmbedBuilder, TextChannel } from "discord.js";
 import { format } from "date-fns";
 import globals from "../globals.ts";
 
@@ -15,7 +15,16 @@ function invoke(client: Client) {
             .setFooter({ text: `ID: ${guildMember.user.id}` })
             .setTimestamp();
 
-        await guildMember.guild.systemChannel?.send({ embeds: [embed] });
+        // Legacy Update - openplace
+        if (guildMember.guild.id == "1095995920409178112") {
+            const channel = guildMember.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined);
+            await channel?.send({ embeds: [embed] });
+        } else if (guildMember.guild.id == "1422571580181184644") {
+            const channel = guildMember.guild.channels.cache.get("1437280756480344144") as (TextChannel | undefined);
+            await channel?.send({ embeds: [embed] });
+        } else {
+            await guildMember.guild.systemChannel?.send({ embeds: [embed] });
+        }
     });
 
     client.on("guildMemberUpdate", async (oldMember, newMember) => {
@@ -37,7 +46,16 @@ function invoke(client: Client) {
                 );
             }
             
-            await newMember.guild.systemChannel?.send({ embeds: [embed] });
+            // Legacy Update - openplace
+            if (newMember.guild.id == "1095995920409178112") {
+                const channel = newMember.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined);
+                await channel?.send({ embeds: [embed] });
+            } else if (newMember.guild.id == "1422571580181184644") {
+                const channel = newMember.guild.channels.cache.get("1437280756480344144") as (TextChannel | undefined);
+                await channel?.send({ embeds: [embed] });
+            } else {
+                await newMember.guild.systemChannel?.send({ embeds: [embed] });
+            }
         }
     });
 
@@ -59,7 +77,16 @@ function invoke(client: Client) {
             );
         }
 
-        await guildMember.guild.systemChannel?.send({ embeds: [embed] });
+        // Legacy Update - openplace
+        if (guildMember.guild.id == "1095995920409178112") {
+            const channel = guildMember.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined);
+            await channel?.send({ embeds: [embed] });
+        } else if (guildMember.guild.id == "1422571580181184644") {
+            const channel = guildMember.guild.channels.cache.get("1437280756480344144") as (TextChannel | undefined);
+            await channel?.send({ embeds: [embed] });
+        } else {
+            await guildMember.guild.systemChannel?.send({ embeds: [embed] });
+        }
     });
 }
 
