@@ -28,7 +28,7 @@ then
     set -e
     cd fmt
     pm2 save --force
-    pm2 start ./index.ts --interpreter="deno" --interpreter-args="run --check -P ./index.ts" --name "discordbot"
+    pm2 start ./index.ts --interpreter="deno" --interpreter-args="run --check -P" --name "discordbot"
     pm2 save --force
     echo "Successfully started application process."
 fi
