@@ -11,11 +11,13 @@ fi
 if [ $1 == "register" ]
 then
     set -e
+    cd fmt
     deno run --check -P=register ./deploy.ts
 fi
 if [ $1 == "dev" ]
 then
     set -e
+    cd fmt
     deno run --check -P ./index.ts
 fi
 if [ $1 == "start" ]
@@ -24,6 +26,7 @@ then
     pm2 stop "discordbot"
     pm2 delete "discordbot"
     set -e
+    cd fmt
     pm2 save --force
     pm2 start ./index.ts --interpreter="deno" --interpreter-args="run --check -P ./index.ts" --name "discordbot"
     pm2 save --force
