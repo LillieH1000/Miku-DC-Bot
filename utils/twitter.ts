@@ -10,7 +10,7 @@ interface resData {
             screen_name: string;
             avatar_url: string;
         };
-        media: {
+        media?: {
             all: [{
                 url: string;
             }];
@@ -33,35 +33,42 @@ function invoke(client: Client) {
                 const container = new ContainerBuilder()
                     .setAccentColor(globals.colours.accent)
 
-                container.addSectionComponents(new SectionBuilder()
+                const section = new SectionBuilder()
                     .addTextDisplayComponents(
                         new TextDisplayBuilder()
                             .setContent(`${data.tweet.author.name} (${data.tweet.author.screen_name})`),
                     )
-                    .addTextDisplayComponents(
-                        new TextDisplayBuilder()
-                            .setContent(data.tweet.text),
-                    )
                     .setThumbnailAccessory(
                         new ThumbnailBuilder()
                             .setURL(data.tweet.author.avatar_url)
-                    ));
+                    )
+
+                if (data.tweet.text != "") {
+                    section.addTextDisplayComponents(
+                        new TextDisplayBuilder()
+                            .setContent(data.tweet.text),
+                    )
+                }
+
+                container.addSectionComponents(section);
 
                 container.addSeparatorComponents(
                     new SeparatorBuilder()
                 );
 
-                const gallery = new MediaGalleryBuilder();
+                if (data.tweet.media) {
+                    const gallery = new MediaGalleryBuilder();
 
-                data.tweet.media.all.forEach(media => {
-                    gallery.addItems(new MediaGalleryItemBuilder().setURL(media.url));
-                });
+                    data.tweet.media.all.forEach(media => {
+                        gallery.addItems(new MediaGalleryItemBuilder().setURL(media.url));
+                    });
 
-                container.addMediaGalleryComponents(gallery);
+                    container.addMediaGalleryComponents(gallery);
 
-                container.addSeparatorComponents(
-                    new SeparatorBuilder()
-                );
+                    container.addSeparatorComponents(
+                        new SeparatorBuilder()
+                    );
+                }
 
                 container.addActionRowComponents(new ActionRowBuilder<ButtonBuilder>()
                     .addComponents(
