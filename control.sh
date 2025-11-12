@@ -1,4 +1,13 @@
 #!/bin/bash
+if [ $1 == "setup" ]
+then
+    set +e
+    rm -rf fmt
+    set -e
+    rsync -a --exclude profile.png --exclude control.sh * fmt
+    cd fmt
+    deno fmt
+fi
 if [ $1 == "register" ]
 then
     set -e
