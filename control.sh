@@ -6,6 +6,7 @@ then
     set -e
     rsync -a --exclude profile.png --exclude control.sh * fmt
     cd fmt
+    deno install --allow-scripts
     deno fmt *.ts **/*.ts
 fi
 if [ $1 == "register" ]
