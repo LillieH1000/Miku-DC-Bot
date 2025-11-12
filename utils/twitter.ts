@@ -1,34 +1,34 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Client, ContainerBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags, SectionBuilder, SeparatorBuilder, TextDisplayBuilder, ThumbnailBuilder } from "discord.js";
-import globals from "../globals.ts";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Client, ContainerBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags, SectionBuilder, SeparatorBuilder, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
+import globals from "../globals.ts"
 
 interface resData {
     tweet: {
-        url: string;
-        text: string;
+        url: string
+        text: string
         author: {
-            name: string;
-            screen_name: string;
-            avatar_url: string;
-        };
+            name: string
+            screen_name: string
+            avatar_url: string
+        }
         media?: {
             all: [{
-                url: string;
-            }];
-        };
-    };
+                url: string
+            }]
+        }
+    }
 }
 
 function invoke(client: Client) {
     client.on("messageCreate", async message => {
-        if (message.author.bot || !message.content) return;
+        if (message.author.bot || !message.content) return
 
-        const messageContent = message.content.replace(/(\r|\n|\r\n|<|>)/gm, " ");
+        const messageContent = message.content.replace(/(\r|\n|\r\n|<|>)/gm, " ")
     
         for (const word of messageContent.split(" ")) {
             if ((word.match(/^http(?:s)?:\/\/(.*)twitter\.com\//) || word.match(/^http(?:s)?:\/\/x\.com\//)) && !word.match(/^http(?:s)?:\/\/(.*)fxtwitter\.com\//) && !word.match(/^http(?:s)?:\/\/(.*)vxtwitter\.com\//)) {
-                const res = await fetch(word.replace(/twitter.com/gm, "api.fxtwitter.com").replace(/x.com/gm, "api.fxtwitter.com"));
-                if (!res.ok) return;
-                const data: resData = await res.json();
+                const res = await fetch(word.replace(/twitter.com/gm, "api.fxtwitter.com").replace(/x.com/gm, "api.fxtwitter.com"))
+                if (!res.ok) return
+                const data: resData = await res.json()
                 
                 const container = new ContainerBuilder()
                     .setAccentColor(globals.colours.accent)
@@ -50,24 +50,24 @@ function invoke(client: Client) {
                     )
                 }
 
-                container.addSectionComponents(section);
+                container.addSectionComponents(section)
 
                 container.addSeparatorComponents(
                     new SeparatorBuilder()
-                );
+                )
 
                 if (data.tweet.media) {
-                    const gallery = new MediaGalleryBuilder();
+                    const gallery = new MediaGalleryBuilder()
 
                     data.tweet.media.all.forEach(media => {
-                        gallery.addItems(new MediaGalleryItemBuilder().setURL(media.url));
-                    });
+                        gallery.addItems(new MediaGalleryItemBuilder().setURL(media.url))
+                    })
 
-                    container.addMediaGalleryComponents(gallery);
+                    container.addMediaGalleryComponents(gallery)
 
                     container.addSeparatorComponents(
                         new SeparatorBuilder()
-                    );
+                    )
                 }
 
                 container.addActionRowComponents(new ActionRowBuilder<ButtonBuilder>()
@@ -76,13 +76,13 @@ function invoke(client: Client) {
                             .setLabel("Open Tweet")
                             .setStyle(ButtonStyle.Link)
                             .setURL(data.tweet.url)
-                    ));
+                    ))
 
-                await message.suppressEmbeds(true);
-                await message.reply({ components: [container], flags: MessageFlags.IsComponentsV2 });
+                await message.suppressEmbeds(true)
+                await message.reply({ components: [container], flags: MessageFlags.IsComponentsV2 })
             }
         }
-    });
+    })
 }
 
-export { invoke };
+export { invoke }

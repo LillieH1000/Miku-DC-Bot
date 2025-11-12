@@ -1,6 +1,6 @@
-import { Client, EmbedBuilder, TextChannel } from "discord.js";
-import { format } from "date-fns";
-import globals from "../globals.ts";
+import { Client, EmbedBuilder, TextChannel } from "discord.js"
+import { format } from "date-fns"
+import globals from "../globals.ts"
 
 function invoke(client: Client) {
     client.on("guildMemberAdd", async guildMember => {
@@ -13,19 +13,19 @@ function invoke(client: Client) {
                 { name: "Created At:", value: format(guildMember.user.createdAt, "MMMM d, yyyy"), inline: false }
             )
             .setFooter({ text: `ID: ${guildMember.user.id}` })
-            .setTimestamp();
+            .setTimestamp()
 
         // Legacy Update - openplace
         if (guildMember.guild.id == "1095995920409178112") {
-            const channel = guildMember.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined);
-            await channel?.send({ embeds: [embed] });
+            const channel = guildMember.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
+            await channel?.send({ embeds: [embed] })
         } else if (guildMember.guild.id == "1422571580181184644") {
-            const channel = guildMember.guild.channels.cache.get("1437280756480344144") as (TextChannel | undefined);
-            await channel?.send({ embeds: [embed] });
+            const channel = guildMember.guild.channels.cache.get("1437280756480344144") as (TextChannel | undefined)
+            await channel?.send({ embeds: [embed] })
         } else {
-            await guildMember.guild.systemChannel?.send({ embeds: [embed] });
+            await guildMember.guild.systemChannel?.send({ embeds: [embed] })
         }
-    });
+    })
 
     client.on("guildMemberUpdate", async (oldMember, newMember) => {
         if (oldMember.pending && !newMember.pending) {
@@ -38,26 +38,26 @@ function invoke(client: Client) {
                     { name: "Created At:", value: format(newMember.user.createdAt, "MMMM d, yyyy"), inline: true }
                 )
                 .setFooter({ text: `ID: ${newMember.user.id}` })
-                .setTimestamp();
+                .setTimestamp()
 
             if (newMember.joinedAt) {
                 embed.addFields(
                     { name: "Joined At:", value: format(newMember.joinedAt, "MMMM d, yyyy"), inline: true }
-                );
+                )
             }
             
             // Legacy Update - openplace
             if (newMember.guild.id == "1095995920409178112") {
-                const channel = newMember.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined);
-                await channel?.send({ embeds: [embed] });
+                const channel = newMember.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
+                await channel?.send({ embeds: [embed] })
             } else if (newMember.guild.id == "1422571580181184644") {
-                const channel = newMember.guild.channels.cache.get("1437280756480344144") as (TextChannel | undefined);
-                await channel?.send({ embeds: [embed] });
+                const channel = newMember.guild.channels.cache.get("1437280756480344144") as (TextChannel | undefined)
+                await channel?.send({ embeds: [embed] })
             } else {
-                await newMember.guild.systemChannel?.send({ embeds: [embed] });
+                await newMember.guild.systemChannel?.send({ embeds: [embed] })
             }
         }
-    });
+    })
 
     client.on("guildMemberRemove", async guildMember => {
         const embed = new EmbedBuilder()
@@ -69,25 +69,25 @@ function invoke(client: Client) {
                 { name: "Created At:", value: format(guildMember.user.createdAt, "MMMM d, yyyy"), inline: true }
             )
             .setFooter({ text: `ID: ${guildMember.user.id}` })
-            .setTimestamp();
+            .setTimestamp()
 
         if (guildMember.joinedAt) {
             embed.addFields(
                 { name: "Joined At:", value: format(guildMember.joinedAt, "MMMM d, yyyy"), inline: true }
-            );
+            )
         }
 
         // Legacy Update - openplace
         if (guildMember.guild.id == "1095995920409178112") {
-            const channel = guildMember.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined);
-            await channel?.send({ embeds: [embed] });
+            const channel = guildMember.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
+            await channel?.send({ embeds: [embed] })
         } else if (guildMember.guild.id == "1422571580181184644") {
-            const channel = guildMember.guild.channels.cache.get("1437280756480344144") as (TextChannel | undefined);
-            await channel?.send({ embeds: [embed] });
+            const channel = guildMember.guild.channels.cache.get("1437280756480344144") as (TextChannel | undefined)
+            await channel?.send({ embeds: [embed] })
         } else {
-            await guildMember.guild.systemChannel?.send({ embeds: [embed] });
+            await guildMember.guild.systemChannel?.send({ embeds: [embed] })
         }
-    });
+    })
 }
 
-export { invoke };
+export { invoke }

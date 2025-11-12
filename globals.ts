@@ -1,96 +1,96 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ColorResolvable, ContainerBuilder, SectionBuilder, SeparatorBuilder, TextDisplayBuilder, ThumbnailBuilder } from "discord.js";
-import { AudioPlayer, AudioResource } from "@discordjs/voice";
-import LZString from "lz-string";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ColorResolvable, ContainerBuilder, SectionBuilder, SeparatorBuilder, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
+import { AudioPlayer, AudioResource } from "@discordjs/voice"
+import LZString from "lz-string"
 
 // Default Colours
 
 const colours = {
     "embed": "#FFC0DD" as ColorResolvable,
     "accent": 0xFFC0DD
-};
+}
 
 // Player Objects
 
 interface playerObject {
     [key: string]: {
-        status: number;
-        ids: string[];
-        player: AudioPlayer;
-        volume: number;
-        resource?: AudioResource;
+        status: number
+        ids: string[]
+        player: AudioPlayer
+        volume: number
+        resource?: AudioResource
     }
 }
 
-const player:playerObject = {};
+const player:playerObject = {}
 
 // Pokemon Utils
 
 interface pokemonData {
     abilities: [{
         ability: {
-            name: string;
-        };
-        is_hidden: boolean;
-    }];
-    base_experience: number;
-    height: number;
-    id: number;
-    name: string;
+            name: string
+        }
+        is_hidden: boolean
+    }]
+    base_experience: number
+    height: number
+    id: number
+    name: string
     species: {
-        url?: string;
+        url?: string
     }
     sprites: {
         other: {
             home: {
-                front_default?: string;
-                front_female?: string;
-                front_shiny?: string;
-                front_shiny_female?: string;
-            };
-        };
-    };
+                front_default?: string
+                front_female?: string
+                front_shiny?: string
+                front_shiny_female?: string
+            }
+        }
+    }
     stats: [{
-        base_stat: number;
-        effort: number;
+        base_stat: number
+        effort: number
         stat: {
-            name: string;
-        };
-    }];
+            name: string
+        }
+    }]
     types: [{
         type: {
-            name: string;
-            url: string;
-        };
-    }];
-    weight: number;
+            name: string
+            url: string
+        }
+    }]
+    weight: number
 }
 
 interface speciesData {
-    base_happiness?: number;
-    capture_rate?: number;
-    is_baby: boolean;
-    is_legendary: boolean;
-    is_mythical: boolean;
+    base_happiness?: number
+    capture_rate?: number
+    is_baby: boolean
+    is_legendary: boolean
+    is_mythical: boolean
     varieties: [{
         pokemon: {
-            name: string;
-            url: string;
+            name: string
+            url: string
         }
-    }];
+    }]
 }
 
 interface typesData {
     damage_relations: {
         double_damage_from?: [{
-            name: string;
-        }];
+            name: string
+        }]
         half_damage_from?: [{
-            name: string;
-        }];
+            name: string
+        }]
         no_damage_from?: [{
-            name: string;
-        }];
-    };
+            name: string
+        }]
+    }
 }
 
 interface pokeapiWeaknessType {
@@ -115,59 +115,59 @@ interface pokeapiWeaknessType {
 }
 
 async function pokeapiRequest(name: string, position: number, mega: boolean, gmax: boolean, shiny: boolean, guild: boolean, guildid: string, message: string | null): Promise<ContainerBuilder | undefined> {
-    let data: pokemonData;
+    let data: pokemonData
     
     // Pokemon Request
-    const res1 = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+    const res1 = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
     if (!res1.ok) {
-        return undefined;
+        return undefined
     }
-    data = await res1.json();
-    const origname = data.name;
+    data = await res1.json()
+    const origname = data.name
 
     // Species Request
-    const res2 = await fetch(data.species.url!);
+    const res2 = await fetch(data.species.url!)
     if (!res2.ok) {
-        return undefined;
+        return undefined
     }
-    const speciesData: speciesData = await res2.json();
+    const speciesData: speciesData = await res2.json()
 
     // Mega Check
 
-    let hasmega = false;
-    let megaurl = "";
+    let hasmega = false
+    let megaurl = ""
     speciesData.varieties.forEach(variety => {
         if (variety.pokemon.name.endsWith("-mega")) {
-            hasmega = true;
-            megaurl = variety.pokemon.url;
+            hasmega = true
+            megaurl = variety.pokemon.url
         }
-    });
+    })
 
     if (hasmega && mega) {
-        const res1 = await fetch(megaurl);
+        const res1 = await fetch(megaurl)
         if (!res1.ok) {
-            return undefined;
+            return undefined
         }
-        data = await res1.json();
+        data = await res1.json()
     }
 
     // Gmax Check
 
-    let hasgmax = false;
-    let gmaxurl = "";
+    let hasgmax = false
+    let gmaxurl = ""
     speciesData.varieties.forEach(variety => {
         if (variety.pokemon.name.endsWith("-gmax")) {
-            hasgmax = true;
-            gmaxurl = variety.pokemon.url;
+            hasgmax = true
+            gmaxurl = variety.pokemon.url
         }
-    });
+    })
 
     if (hasgmax && gmax) {
-        const res1 = await fetch(gmaxurl);
+        const res1 = await fetch(gmaxurl)
         if (!res1.ok) {
-            return undefined;
+            return undefined
         }
-        data = await res1.json();
+        data = await res1.json()
     }
 
     // Types & Weaknesses
@@ -191,73 +191,73 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
         dark: 1,
         steel: 1,
         fairy: 1
-    };
+    }
     
-    let typescount = 0;
-    let types = "";
+    let typescount = 0
+    let types = ""
     for (const type of data.types) {
         // Type Info
-        const res1 = await fetch(type.type.url);
-        const data1:typesData = await res1.json();
+        const res1 = await fetch(type.type.url)
+        const data1:typesData = await res1.json()
 
         if (data1.damage_relations.double_damage_from) {
             for (const double of data1.damage_relations.double_damage_from) {
-                weakness[double.name as keyof pokeapiWeaknessType] *= 2;
+                weakness[double.name as keyof pokeapiWeaknessType] *= 2
             }
         }
         if (data1.damage_relations.half_damage_from) {
             for (const half of data1.damage_relations.half_damage_from) {
-                weakness[half.name as keyof pokeapiWeaknessType] *= 0.5;
+                weakness[half.name as keyof pokeapiWeaknessType] *= 0.5
             }
         }
         if (data1.damage_relations.no_damage_from) {
             for (const none of data1.damage_relations.no_damage_from) {
-                weakness[none.name as keyof pokeapiWeaknessType] = 0;
+                weakness[none.name as keyof pokeapiWeaknessType] = 0
             }
         }
 
         // Type Name
-        types += type.type.name.charAt(0).toUpperCase() + type.type.name.slice(1);
-        typescount += 1;
+        types += type.type.name.charAt(0).toUpperCase() + type.type.name.slice(1)
+        typescount += 1
         if (data.types.length != typescount) {
-            types += ", ";
+            types += ", "
         }
     }
 
-    let weaknessescount = 0;
-    let weaknesses = "";
+    let weaknessescount = 0
+    let weaknesses = ""
     for (const weaknessobject in weakness) {
-        weaknesses += `${weaknessobject.charAt(0).toUpperCase()}${weaknessobject.slice(1)}: ${weakness[weaknessobject as keyof pokeapiWeaknessType]}x`;
-        weaknessescount += 1;
+        weaknesses += `${weaknessobject.charAt(0).toUpperCase()}${weaknessobject.slice(1)}: ${weakness[weaknessobject as keyof pokeapiWeaknessType]}x`
+        weaknessescount += 1
         if (Object.keys(weakness).length != weaknessescount) {
-            weaknesses += "\n";
+            weaknesses += "\n"
         }
     }
 
     // Abilities
 
-    let abilitiescount = 0;
-    let abilities = "";
+    let abilitiescount = 0
+    let abilities = ""
     for (const ability of data.abilities) {
-        abilities += ability.ability.name.charAt(0).toUpperCase() + ability.ability.name.slice(1);
+        abilities += ability.ability.name.charAt(0).toUpperCase() + ability.ability.name.slice(1)
         if (ability.is_hidden == true) {
-            abilities += " (Hidden)";
+            abilities += " (Hidden)"
         }
-        abilitiescount += 1;
+        abilitiescount += 1
         if (data.abilities.length != abilitiescount) {
-            abilities += ", ";
+            abilities += ", "
         }
     }
     
     // Stats
 
-    let basestatscount = 0;
-    let basestats = "";
+    let basestatscount = 0
+    let basestats = ""
     for (const basestat of data.stats) {
-        basestats += basestat.stat.name.charAt(0).toUpperCase() + basestat.stat.name.slice(1) + ": " + basestat.base_stat.toString();
-        basestatscount += 1;
+        basestats += basestat.stat.name.charAt(0).toUpperCase() + basestat.stat.name.slice(1) + ": " + basestat.base_stat.toString()
+        basestatscount += 1
         if (data.stats.length != basestatscount) {
-            basestats += "\n";
+            basestats += "\n"
         }
     }
 
@@ -270,30 +270,30 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
         .addTextDisplayComponents(
             new TextDisplayBuilder()
                 .setContent(data.name.charAt(0).toUpperCase() + data.name.slice(1)),
-        );
+        )
 
     if (data.sprites.other.home.front_default == undefined) {
-        return;
+        return
     }
     
     if (!shiny) {
         section.setThumbnailAccessory(
             new ThumbnailBuilder()
                 .setURL(data.sprites.other.home.front_default)
-        );
+        )
     }
     if (shiny) {
         section.setThumbnailAccessory(
             new ThumbnailBuilder()
                 .setURL(data.sprites.other.home.front_shiny!)
-        );
+        )
     }
 
     container.addSectionComponents(section)
 
     container.addSeparatorComponents(
 		new SeparatorBuilder()
-	);
+	)
 
     if (position == 1) {
         container.addTextDisplayComponents(
@@ -303,14 +303,14 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
                 .setContent(`Types: ${types}`),
             new TextDisplayBuilder()
                 .setContent(`Abilities: ${abilities}`)
-        );
+        )
         if (guild && guildid == "416350699794857986" && message) {
             container.addTextDisplayComponents(
                 new TextDisplayBuilder()
                     .setContent("Game And Count"),
                 new TextDisplayBuilder()
                     .setContent(message)
-            );
+            )
         }
     }
     if (position == 2) {
@@ -323,7 +323,7 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
                 .setContent("Base Stats"),
             new TextDisplayBuilder()
                 .setContent(basestats)
-        );
+        )
     }
     if (position == 3) {
         container.addTextDisplayComponents(
@@ -331,7 +331,7 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
                 .setContent("Weaknesses"),
             new TextDisplayBuilder()
                 .setContent(weaknesses)
-        );
+        )
     }
 
     // Components Row
@@ -351,7 +351,7 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
         id2 = 3
     }
 
-    const row = new ActionRowBuilder<ButtonBuilder>();
+    const row = new ActionRowBuilder<ButtonBuilder>()
 
     // Page Buttons
 
@@ -368,7 +368,7 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
                     shiny: shiny,
                     message: message
                 })))
-        );
+        )
     }
     if (position < 3) {
         row.addComponents(
@@ -383,7 +383,7 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
                     shiny: shiny,
                     message: message
                 })))
-        );
+        )
     }
 
     // Mega Buttons
@@ -402,7 +402,7 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
                         shiny: shiny,
                         message: message
                     })))
-            );
+            )
         } else {
             row.addComponents(
                 new ButtonBuilder()
@@ -416,7 +416,7 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
                         shiny: shiny,
                         message: message
                     })))
-            );
+            )
         }
     }
 
@@ -436,7 +436,7 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
                         shiny: shiny,
                         message: message
                     })))
-            );
+            )
         } else {
             row.addComponents(
                 new ButtonBuilder()
@@ -450,7 +450,7 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
                         shiny: shiny,
                         message: message
                     })))
-            );
+            )
         }
     }
 
@@ -469,7 +469,7 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
                     shiny: true,
                     message: message
                 })))
-        );
+        )
     }
     if (shiny) {
         row.addComponents(
@@ -484,66 +484,66 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
                     shiny: false,
                     message: message
                 })))
-        );
+        )
     }
 
-    container.addActionRowComponents(row);
+    container.addActionRowComponents(row)
 
     // Return
     
-    return container;
+    return container
 }
 
 // yt-dlp Returns
 
 interface ytdlpData {
     entries?: [{
-        id: string;
-        title: string;
-        uploader: string;
-        thumbnail: string;
-        url: string;
+        id: string
+        title: string
+        uploader: string
+        thumbnail: string
+        url: string
     }],
-    id: string;
-    title: string;
-    uploader: string;
-    thumbnail: string;
-    url: string;
+    id: string
+    title: string
+    uploader: string
+    thumbnail: string
+    url: string
 }
 
 interface retData {
-    id: string;
-    title: string;
-    author: string;
-    artwork: string;
-    url: string;
+    id: string
+    title: string
+    author: string
+    artwork: string
+    url: string
 }
 
 async function ytdlpRequest(url: string, id: string, query: string): Promise<retData | undefined> {
     let arg = ""
     if (url != "null") {
-        arg = url;
+        arg = url
     }
     if (id != "null") {
-        arg = `https://api.soundcloud.com/tracks/${id}`;
+        arg = `https://api.soundcloud.com/tracks/${id}`
     }
     if (query != "null") {
-        arg = `scsearch:${query}`;
+        arg = `scsearch:${query}`
     }
 
     const command = new Deno.Command("yt-dlp", {
         args: ["-J", "-f", "bestaudio[ext=mp3]", "--no-cache-dir", "--no-download", "--no-playlist", arg],
         stdout: "piped"
-    });
+    })
 
-    const process: Deno.ChildProcess = command.spawn();
-    const json: ytdlpData = await process.stdout.json();
+    const process: Deno.ChildProcess = command.spawn()
+    const json: ytdlpData = await process.stdout.json()
 
-    let data: ytdlpData;
+    let data: ytdlpData
     if (json.entries) {
-        data = json.entries[0];
+        data = json.entries[0]
     } else {
-        data = json;
+        data = json
     }
 
     return {
@@ -552,7 +552,7 @@ async function ytdlpRequest(url: string, id: string, query: string): Promise<ret
         author: data.uploader,
         artwork: data.thumbnail,
         url: data.url
-    };
+    }
 }
 
 // Exports
@@ -562,4 +562,4 @@ export default {
     player,
     pokeapiRequest,
     ytdlpRequest
-};
+}

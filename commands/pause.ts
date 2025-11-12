@@ -1,29 +1,29 @@
-import { ChatInputCommandInteraction, EmbedBuilder, GuildMember, InteractionContextType, SlashCommandBuilder } from "discord.js";
-import { getVoiceConnection } from "@discordjs/voice";
-import globals from "../globals.ts";
+import { ChatInputCommandInteraction, EmbedBuilder, GuildMember, InteractionContextType, SlashCommandBuilder } from "discord.js"
+import { getVoiceConnection } from "@discordjs/voice"
+import globals from "../globals.ts"
 
 const info = new SlashCommandBuilder()
     .setName("pause")
     .setDescription("Pauses the current playing song")
-    .setContexts([InteractionContextType.Guild]);
+    .setContexts([InteractionContextType.Guild])
 
 async function invoke(interaction: ChatInputCommandInteraction) {
-    await interaction.deferReply();
+    await interaction.deferReply()
 
-    const voiceConnection = getVoiceConnection(interaction.guild!.id);
+    const voiceConnection = getVoiceConnection(interaction.guild!.id)
     if (voiceConnection && voiceConnection.joinConfig.channelId == (interaction.member as GuildMember).voice.channelId && globals.player[interaction.guild!.id].status == 1) {
-        globals.player[interaction.guild!.id].player.pause();
+        globals.player[interaction.guild!.id].player.pause()
 
         const embed = new EmbedBuilder()
             .setColor(globals.colours.embed)
             .setTitle("Music Player")
             .setDescription("Paused playing audio")
-            .setTimestamp();
+            .setTimestamp()
 
-        await interaction.editReply({ embeds: [embed] });
+        await interaction.editReply({ embeds: [embed] })
     } else {
-        await interaction.deleteReply();
+        await interaction.deleteReply()
     }
 }
 
-export { info, invoke };
+export { info, invoke }

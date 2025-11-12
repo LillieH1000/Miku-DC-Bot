@@ -1,14 +1,14 @@
-import { Client, EmbedBuilder, TextChannel } from "discord.js";
-import { format } from "date-fns";
-import globals from "../globals.ts";
+import { Client, EmbedBuilder, TextChannel } from "discord.js"
+import { format } from "date-fns"
+import globals from "../globals.ts"
 
 function invoke(client: Client) {
     client.on("messageDelete", async message => {
-        if (!message.author || message.author.bot || !message.content || !message.guild) return;
+        if (!message.author || message.author.bot || !message.content || !message.guild) return
 
         // Legacy Update - openplace
         if (message.guild.id != "1095995920409178112" && message.guild.id != "1422571580181184644") {
-            return;
+            return
         }
 
         const embed = new EmbedBuilder()
@@ -22,26 +22,26 @@ function invoke(client: Client) {
                 { name: "Message:", value: message.content, inline: false }
             )
             .setFooter({ text: `ID: ${message.author.id}` })
-            .setTimestamp();
+            .setTimestamp()
         
         // Legacy Update
         if (message.guild.id == "1095995920409178112") {
-            const channel = message.guild.channels.cache.get("1197666507925225662") as (TextChannel | undefined);
-            await channel?.send({ embeds: [embed] });
+            const channel = message.guild.channels.cache.get("1197666507925225662") as (TextChannel | undefined)
+            await channel?.send({ embeds: [embed] })
         }
         // openplace
         if (message.guild.id == "1422571580181184644") {
-            const channel = message.guild.channels.cache.get("1437280910558105703") as (TextChannel | undefined);
-            await channel?.send({ embeds: [embed] });
+            const channel = message.guild.channels.cache.get("1437280910558105703") as (TextChannel | undefined)
+            await channel?.send({ embeds: [embed] })
         }
-    });
+    })
 
     client.on("messageUpdate", async (oldMessage, newMessage) => {
-        if (!newMessage.author || newMessage.author.bot || !oldMessage.content || !newMessage.content || !newMessage.guild) return;
+        if (!newMessage.author || newMessage.author.bot || !oldMessage.content || !newMessage.content || !newMessage.guild) return
 
         // Legacy Update - openplace
         if (newMessage.guild.id != "1095995920409178112" && newMessage.guild.id != "1422571580181184644") {
-            return;
+            return
         }
 
         if (oldMessage.content != newMessage.content) {
@@ -58,20 +58,20 @@ function invoke(client: Client) {
                     { name: "New Message:", value: newMessage.content, inline: false }
                 )
                 .setFooter({ text: `ID: ${newMessage.author.id}` })
-                .setTimestamp();
+                .setTimestamp()
 
             // Legacy Update
             if (newMessage.guild.id == "1095995920409178112") {
-                const channel = newMessage.guild.channels.cache.get("1197666507925225662") as (TextChannel | undefined);
-                await channel?.send({ embeds: [embed] });
+                const channel = newMessage.guild.channels.cache.get("1197666507925225662") as (TextChannel | undefined)
+                await channel?.send({ embeds: [embed] })
             }
             // openplace
             if (newMessage.guild.id == "1422571580181184644") {
-                const channel = newMessage.guild.channels.cache.get("1437280910558105703") as (TextChannel | undefined);
-                await channel?.send({ embeds: [embed] });
+                const channel = newMessage.guild.channels.cache.get("1437280910558105703") as (TextChannel | undefined)
+                await channel?.send({ embeds: [embed] })
             }
         }
-    });
+    })
 }
 
-export { invoke };
+export { invoke }

@@ -1,21 +1,21 @@
-import { ChatInputCommandInteraction, Client, Collection, GatewayIntentBits, SlashCommandBuilder } from "discord.js";
-import fs from "node:fs";
+import { ChatInputCommandInteraction, Client, Collection, GatewayIntentBits, SlashCommandBuilder } from "discord.js"
+import fs from "node:fs"
 
 interface clientCollection extends Client {
-	commands: Collection<string, { info: SlashCommandBuilder; invoke: (interaction: ChatInputCommandInteraction) => Promise<void> }>;
+	commands: Collection<string, { info: SlashCommandBuilder; invoke: (interaction: ChatInputCommandInteraction) => Promise<void> }>
 }
 
 interface configData {
 	default: {
-		token: string;
-	};
+		token: string
+	}
 }
 
 const config: configData = await import("./config.json", {
 	with: {
 		type: "json"
 	}
-});
+})
 
 const client = new Client({ intents: [
 	GatewayIntentBits.AutoModerationConfiguration,
@@ -39,29 +39,29 @@ const client = new Client({ intents: [
 	GatewayIntentBits.GuildVoiceStates,
 	GatewayIntentBits.GuildWebhooks,
 	GatewayIntentBits.MessageContent
-]}) as clientCollection;
+]}) as clientCollection
 
-client.commands = new Collection();
+client.commands = new Collection()
 
-const commandFiles: string[] = fs.readdirSync("./commands").filter((file: string) => file.endsWith(".ts"));
+const commandFiles: string[] = fs.readdirSync("./commands").filter((file: string) => file.endsWith(".ts"))
 
 for (const file of commandFiles) {
-	const command = await import(`./commands/${file}`);
-	client.commands.set(command.info.name, command);
+	const command = await import(`./commands/${file}`)
+	client.commands.set(command.info.name, command)
 }
 
-const utilsFiles: string[] = fs.readdirSync("./utils").filter((file: string) => file.endsWith(".ts"));
+const utilsFiles: string[] = fs.readdirSync("./utils").filter((file: string) => file.endsWith(".ts"))
 
 for (const file of utilsFiles) {
-	const utils = await import(`./utils/${file}`);
-	utils.invoke(client);
+	const utils = await import(`./utils/${file}`)
+	utils.invoke(client)
 }
 
 client.once("clientReady", () => {
-	console.log(`Logged in as ${client.user!.tag}`);
+	console.log(`Logged in as ${client.user!.tag}`)
 	client.guilds.cache.forEach(guild => {
-		console.log(`${guild.name} - ${guild.id}`);
-	});
-});
+		console.log(`${guild.name} - ${guild.id}`)
+	})
+})
 
-client.login(config.default.token);
+client.login(config.default.token)
