@@ -4,7 +4,7 @@ then
     set +e
     rm -rf fmt
     set -e
-    rsync -a --exclude profile.png --exclude control.sh * fmt
+    rsync -a --exclude "control.sh" --exclude "deno.lock" --exclude "node_modules/" --exclude "profile.png" * fmt
     cd fmt
     deno install --allow-scripts
     deno fmt *.ts **/*.ts
@@ -19,7 +19,7 @@ if [ $1 == "dev" ]
 then
     set -e
     cd fmt
-    deno run --check -P ./index.ts
+    deno run --allow-read --check -P ./index.ts
 fi
 if [ $1 == "start" ]
 then
