@@ -1,4 +1,4 @@
-import { Client, EmbedBuilder, TextChannel } from "discord.js"
+import { bold, Client, ContainerBuilder, EmbedBuilder, MessageFlags, SeparatorBuilder, TextChannel, TextDisplayBuilder } from "discord.js"
 import { format } from "date-fns"
 import globals from "../globals.ts"
 
@@ -11,33 +11,40 @@ function invoke(client: Client) {
             return
         }
 
-        const embed = new EmbedBuilder()
-            .setColor(globals.colours.embed)
-            .setTitle("Message Deleted")
-            .setAuthor({ name: message.author.displayName, iconURL: message.author.displayAvatarURL() })
-            .addFields(
-                { name: "Username:", value: message.author.username, inline: false },
-                { name: "Channel:", value: `<#${message.channel.id}>`, inline: false },
-                { name: "Created At:", value: format(message.createdAt, "MMMM d, yyyy"), inline: false },
-                { name: "Message:", value: message.content, inline: false }
+        const container = new ContainerBuilder()
+            .setAccentColor(globals.colours.accent)
+            .addTextDisplayComponents(
+                new TextDisplayBuilder()
+                    .setContent(bold("Message Deleted"))
             )
-            .setFooter({ text: `ID: ${message.author.id}` })
-            .setTimestamp()
+            .addSeparatorComponents(
+                new SeparatorBuilder()
+            )
+            .addTextDisplayComponents(
+                new TextDisplayBuilder()
+                    .setContent(`Username: ${message.author.username}`),
+                new TextDisplayBuilder()
+                    .setContent(`Channel: <#${message.channel.id}>`),
+                new TextDisplayBuilder()
+                    .setContent(`Created At: ${format(message.createdAt, "MMMM d, yyyy")}`),
+                new TextDisplayBuilder()
+                    .setContent(`Message: ${message.content}`)
+            )
         
         // Dev
         if (message.guild.id == "1128424035173273620") {
             const channel = message.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
-            await channel?.send({ embeds: [embed] })
+            await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         }
         // Legacy Update
         if (message.guild.id == "1095995920409178112") {
             const channel = message.guild.channels.cache.get("1197666507925225662") as (TextChannel | undefined)
-            await channel?.send({ embeds: [embed] })
+            await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         }
         // openplace
         if (message.guild.id == "1422571580181184644") {
             const channel = message.guild.channels.cache.get("1437280910558105703") as (TextChannel | undefined)
-            await channel?.send({ embeds: [embed] })
+            await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         }
     })
 
