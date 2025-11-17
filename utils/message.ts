@@ -4,7 +4,7 @@ import globals from "../globals.ts"
 
 function invoke(client: Client) {
     client.on("messageDelete", async message => {
-        if (!message.author || message.author.bot || !message.content || !message.guild) return
+        if (!message.author || message.author.bot || !message.guild) return
 
         // Dev - Legacy Update - openplace
         if (message.guild.id != "1128424035173273620" && message.guild.id != "1095995920409178112" && message.guild.id != "1422571580181184644") {
@@ -26,10 +26,15 @@ function invoke(client: Client) {
                 new TextDisplayBuilder()
                     .setContent(`Channel: <#${message.channel.id}>`),
                 new TextDisplayBuilder()
-                    .setContent(`Created At: ${format(message.createdAt, "MMMM d, yyyy")}`),
+                    .setContent(`Created At: ${format(message.createdAt, "MMMM d, yyyy")}`)
+            )
+
+        if (message.content) {
+            container.addTextDisplayComponents(
                 new TextDisplayBuilder()
                     .setContent(`Message: ${message.content}`)
             )
+        }
         
         // Dev
         if (message.guild.id == "1128424035173273620") {
