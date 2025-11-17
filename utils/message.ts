@@ -1,4 +1,4 @@
-import { bold, Client, ContainerBuilder, EmbedBuilder, MessageFlags, SeparatorBuilder, TextChannel, TextDisplayBuilder } from "discord.js"
+import { bold, Client, ContainerBuilder, EmbedBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags, SeparatorBuilder, TextChannel, TextDisplayBuilder } from "discord.js"
 import { format } from "date-fns"
 import globals from "../globals.ts"
 
@@ -36,6 +36,23 @@ function invoke(client: Client) {
                 new TextDisplayBuilder()
                     .setContent(`Message: ${message.content}`)
             )
+        }
+
+        if (message.attachments) {
+            container.addSeparatorComponents(
+                new SeparatorBuilder()
+            ).addTextDisplayComponents(
+                new TextDisplayBuilder()
+                    .setContent(`Attachments:`)
+            )
+
+            const gallery = new MediaGalleryBuilder()
+
+            message.attachments.forEach(attachment => {
+                gallery.addItems(new MediaGalleryItemBuilder().setURL(attachment.url))
+            })
+
+            container.addMediaGalleryComponents(gallery)
         }
         
         // Dev
