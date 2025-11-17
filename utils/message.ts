@@ -6,8 +6,8 @@ function invoke(client: Client) {
     client.on("messageDelete", async message => {
         if (!message.author || message.author.bot || !message.content || !message.guild) return
 
-        // Legacy Update - openplace
-        if (message.guild.id != "1095995920409178112" && message.guild.id != "1422571580181184644") {
+        // Dev - Legacy Update - openplace
+        if (message.guild.id != "1128424035173273620" && message.guild.id != "1095995920409178112" && message.guild.id != "1422571580181184644") {
             return
         }
 
@@ -24,6 +24,11 @@ function invoke(client: Client) {
             .setFooter({ text: `ID: ${message.author.id}` })
             .setTimestamp()
         
+        // Dev
+        if (message.guild.id == "1128424035173273620") {
+            const channel = message.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
+            await channel?.send({ embeds: [embed] })
+        }
         // Legacy Update
         if (message.guild.id == "1095995920409178112") {
             const channel = message.guild.channels.cache.get("1197666507925225662") as (TextChannel | undefined)
@@ -39,8 +44,8 @@ function invoke(client: Client) {
     client.on("messageUpdate", async (oldMessage, newMessage) => {
         if (!newMessage.author || newMessage.author.bot || !oldMessage.content || !newMessage.content || !newMessage.guild) return
 
-        // Legacy Update - openplace
-        if (newMessage.guild.id != "1095995920409178112" && newMessage.guild.id != "1422571580181184644") {
+        // Dev - Legacy Update - openplace
+        if (newMessage.guild.id != "1128424035173273620" && newMessage.guild.id != "1095995920409178112" && newMessage.guild.id != "1422571580181184644") {
             return
         }
 
@@ -60,6 +65,11 @@ function invoke(client: Client) {
                 .setFooter({ text: `ID: ${newMessage.author.id}` })
                 .setTimestamp()
 
+            // Dev
+            if (newMessage.guild.id == "1128424035173273620") {
+                const channel = newMessage.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
+                await channel?.send({ embeds: [embed] })
+            }
             // Legacy Update
             if (newMessage.guild.id == "1095995920409178112") {
                 const channel = newMessage.guild.channels.cache.get("1197666507925225662") as (TextChannel | undefined)
