@@ -30,7 +30,9 @@ function invoke(client: Client) {
             )
 
         if (message.content) {
-            container.addTextDisplayComponents(
+            container.addSeparatorComponents(
+                new SeparatorBuilder()
+            ).addTextDisplayComponents(
                 new TextDisplayBuilder()
                     .setContent(`Message: ${message.content}`)
             )
