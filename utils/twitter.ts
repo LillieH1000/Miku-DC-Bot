@@ -50,9 +50,7 @@ function invoke(client: Client) {
                     )
                 }
 
-                container.addSectionComponents(section)
-
-                container.addSeparatorComponents(
+                container.addSectionComponents(section).addSeparatorComponents(
                     new SeparatorBuilder()
                 )
 

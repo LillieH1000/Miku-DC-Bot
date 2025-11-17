@@ -22,11 +22,10 @@ function invoke(client: Client) {
                 
                 const container = new ContainerBuilder()
                     .setAccentColor(globals.colours.accent)
-
-                container.addTextDisplayComponents(
-                    new TextDisplayBuilder()
-                        .setContent(`Views: ${data.viewCount.toLocaleString()}\nLikes: ${data.likes.toLocaleString()}\nDislikes: ${data.dislikes.toLocaleString()}`),
-                )
+                    .addTextDisplayComponents(
+                        new TextDisplayBuilder()
+                            .setContent(`Views: ${data.viewCount.toLocaleString()}\nLikes: ${data.likes.toLocaleString()}\nDislikes: ${data.dislikes.toLocaleString()}`),
+                    )
 
                 await message.reply({ components: [container], flags: MessageFlags.IsComponentsV2 })
             }
