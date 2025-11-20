@@ -38,7 +38,7 @@ function invoke(client: Client) {
             )
         }
 
-        if (message.attachments) {
+        if (message.attachments && message.attachments.size > 0) {
             container.addSeparatorComponents(
                 new SeparatorBuilder()
             ).addTextDisplayComponents(
@@ -114,7 +114,7 @@ function invoke(client: Client) {
 
             // Old Attachments
 
-            if (oldMessage.attachments) {
+            if (oldMessage.attachments && oldMessage.attachments.size > 0) {
                 container.addSeparatorComponents(
                     new SeparatorBuilder()
                 ).addTextDisplayComponents(
@@ -144,7 +144,7 @@ function invoke(client: Client) {
 
             // New Attachments
 
-            if (newMessage.attachments) {
+            if (newMessage.attachments && newMessage.attachments.size > 0) {
                 container.addSeparatorComponents(
                     new SeparatorBuilder()
                 ).addTextDisplayComponents(
