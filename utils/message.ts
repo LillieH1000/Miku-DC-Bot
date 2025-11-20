@@ -1,4 +1,4 @@
-import { bold, Client, ContainerBuilder, EmbedBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags, SeparatorBuilder, TextChannel, TextDisplayBuilder } from "discord.js"
+import { bold, Client, ContainerBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags, SeparatorBuilder, TextChannel, TextDisplayBuilder } from "discord.js"
 import { format } from "date-fns"
 import globals from "../globals.ts"
 
@@ -73,7 +73,7 @@ function invoke(client: Client) {
     })
 
     client.on("messageUpdate", async (oldMessage, newMessage) => {
-        if (!newMessage.author || newMessage.author.bot || !oldMessage.content || !newMessage.content || !newMessage.guild) return
+        if (!newMessage.author || newMessage.author.bot || !newMessage.guild) return
 
         // Dev - Legacy Update - openplace
         if (newMessage.guild.id != "1128424035173273620" && newMessage.guild.id != "1095995920409178112" && newMessage.guild.id != "1422571580181184644") {
@@ -81,35 +81,100 @@ function invoke(client: Client) {
         }
 
         if (oldMessage.content != newMessage.content) {
-            const embed = new EmbedBuilder()
-                .setColor(globals.colours.embed)
-                .setTitle("Message Updated")
-                .setAuthor({ name: newMessage.author.displayName, iconURL: newMessage.author.displayAvatarURL() })
-                .addFields(
-                    { name: "Username:", value: newMessage.author.username, inline: false },
-                    { name: "Channel:", value: `<#${newMessage.channel.id}>`, inline: false },
-                    { name: "Original Date:", value: format(oldMessage.createdAt, "MMMM d, yyyy"), inline: true },
-                    { name: "Edited Date:", value: format(newMessage.createdAt, "MMMM d, yyyy"), inline: true },
-                    { name: "Old Message:", value: oldMessage.content, inline: false },
-                    { name: "New Message:", value: newMessage.content, inline: false }
+            const container = new ContainerBuilder()
+                .setAccentColor(globals.colours.accent)
+                .addTextDisplayComponents(
+                    new TextDisplayBuilder()
+                        .setContent(bold("Message Updated"))
                 )
-                .setFooter({ text: `ID: ${newMessage.author.id}` })
-                .setTimestamp()
+                .addSeparatorComponents(
+                    new SeparatorBuilder()
+                )
+                .addTextDisplayComponents(
+                    new TextDisplayBuilder()
+                        .setContent(`Username: ${newMessage.author.username}`),
+                    new TextDisplayBuilder()
+                        .setContent(`Channel: <#${newMessage.channel.id}>`),
+                    new TextDisplayBuilder()
+                        .setContent(`Original Date: ${format(oldMessage.createdAt, "MMMM d, yyyy")}`),
+                    new TextDisplayBuilder()
+                        .setContent(`Edited Date: ${format(newMessage.createdAt, "MMMM d, yyyy")}`)
+                )
+
+            // Old Message
+
+            if (oldMessage.content) {
+                container.addSeparatorComponents(
+                    new SeparatorBuilder()
+                ).addTextDisplayComponents(
+                    new TextDisplayBuilder()
+                        .setContent(`Old Message: ${oldMessage.content}`)
+                )
+            }
+
+            // Old Attachments
+
+            if (oldMessage.attachments) {
+                container.addSeparatorComponents(
+                    new SeparatorBuilder()
+                ).addTextDisplayComponents(
+                    new TextDisplayBuilder()
+                        .setContent(`Old Attachments:`)
+                )
+
+                const gallery = new MediaGalleryBuilder()
+
+                oldMessage.attachments.forEach(attachment => {
+                    gallery.addItems(new MediaGalleryItemBuilder().setURL(attachment.url))
+                })
+
+                container.addMediaGalleryComponents(gallery)
+            }
+
+            // New Message
+
+            if (newMessage.content) {
+                container.addSeparatorComponents(
+                    new SeparatorBuilder()
+                ).addTextDisplayComponents(
+                    new TextDisplayBuilder()
+                        .setContent(`New Message: ${newMessage.content}`)
+                )
+            }
+
+            // New Attachments
+
+            if (newMessage.attachments) {
+                container.addSeparatorComponents(
+                    new SeparatorBuilder()
+                ).addTextDisplayComponents(
+                    new TextDisplayBuilder()
+                        .setContent(`New Attachments:`)
+                )
+
+                const gallery = new MediaGalleryBuilder()
+
+                newMessage.attachments.forEach(attachment => {
+                    gallery.addItems(new MediaGalleryItemBuilder().setURL(attachment.url))
+                })
+
+                container.addMediaGalleryComponents(gallery)
+            }
 
             // Dev
             if (newMessage.guild.id == "1128424035173273620") {
                 const channel = newMessage.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
-                await channel?.send({ embeds: [embed] })
+                await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             }
             // Legacy Update
             if (newMessage.guild.id == "1095995920409178112") {
                 const channel = newMessage.guild.channels.cache.get("1197666507925225662") as (TextChannel | undefined)
-                await channel?.send({ embeds: [embed] })
+                await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             }
             // openplace
             if (newMessage.guild.id == "1422571580181184644") {
                 const channel = newMessage.guild.channels.cache.get("1437280910558105703") as (TextChannel | undefined)
-                await channel?.send({ embeds: [embed] })
+                await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             }
         }
     })
