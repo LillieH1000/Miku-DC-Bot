@@ -149,7 +149,7 @@ function invoke(client: Client) {
                     new SeparatorBuilder()
                 ).addTextDisplayComponents(
                     new TextDisplayBuilder()
-                        .setContent(`New Attachments:`)
+                        .setContent("New Attachments:")
                 )
 
                 const gallery = new MediaGalleryBuilder()
