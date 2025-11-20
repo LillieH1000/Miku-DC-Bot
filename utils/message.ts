@@ -34,7 +34,10 @@ function invoke(client: Client) {
                 new SeparatorBuilder()
             ).addTextDisplayComponents(
                 new TextDisplayBuilder()
-                    .setContent(`Message: ${message.content}`)
+                    .setContent("Message:")
+            ).addTextDisplayComponents(
+                new TextDisplayBuilder()
+                    .setContent(message.content)
             )
         }
 
@@ -108,7 +111,10 @@ function invoke(client: Client) {
                     new SeparatorBuilder()
                 ).addTextDisplayComponents(
                     new TextDisplayBuilder()
-                        .setContent(`Old Message: ${oldMessage.content}`)
+                        .setContent("Old Message:")
+                ).addTextDisplayComponents(
+                    new TextDisplayBuilder()
+                        .setContent(oldMessage.content)
                 )
             }
 
@@ -138,7 +144,10 @@ function invoke(client: Client) {
                     new SeparatorBuilder()
                 ).addTextDisplayComponents(
                     new TextDisplayBuilder()
-                        .setContent(`New Message: ${newMessage.content}`)
+                        .setContent("New Message:")
+                ).addTextDisplayComponents(
+                    new TextDisplayBuilder()
+                        .setContent(newMessage.content)
                 )
             }
 
