@@ -4,6 +4,12 @@
     "module": "esnext",
     "strict": true
   },
+  "guilds": {
+    "crowbarworld": "416350699794857986",
+    "devserver": "1128424035173273620",
+    "legacyupdate": "1095995920409178112",
+    "openplace": "1422571580181184644"
+  },
   "imports": {
     "@date-fns/tz": "npm:@date-fns/tz@^1.4.1",
     "@discordjs/opus": "npm:@discordjs/opus@^0.10.0",
