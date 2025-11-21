@@ -1,91 +1,90 @@
-import { Client, EmbedBuilder, TextChannel } from "discord.js"
+import deno from "../deno.json" with { type: "json" }
+import { bold, Client, ContainerBuilder, MessageFlags, TextChannel, TextDisplayBuilder } from "discord.js"
 import { format } from "date-fns"
-import globals from "../globals.ts"
 
 function invoke(client: Client) {
-    client.on("guildMemberAdd", async guildMember => {
-        const embed = new EmbedBuilder()
-            .setColor(globals.colours.embed)
-            .setTitle("Member Joined")
-            .setAuthor({ name: guildMember.user.displayName, iconURL: guildMember.user.displayAvatarURL() })
-            .addFields(
-                { name: "Username:", value: guildMember.user.username, inline: false },
-                { name: "Created At:", value: format(guildMember.user.createdAt, "MMMM d, yyyy"), inline: false }
+    client.on("guildMemberAdd", async member => {
+        const container = new ContainerBuilder()
+            .setAccentColor(+deno.keys.accent)
+            .addTextDisplayComponents(
+                new TextDisplayBuilder()
+                    .setContent(bold("Member Joined")),
+                new TextDisplayBuilder()
+                    .setContent(`Username: ${member.user.username}`),
+                new TextDisplayBuilder()
+                    .setContent(`Created At: ${format(member.user.createdAt, "MMMM d, yyyy")}`)
             )
-            .setFooter({ text: `ID: ${guildMember.user.id}` })
-            .setTimestamp()
 
-        // Legacy Update - openplace
-        if (guildMember.guild.id == "1095995920409178112") {
-            const channel = guildMember.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
-            await channel?.send({ embeds: [embed] })
-        } else if (guildMember.guild.id == "1422571580181184644") {
-            const channel = guildMember.guild.channels.cache.get("1437280756480344144") as (TextChannel | undefined)
-            await channel?.send({ embeds: [embed] })
+        if (member.guild.id == deno.guilds.legacyupdate) {
+            const channel = member.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
+            await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
+        } else if (member.guild.id == deno.guilds.openplace) {
+            const channel = member.guild.channels.cache.get("1437280756480344144") as (TextChannel | undefined)
+            await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         } else {
-            await guildMember.guild.systemChannel?.send({ embeds: [embed] })
+            await member.guild.systemChannel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         }
     })
 
     client.on("guildMemberUpdate", async (oldMember, newMember) => {
         if (oldMember.pending && !newMember.pending) {
-            const embed = new EmbedBuilder()
-                .setColor(globals.colours.embed)
-                .setTitle("Member Accepted Rules")
-                .setAuthor({ name: newMember.user.displayName, iconURL: newMember.user.displayAvatarURL() })
-                .addFields(
-                    { name: "Username:", value: newMember.user.username, inline: false },
-                    { name: "Created At:", value: format(newMember.user.createdAt, "MMMM d, yyyy"), inline: true }
+            const container = new ContainerBuilder()
+                .setAccentColor(+deno.keys.accent)
+                .addTextDisplayComponents(
+                    new TextDisplayBuilder()
+                        .setContent(bold("Member Accepted Rules")),
+                    new TextDisplayBuilder()
+                        .setContent(`Username: ${newMember.user.username}`),
+                    new TextDisplayBuilder()
+                        .setContent(`Created At: ${format(newMember.user.createdAt, "MMMM d, yyyy")}`)
                 )
-                .setFooter({ text: `ID: ${newMember.user.id}` })
-                .setTimestamp()
 
             if (newMember.joinedAt) {
-                embed.addFields(
-                    { name: "Joined At:", value: format(newMember.joinedAt, "MMMM d, yyyy"), inline: true }
+                container.addTextDisplayComponents(
+                    new TextDisplayBuilder()
+                        .setContent(`Joined At: ${format(newMember.joinedAt, "MMMM d, yyyy")}`)
                 )
             }
             
-            // Legacy Update - openplace
-            if (newMember.guild.id == "1095995920409178112") {
+            if (newMember.guild.id == deno.guilds.legacyupdate) {
                 const channel = newMember.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
-                await channel?.send({ embeds: [embed] })
-            } else if (newMember.guild.id == "1422571580181184644") {
+                await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
+            } else if (newMember.guild.id == deno.guilds.openplace) {
                 const channel = newMember.guild.channels.cache.get("1437280756480344144") as (TextChannel | undefined)
-                await channel?.send({ embeds: [embed] })
+                await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             } else {
-                await newMember.guild.systemChannel?.send({ embeds: [embed] })
+                await newMember.guild.systemChannel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             }
         }
     })
 
-    client.on("guildMemberRemove", async guildMember => {
-        const embed = new EmbedBuilder()
-            .setColor(globals.colours.embed)
-            .setTitle("Member Left")
-            .setAuthor({ name: guildMember.user.displayName, iconURL: guildMember.user.displayAvatarURL() })
-            .addFields(
-                { name: "Username:", value: guildMember.user.username, inline: false },
-                { name: "Created At:", value: format(guildMember.user.createdAt, "MMMM d, yyyy"), inline: true }
+    client.on("guildMemberRemove", async member => {
+        const container = new ContainerBuilder()
+            .setAccentColor(+deno.keys.accent)
+            .addTextDisplayComponents(
+                new TextDisplayBuilder()
+                    .setContent(bold("Member Left")),
+                new TextDisplayBuilder()
+                    .setContent(`Username: ${member.user.username}`),
+                new TextDisplayBuilder()
+                    .setContent(`Created At: ${format(member.user.createdAt, "MMMM d, yyyy")}`)
             )
-            .setFooter({ text: `ID: ${guildMember.user.id}` })
-            .setTimestamp()
 
-        if (guildMember.joinedAt) {
-            embed.addFields(
-                { name: "Joined At:", value: format(guildMember.joinedAt, "MMMM d, yyyy"), inline: true }
+        if (member.joinedAt) {
+            container.addTextDisplayComponents(
+                new TextDisplayBuilder()
+                    .setContent(`Joined At: ${format(member.joinedAt, "MMMM d, yyyy")}`)
             )
         }
 
-        // Legacy Update - openplace
-        if (guildMember.guild.id == "1095995920409178112") {
-            const channel = guildMember.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
-            await channel?.send({ embeds: [embed] })
-        } else if (guildMember.guild.id == "1422571580181184644") {
-            const channel = guildMember.guild.channels.cache.get("1437280756480344144") as (TextChannel | undefined)
-            await channel?.send({ embeds: [embed] })
+        if (member.guild.id == deno.guilds.legacyupdate) {
+            const channel = member.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
+            await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
+        } else if (member.guild.id == deno.guilds.openplace) {
+            const channel = member.guild.channels.cache.get("1437280756480344144") as (TextChannel | undefined)
+            await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         } else {
-            await guildMember.guild.systemChannel?.send({ embeds: [embed] })
+            await member.guild.systemChannel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         }
     })
 }
