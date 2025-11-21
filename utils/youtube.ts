@@ -15,24 +15,24 @@ function invoke(client: Client) {
     
         for (const word of messageContent.split(" ")) {
             const rx = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\\w\/|embed\/|shorts\/)|(?:(?:watch)?\\?vi?=|&vi?=))([^#&?]*).*/
-            if (word.match(rx)) {
-                const res = await fetch(`https://returnyoutubedislikeapi.com/votes?videoId=${word.match(rx)![1]}`)
-                if (!res.ok) return
-                const data: resData = await res.json()
-                
-                const container = new ContainerBuilder()
-                    .setAccentColor(+deno.keys.accent)
-                    .addTextDisplayComponents(
-                        new TextDisplayBuilder()
-                            .setContent(`Views: ${data.viewCount.toLocaleString()}`),
-                        new TextDisplayBuilder()
-                            .setContent(`Likes: ${data.likes.toLocaleString()}`),
-                        new TextDisplayBuilder()
-                            .setContent(`Dislikes: ${data.dislikes.toLocaleString()}`)
-                    )
+            if (!word.match(rx)) return
+            
+            const res = await fetch(`https://returnyoutubedislikeapi.com/votes?videoId=${word.match(rx)![1]}`)
+            if (!res.ok) return
+            const data: resData = await res.json()
+            
+            const container = new ContainerBuilder()
+                .setAccentColor(+deno.keys.accent)
+                .addTextDisplayComponents(
+                    new TextDisplayBuilder()
+                        .setContent(`Views: ${data.viewCount.toLocaleString()}`),
+                    new TextDisplayBuilder()
+                        .setContent(`Likes: ${data.likes.toLocaleString()}`),
+                    new TextDisplayBuilder()
+                        .setContent(`Dislikes: ${data.dislikes.toLocaleString()}`)
+                )
 
-                await message.reply({ components: [container], flags: MessageFlags.IsComponentsV2 })
-            }
+            await message.reply({ components: [container], flags: MessageFlags.IsComponentsV2 })
         }
     })
 }
