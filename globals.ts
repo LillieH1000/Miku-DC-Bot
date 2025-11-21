@@ -1,13 +1,7 @@
 import deno from "./deno.json" with { type: "json" }
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ColorResolvable, ContainerBuilder, SectionBuilder, SeparatorBuilder, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ContainerBuilder, SectionBuilder, SeparatorBuilder, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
 import { AudioPlayer, AudioResource } from "@discordjs/voice"
 import LZString from "lz-string"
-
-// Default Colours
-
-const colours = {
-    "embed": "#FFC0DD" as ColorResolvable
-}
 
 // Player Objects
 
@@ -558,7 +552,6 @@ async function ytdlpRequest(url: string, id: string, query: string): Promise<ret
 // Exports
 
 export default {
-    colours,
     player,
     pokeapiRequest,
     ytdlpRequest
