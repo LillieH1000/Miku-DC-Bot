@@ -1,5 +1,5 @@
-import { ChatInputCommandInteraction, Client, Collection, GatewayIntentBits, SlashCommandBuilder } from "discord.js"
 import deno from "./deno.json" with { type: "json" }
+import { ChatInputCommandInteraction, Client, Collection, GatewayIntentBits, SlashCommandBuilder } from "discord.js"
 import fs from "node:fs"
 
 interface clientCollection extends Client {
