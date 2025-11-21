@@ -1,11 +1,11 @@
+import deno from "../deno.json" with { type: "json" }
 import { Client, TextChannel } from "discord.js"
 
 function invoke(client: Client) {
     client.on("messageReactionAdd", async (reaction, member) => {
         if (member.bot || !reaction.message.guild) return
         
-        // Legacy Update
-        if (reaction.message.guild.id != "1095995920409178112") {
+        if (reaction.message.guild.id != deno.guilds.legacyupdate) {
             return
         }
     

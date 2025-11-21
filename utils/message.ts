@@ -1,3 +1,4 @@
+import deno from "../deno.json" with { type: "json" }
 import { bold, Client, ContainerBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags, SeparatorBuilder, TextChannel, TextDisplayBuilder } from "discord.js"
 import { format } from "date-fns"
 import globals from "../globals.ts"
@@ -6,10 +7,7 @@ function invoke(client: Client) {
     client.on("messageDelete", async message => {
         if (!message.author || message.author.bot || !message.guild) return
 
-        // Dev - Legacy Update - openplace
-        if (message.guild.id != "1128424035173273620" && message.guild.id != "1095995920409178112" && message.guild.id != "1422571580181184644") {
-            return
-        }
+        if (message.guild.id != deno.guilds.devserver && message.guild.id != deno.guilds.legacyupdate && message.guild.id != deno.guilds.openplace) return
 
         const container = new ContainerBuilder()
             .setAccentColor(globals.colours.accent)
@@ -58,18 +56,15 @@ function invoke(client: Client) {
             container.addMediaGalleryComponents(gallery)
         }
         
-        // Dev
-        if (message.guild.id == "1128424035173273620") {
+        if (message.guild.id == deno.guilds.devserver) {
             const channel = message.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         }
-        // Legacy Update
-        if (message.guild.id == "1095995920409178112") {
+        if (message.guild.id == deno.guilds.legacyupdate) {
             const channel = message.guild.channels.cache.get("1197666507925225662") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         }
-        // openplace
-        if (message.guild.id == "1422571580181184644") {
+        if (message.guild.id == deno.guilds.openplace) {
             const channel = message.guild.channels.cache.get("1437280910558105703") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         }
@@ -78,10 +73,7 @@ function invoke(client: Client) {
     client.on("messageUpdate", async (oldMessage, newMessage) => {
         if (!newMessage.author || newMessage.author.bot || !newMessage.guild) return
 
-        // Dev - Legacy Update - openplace
-        if (newMessage.guild.id != "1128424035173273620" && newMessage.guild.id != "1095995920409178112" && newMessage.guild.id != "1422571580181184644") {
-            return
-        }
+        if (newMessage.guild.id != deno.guilds.devserver && newMessage.guild.id != deno.guilds.legacyupdate && newMessage.guild.id != deno.guilds.openplace) return
 
         if (oldMessage.content != newMessage.content) {
             const container = new ContainerBuilder()
@@ -170,18 +162,15 @@ function invoke(client: Client) {
                 container.addMediaGalleryComponents(gallery)
             }
 
-            // Dev
-            if (newMessage.guild.id == "1128424035173273620") {
+            if (newMessage.guild.id == deno.guilds.devserver) {
                 const channel = newMessage.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
                 await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             }
-            // Legacy Update
-            if (newMessage.guild.id == "1095995920409178112") {
+            if (newMessage.guild.id == deno.guilds.legacyupdate) {
                 const channel = newMessage.guild.channels.cache.get("1197666507925225662") as (TextChannel | undefined)
                 await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             }
-            // openplace
-            if (newMessage.guild.id == "1422571580181184644") {
+            if (newMessage.guild.id == deno.guilds.openplace) {
                 const channel = newMessage.guild.channels.cache.get("1437280910558105703") as (TextChannel | undefined)
                 await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             }
