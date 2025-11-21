@@ -37,7 +37,7 @@
       "env": true,
       "ffi": true,
       "net": true,
-      "read": ["commands","node_modules","utils","/proc/self/exe","/usr/bin/ldd"],
+      "read": ["commands","node_modules","utils","/etc/alpine-release","/proc/self/exe","/usr/bin/ldd"],
       "run": ["ffmpeg","yt-dlp"],
       "sys": ["cpus","hostname","networkInterfaces"]
     },
@@ -45,7 +45,7 @@
       "env": true,
       "ffi": true,
       "net": true,
-      "read": ["commands","/usr/bin/ldd"]
+      "read": ["commands","/etc/alpine-release","/usr/bin/ldd"]
     }
   }
 }
