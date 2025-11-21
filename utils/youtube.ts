@@ -24,7 +24,11 @@ function invoke(client: Client) {
                     .setAccentColor(globals.colours.accent)
                     .addTextDisplayComponents(
                         new TextDisplayBuilder()
-                            .setContent(`Views: ${data.viewCount.toLocaleString()}\nLikes: ${data.likes.toLocaleString()}\nDislikes: ${data.dislikes.toLocaleString()}`),
+                            .setContent(`Views: ${data.viewCount.toLocaleString()}`),
+                        new TextDisplayBuilder()
+                            .setContent(`Likes: ${data.likes.toLocaleString()}`),
+                        new TextDisplayBuilder()
+                            .setContent(`Dislikes: ${data.dislikes.toLocaleString()}`)
                     )
 
                 await message.reply({ components: [container], flags: MessageFlags.IsComponentsV2 })
