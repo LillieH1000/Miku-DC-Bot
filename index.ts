@@ -1,21 +1,10 @@
 import { ChatInputCommandInteraction, Client, Collection, GatewayIntentBits, SlashCommandBuilder } from "discord.js"
+import deno from "./deno.json" with { type: "json" }
 import fs from "node:fs"
 
 interface clientCollection extends Client {
 	commands: Collection<string, { info: SlashCommandBuilder; invoke: (interaction: ChatInputCommandInteraction) => Promise<void> }>
 }
-
-interface configData {
-	default: {
-		token: string
-	}
-}
-
-const config: configData = await import("./config.json", {
-	with: {
-		type: "json"
-	}
-})
 
 const client = new Client({ intents: [
 	GatewayIntentBits.AutoModerationConfiguration,
@@ -64,4 +53,4 @@ client.once("clientReady", () => {
 	})
 })
 
-client.login(config.default.token)
+client.login(deno.keys.token)
