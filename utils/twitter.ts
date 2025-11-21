@@ -61,9 +61,7 @@ function invoke(client: Client) {
                         gallery.addItems(new MediaGalleryItemBuilder().setURL(media.url))
                     })
 
-                    container.addMediaGalleryComponents(gallery)
-
-                    container.addSeparatorComponents(
+                    container.addMediaGalleryComponents(gallery).addSeparatorComponents(
                         new SeparatorBuilder()
                     )
                 }
