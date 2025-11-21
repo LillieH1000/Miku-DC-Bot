@@ -1,18 +1,25 @@
 import deno from "../deno.json" with { type: "json" }
-import { bold, Client, ContainerBuilder, MessageFlags, TextChannel, TextDisplayBuilder } from "discord.js"
+import { bold, Client, ContainerBuilder, MessageFlags, SectionBuilder, TextChannel, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
 import { format } from "date-fns"
 
 function invoke(client: Client) {
     client.on("guildMemberAdd", async member => {
         const container = new ContainerBuilder()
             .setAccentColor(+deno.keys.accent)
-            .addTextDisplayComponents(
-                new TextDisplayBuilder()
-                    .setContent(bold("Member Joined")),
-                new TextDisplayBuilder()
-                    .setContent(`Username: ${member.user.username}`),
-                new TextDisplayBuilder()
-                    .setContent(`Created At: ${format(member.user.createdAt, "MMMM d, yyyy")}`)
+            .addSectionComponents(
+                new SectionBuilder()
+                    .addTextDisplayComponents(
+                        new TextDisplayBuilder()
+                            .setContent(bold("Member Joined")),
+                        new TextDisplayBuilder()
+                            .setContent(`Username: ${member.user.username}`),
+                        new TextDisplayBuilder()
+                            .setContent(`Created At: ${format(member.user.createdAt, "MMMM d, yyyy")}`)
+                    )
+                    .setThumbnailAccessory(
+                        new ThumbnailBuilder()
+                            .setURL(member.user.displayAvatarURL())
+                    )
             )
 
         if (member.guild.id == deno.guilds.legacyupdate) {
@@ -30,6 +37,8 @@ function invoke(client: Client) {
         if (oldMember.pending && !newMember.pending) {
             const container = new ContainerBuilder()
                 .setAccentColor(+deno.keys.accent)
+
+            const section = new SectionBuilder()
                 .addTextDisplayComponents(
                     new TextDisplayBuilder()
                         .setContent(bold("Member Accepted Rules")),
@@ -38,13 +47,19 @@ function invoke(client: Client) {
                     new TextDisplayBuilder()
                         .setContent(`Created At: ${format(newMember.user.createdAt, "MMMM d, yyyy")}`)
                 )
+                .setThumbnailAccessory(
+                    new ThumbnailBuilder()
+                        .setURL(newMember.user.displayAvatarURL())
+                )
 
             if (newMember.joinedAt) {
-                container.addTextDisplayComponents(
+                section.addTextDisplayComponents(
                     new TextDisplayBuilder()
                         .setContent(`Joined At: ${format(newMember.joinedAt, "MMMM d, yyyy")}`)
                 )
             }
+
+            container.addSectionComponents(section)
             
             if (newMember.guild.id == deno.guilds.legacyupdate) {
                 const channel = newMember.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
@@ -61,6 +76,8 @@ function invoke(client: Client) {
     client.on("guildMemberRemove", async member => {
         const container = new ContainerBuilder()
             .setAccentColor(+deno.keys.accent)
+
+        const section = new SectionBuilder()
             .addTextDisplayComponents(
                 new TextDisplayBuilder()
                     .setContent(bold("Member Left")),
@@ -69,13 +86,19 @@ function invoke(client: Client) {
                 new TextDisplayBuilder()
                     .setContent(`Created At: ${format(member.user.createdAt, "MMMM d, yyyy")}`)
             )
+            .setThumbnailAccessory(
+                new ThumbnailBuilder()
+                    .setURL(member.user.displayAvatarURL())
+            )
 
         if (member.joinedAt) {
-            container.addTextDisplayComponents(
+            section.addTextDisplayComponents(
                 new TextDisplayBuilder()
                     .setContent(`Joined At: ${format(member.joinedAt, "MMMM d, yyyy")}`)
             )
         }
+
+        container.addSectionComponents(section)
 
         if (member.guild.id == deno.guilds.legacyupdate) {
             const channel = member.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
