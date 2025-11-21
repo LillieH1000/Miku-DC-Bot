@@ -1,5 +1,6 @@
+import deno from "../deno.json" with { type: "json" }
 import { AudioPlayerStatus, createAudioPlayer, createAudioResource, getVoiceConnection, joinVoiceChannel } from "@discordjs/voice"
-import { ChatInputCommandInteraction, EmbedBuilder, GuildMember, InteractionContextType, SlashCommandBuilder } from "discord.js"
+import { bold, ChatInputCommandInteraction, ContainerBuilder, GuildMember, InteractionContextType, MessageFlags, SlashCommandBuilder, TextDisplayBuilder } from "discord.js"
 import globals from "../globals.ts"
 
 async function play(interaction: ChatInputCommandInteraction, id: string) {
@@ -10,17 +11,16 @@ async function play(interaction: ChatInputCommandInteraction, id: string) {
         return
     }
 
-    const embed = new EmbedBuilder()
-        .setColor(globals.colours.embed)
-        .setTitle("Music Player")
-        .setDescription("Queued")
-        .setThumbnail(data.artwork)
-        .addFields(
-            { name: data.title, value: data.author, inline: false }
+    const container = new ContainerBuilder()
+        .setAccentColor(+deno.keys.accent)
+        .addTextDisplayComponents(
+            new TextDisplayBuilder()
+                .setContent(bold("Music Player")),
+            new TextDisplayBuilder()
+                .setContent(`Queued: ${data.title} - ${data.author}`)
         )
-        .setTimestamp()
 
-    await interaction.editReply({ embeds: [embed], allowedMentions: { repliedUser: false } })
+    await interaction.editReply({ components: [container], flags: MessageFlags.IsComponentsV2 })
 
     const voiceConnection = getVoiceConnection(interaction.guild!.id)
     if (voiceConnection && globals.player[interaction.guild!.id].status == 0) {

@@ -1,4 +1,5 @@
-import { ChatInputCommandInteraction, EmbedBuilder, GuildMember, InteractionContextType, SlashCommandBuilder } from "discord.js"
+import deno from "../deno.json" with { type: "json" }
+import { bold, ChatInputCommandInteraction, ContainerBuilder, GuildMember, InteractionContextType, MessageFlags, SlashCommandBuilder, TextDisplayBuilder } from "discord.js"
 import { getVoiceConnection } from "@discordjs/voice"
 import globals from "../globals.ts"
 
@@ -14,13 +15,16 @@ async function invoke(interaction: ChatInputCommandInteraction) {
     if (voiceConnection && voiceConnection.joinConfig.channelId == (interaction.member as GuildMember).voice.channelId && globals.player[interaction.guild!.id].status == 1) {
         globals.player[interaction.guild!.id].player.unpause()
 
-        const embed = new EmbedBuilder()
-            .setColor(globals.colours.embed)
-            .setTitle("Music Player")
-            .setDescription("Resumed playing audio")
-            .setTimestamp()
+        const container = new ContainerBuilder()
+            .setAccentColor(+deno.keys.accent)
+            .addTextDisplayComponents(
+                new TextDisplayBuilder()
+                    .setContent(bold("Music Player")),
+                new TextDisplayBuilder()
+                    .setContent("Resumed playing audio")
+            )
 
-        await interaction.editReply({ embeds: [embed] })
+        await interaction.editReply({ components: [container], flags: MessageFlags.IsComponentsV2 })
     } else {
         await interaction.deleteReply()
     }

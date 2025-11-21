@@ -1,4 +1,5 @@
-import { ChatInputCommandInteraction, EmbedBuilder, GuildMember, InteractionContextType, SlashCommandBuilder } from "discord.js"
+import deno from "../deno.json" with { type: "json" }
+import { bold, ChatInputCommandInteraction, ContainerBuilder, GuildMember, InteractionContextType, MessageFlags, SlashCommandBuilder, TextDisplayBuilder } from "discord.js"
 import { getVoiceConnection } from "@discordjs/voice"
 import globals from "../globals.ts"
 
@@ -20,13 +21,16 @@ async function invoke(interaction: ChatInputCommandInteraction) {
         globals.player[interaction.guild!.id].volume = volume / 100
         globals.player[interaction.guild!.id].resource!.volume!.setVolume(globals.player[interaction.guild!.id].volume)
 
-        const embed = new EmbedBuilder()
-            .setColor(globals.colours.embed)
-            .setTitle("Music Player")
-            .setDescription(`Changed audio volume level to: ${volume.toString()}`)
-            .setTimestamp()
+        const container = new ContainerBuilder()
+            .setAccentColor(+deno.keys.accent)
+            .addTextDisplayComponents(
+                new TextDisplayBuilder()
+                    .setContent(bold("Music Player")),
+                new TextDisplayBuilder()
+                    .setContent(`Changed audio volume level to: ${volume}`)
+            )
 
-        await interaction.editReply({ embeds: [embed] })
+        await interaction.editReply({ components: [container], flags: MessageFlags.IsComponentsV2 })
     } else {
         await interaction.deleteReply()
     }
