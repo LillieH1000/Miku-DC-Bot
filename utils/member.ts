@@ -22,7 +22,10 @@ function invoke(client: Client) {
                     )
             )
 
-        if (member.guild.id == deno.guilds.legacyupdate) {
+        if (member.guild.id == deno.guilds.devserver) {
+            const channel = member.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
+            await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
+        } else if (member.guild.id == deno.guilds.legacyupdate) {
             const channel = member.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         } else if (member.guild.id == deno.guilds.openplace) {
@@ -61,7 +64,10 @@ function invoke(client: Client) {
 
             container.addSectionComponents(section)
             
-            if (newMember.guild.id == deno.guilds.legacyupdate) {
+            if (newMember.guild.id == deno.guilds.devserver) {
+                const channel = newMember.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
+                await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
+            } else if (newMember.guild.id == deno.guilds.legacyupdate) {
                 const channel = newMember.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
                 await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             } else if (newMember.guild.id == deno.guilds.openplace) {
@@ -100,7 +106,10 @@ function invoke(client: Client) {
 
         container.addSectionComponents(section)
 
-        if (member.guild.id == deno.guilds.legacyupdate) {
+        if (member.guild.id == deno.guilds.devserver) {
+            const channel = member.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
+            await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
+        } else if (member.guild.id == deno.guilds.legacyupdate) {
             const channel = member.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         } else if (member.guild.id == deno.guilds.openplace) {
