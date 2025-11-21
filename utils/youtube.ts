@@ -1,5 +1,5 @@
+import deno from "../deno.json" with { type: "json" }
 import { Client, ContainerBuilder, MessageFlags, TextDisplayBuilder } from "discord.js"
-import globals from "../globals.ts"
 
 interface resData {
     viewCount: number
@@ -21,7 +21,7 @@ function invoke(client: Client) {
                 const data: resData = await res.json()
                 
                 const container = new ContainerBuilder()
-                    .setAccentColor(globals.colours.accent)
+                    .setAccentColor(+deno.keys.accent)
                     .addTextDisplayComponents(
                         new TextDisplayBuilder()
                             .setContent(`Views: ${data.viewCount.toLocaleString()}`),

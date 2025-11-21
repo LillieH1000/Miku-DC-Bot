@@ -1,5 +1,5 @@
+import deno from "../deno.json" with { type: "json" }
 import { ActionRowBuilder, bold, ButtonBuilder, ButtonStyle, Client, ContainerBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags, SectionBuilder, SeparatorBuilder, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
-import globals from "../globals.ts"
 
 interface resData {
     tweet: {
@@ -31,7 +31,7 @@ function invoke(client: Client) {
                 const data: resData = await res.json()
                 
                 const container = new ContainerBuilder()
-                    .setAccentColor(globals.colours.accent)
+                    .setAccentColor(+deno.keys.accent)
 
                 const section = new SectionBuilder()
                     .addTextDisplayComponents(

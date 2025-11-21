@@ -22,6 +22,7 @@
     "sodium-native": "npm:sodium-native@^5.0.10"
   },
   "keys": {
+    "accent": "0xFFC0DD",
     "client": "1065377660303310859",
     "token": "MTA2NTM3NzY2MDMwMzMxMDg1OQ.GFrbqJ.xEePy1DpFKQMehJ7S3jul0SFua1fXK6ncfoZG4"
   },

@@ -1,7 +1,6 @@
 import deno from "../deno.json" with { type: "json" }
 import { bold, Client, ContainerBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags, SeparatorBuilder, TextChannel, TextDisplayBuilder } from "discord.js"
 import { format } from "date-fns"
-import globals from "../globals.ts"
 
 function invoke(client: Client) {
     client.on("messageDelete", async message => {
@@ -10,7 +9,7 @@ function invoke(client: Client) {
         if (message.guild.id != deno.guilds.devserver && message.guild.id != deno.guilds.legacyupdate && message.guild.id != deno.guilds.openplace) return
 
         const container = new ContainerBuilder()
-            .setAccentColor(globals.colours.accent)
+            .setAccentColor(+deno.keys.accent)
             .addTextDisplayComponents(
                 new TextDisplayBuilder()
                     .setContent(bold("Message Deleted"))
@@ -77,7 +76,7 @@ function invoke(client: Client) {
 
         if (oldMessage.content != newMessage.content) {
             const container = new ContainerBuilder()
-                .setAccentColor(globals.colours.accent)
+                .setAccentColor(+deno.keys.accent)
                 .addTextDisplayComponents(
                     new TextDisplayBuilder()
                         .setContent(bold("Message Updated"))

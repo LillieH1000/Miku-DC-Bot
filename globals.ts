@@ -1,3 +1,4 @@
+import deno from "./deno.json" with { type: "json" }
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ColorResolvable, ContainerBuilder, SectionBuilder, SeparatorBuilder, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
 import { AudioPlayer, AudioResource } from "@discordjs/voice"
 import LZString from "lz-string"
@@ -5,8 +6,7 @@ import LZString from "lz-string"
 // Default Colours
 
 const colours = {
-    "embed": "#FFC0DD" as ColorResolvable,
-    "accent": 0xFFC0DD
+    "embed": "#FFC0DD" as ColorResolvable
 }
 
 // Player Objects
@@ -264,7 +264,7 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
     // Container
 
     const container = new ContainerBuilder()
-        .setAccentColor(colours.accent)
+        .setAccentColor(+deno.keys.accent)
 
     const section = new SectionBuilder()
         .addTextDisplayComponents(
