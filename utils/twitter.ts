@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Client, ContainerBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags, SectionBuilder, SeparatorBuilder, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
+import { ActionRowBuilder, bold, ButtonBuilder, ButtonStyle, Client, ContainerBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags, SectionBuilder, SeparatorBuilder, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
 import globals from "../globals.ts"
 
 interface resData {
@@ -36,7 +36,7 @@ function invoke(client: Client) {
                 const section = new SectionBuilder()
                     .addTextDisplayComponents(
                         new TextDisplayBuilder()
-                            .setContent(`${data.tweet.author.name} (${data.tweet.author.screen_name})`),
+                            .setContent(bold(`${data.tweet.author.name} (${data.tweet.author.screen_name})`)),
                     )
                     .setThumbnailAccessory(
                         new ThumbnailBuilder()
