@@ -1,5 +1,5 @@
 import deno from "../deno.json" with { type: "json" }
-import { bold, Client, ContainerBuilder, MessageFlags, SectionBuilder, TextChannel, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
+import { bold, Client, ContainerBuilder, MessageFlags, SectionBuilder, SeparatorBuilder, TextChannel, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
 import { format } from "date-fns"
 
 function invoke(client: Client) {
@@ -10,16 +10,23 @@ function invoke(client: Client) {
                 new SectionBuilder()
                     .addTextDisplayComponents(
                         new TextDisplayBuilder()
-                            .setContent(bold("Member Joined")),
+                            .setContent(bold(`${member.user.displayName} Joined`)),
                         new TextDisplayBuilder()
                             .setContent(`Username: ${member.user.username}`),
                         new TextDisplayBuilder()
-                            .setContent(`Created At: ${format(member.user.createdAt, "MMMM d, yyyy")}`)
+                            .setContent(`ID: ${member.user.id}`)
                     )
                     .setThumbnailAccessory(
                         new ThumbnailBuilder()
                             .setURL(member.user.displayAvatarURL())
                     )
+            )
+            .addSeparatorComponents(
+                new SeparatorBuilder()
+            )
+            .addTextDisplayComponents(
+                new TextDisplayBuilder()
+                    .setContent(`Created At: ${format(member.user.createdAt, "MMMM d, yyyy")}`)
             )
 
         if (member.guild.id == deno.guilds.devserver) {
@@ -40,29 +47,35 @@ function invoke(client: Client) {
         if (oldMember.pending && !newMember.pending) {
             const container = new ContainerBuilder()
                 .setAccentColor(+deno.keys.accent)
-
-            const section = new SectionBuilder()
+                .addSectionComponents(
+                    new SectionBuilder()
+                        .addTextDisplayComponents(
+                            new TextDisplayBuilder()
+                                .setContent(bold(`${newMember.user.displayName} Accepted Rules`)),
+                            new TextDisplayBuilder()
+                                .setContent(`Username: ${newMember.user.username}`),
+                            new TextDisplayBuilder()
+                                .setContent(`ID: ${newMember.user.id}`)
+                        )
+                        .setThumbnailAccessory(
+                            new ThumbnailBuilder()
+                                .setURL(newMember.user.displayAvatarURL())
+                        )
+                )
+                .addSeparatorComponents(
+                    new SeparatorBuilder()
+                )
                 .addTextDisplayComponents(
-                    new TextDisplayBuilder()
-                        .setContent(bold("Member Accepted Rules")),
-                    new TextDisplayBuilder()
-                        .setContent(`Username: ${newMember.user.username}`),
                     new TextDisplayBuilder()
                         .setContent(`Created At: ${format(newMember.user.createdAt, "MMMM d, yyyy")}`)
                 )
-                .setThumbnailAccessory(
-                    new ThumbnailBuilder()
-                        .setURL(newMember.user.displayAvatarURL())
-                )
 
             if (newMember.joinedAt) {
-                section.addTextDisplayComponents(
+                container.addTextDisplayComponents(
                     new TextDisplayBuilder()
                         .setContent(`Joined At: ${format(newMember.joinedAt, "MMMM d, yyyy")}`)
                 )
             }
-
-            container.addSectionComponents(section)
             
             if (newMember.guild.id == deno.guilds.devserver) {
                 const channel = newMember.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
@@ -82,29 +95,35 @@ function invoke(client: Client) {
     client.on("guildMemberRemove", async member => {
         const container = new ContainerBuilder()
             .setAccentColor(+deno.keys.accent)
-
-        const section = new SectionBuilder()
+            .addSectionComponents(
+                new SectionBuilder()
+                    .addTextDisplayComponents(
+                        new TextDisplayBuilder()
+                            .setContent(bold(`${member.user.displayName} Left`)),
+                        new TextDisplayBuilder()
+                            .setContent(`Username: ${member.user.username}`),
+                        new TextDisplayBuilder()
+                            .setContent(`ID: ${member.user.id}`)
+                    )
+                    .setThumbnailAccessory(
+                        new ThumbnailBuilder()
+                            .setURL(member.user.displayAvatarURL())
+                    )
+            )
+            .addSeparatorComponents(
+                new SeparatorBuilder()
+            )
             .addTextDisplayComponents(
-                new TextDisplayBuilder()
-                    .setContent(bold("Member Left")),
-                new TextDisplayBuilder()
-                    .setContent(`Username: ${member.user.username}`),
                 new TextDisplayBuilder()
                     .setContent(`Created At: ${format(member.user.createdAt, "MMMM d, yyyy")}`)
             )
-            .setThumbnailAccessory(
-                new ThumbnailBuilder()
-                    .setURL(member.user.displayAvatarURL())
-            )
 
         if (member.joinedAt) {
-            section.addTextDisplayComponents(
+            container.addTextDisplayComponents(
                 new TextDisplayBuilder()
                     .setContent(`Joined At: ${format(member.joinedAt, "MMMM d, yyyy")}`)
             )
         }
-
-        container.addSectionComponents(section)
 
         if (member.guild.id == deno.guilds.devserver) {
             const channel = member.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
