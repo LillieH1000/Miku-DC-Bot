@@ -110,15 +110,11 @@ async function invoke(interaction: ChatInputCommandInteraction) {
     const scrx = /^https?:\/\/(?:soundcloud\.com|snd\.sc)(?:\/\w+(?:-\w+)*)+$/
     if (query.match(scrx)) {
         const data = await globals.ytdlpRequest(query, "null", "null")
-        if (!data) {
-            return
-        }
+        if (!data) return
         await play(interaction, data.id)
     } else {
         const data = await globals.ytdlpRequest("null", "null", query)
-        if (!data) {
-            return
-        }
+        if (!data) return
         await play(interaction, data.id)
     }
 }
