@@ -3,6 +3,14 @@ import { AudioPlayerStatus, createAudioPlayer, createAudioResource, getVoiceConn
 import { bold, ChatInputCommandInteraction, ContainerBuilder, GuildMember, InteractionContextType, MessageFlags, SlashCommandBuilder, TextDisplayBuilder } from "discord.js"
 import globals from "../globals.ts"
 
+interface resData {
+    linksByPlatform: {
+        soundcloud?: {
+            url: string
+        }
+    }
+}
+
 async function play(interaction: ChatInputCommandInteraction, id: string) {
     globals.player[interaction.guild!.id].ids.push(id)
 
@@ -79,7 +87,7 @@ const info = new SlashCommandBuilder()
 
 async function invoke(interaction: ChatInputCommandInteraction) {
     await interaction.deferReply()
-    const query = interaction.options.getString("query")!
+    let query = interaction.options.getString("query")!
 
     const voiceConnection = getVoiceConnection(interaction.guild!.id)
     
@@ -104,7 +112,13 @@ async function invoke(interaction: ChatInputCommandInteraction) {
 
     const ytrx = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\\w\/|embed\/|shorts\/)|(?:(?:watch)?\\?vi?=|&vi?=))([^#&?]*).*/
     if (query.match(ytrx)) {
-        return
+        const res = await fetch(`https://api.song.link/v1-alpha.1/links?platform=youtube&type=song&id=${query.match(ytrx)![1]}&songIfSingle=true`)
+        if (res.ok) {
+            const data: resData = await res.json()
+            if (data.linksByPlatform.soundcloud) {
+                query = data.linksByPlatform.soundcloud.url
+            }
+        }
     }
 
     const scrx = /^https?:\/\/(?:soundcloud\.com|snd\.sc)(?:\/\w+(?:-\w+)*)([^#&?]*).*/
