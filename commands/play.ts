@@ -15,9 +15,7 @@ async function play(interaction: ChatInputCommandInteraction, id: string) {
     globals.player[interaction.guild!.id].ids.push(id)
 
     const data = await globals.ytdlpRequest("null", id, "null")
-    if (!data) {
-        return
-    }
+    if (!data) return
 
     const container = new ContainerBuilder()
         .setAccentColor(+deno.keys.accent)
@@ -50,9 +48,7 @@ async function play(interaction: ChatInputCommandInteraction, id: string) {
                 delete globals.player[interaction.guild!.id]
             } else {
                 globals.ytdlpRequest("null", globals.player[interaction.guild!.id].ids[0], "null").then(data => {
-                    if (!data) {
-                        return
-                    }
+                    if (!data) return
                     globals.player[interaction.guild!.id].resource = createAudioResource(data.url, {
                         inlineVolume: true
                     })
