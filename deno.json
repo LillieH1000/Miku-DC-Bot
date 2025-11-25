@@ -26,7 +26,6 @@
       "tags": ["recommended"]
     }
   },
-  "nodeModulesDir": "auto",
   "permissions": {
     "default": {
       "env": true,
