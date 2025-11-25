@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "lib": ["deno.ns", "dom", "esnext"],
+    "lib": [
+      "deno.ns",
+      "dom",
+      "esnext"
+    ],
     "module": "esnext",
     "strict": true
   },
@@ -23,7 +27,9 @@
   },
   "lint": {
     "rules": {
-      "tags": ["recommended"]
+      "tags": [
+        "recommended"
+      ]
     }
   },
   "permissions": {
