@@ -4,9 +4,9 @@ function invoke(client: Client) {
     client.on("messageCreate", async message => {
         if (message.author.bot || !message.content) return
 
-        const messageContent = message.content.replace(/(\r|\n|\r\n|<|>)/gm, " ")
+        const messageContent: string = message.content.replace(/(\r|\n|\r\n|<|>)/gm, " ")
 
-        let messageReply = ""
+        let messageReply: string = ""
         for (const word of messageContent.split(" ")) {
             if (word.match(/^http(?:s)?:\/\/(.*)bsky\.app\//) && !word.match(/^http(?:s)?:\/\/(.*)fxbsky\.app\//)) {
                 if (messageReply != "") {

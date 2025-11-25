@@ -8,7 +8,7 @@ function invoke(client: Client) {
 
         if (message.guild.id != deno.guilds.devserver && message.guild.id != deno.guilds.legacyupdate && message.guild.id != deno.guilds.openplace) return
 
-        const container = new ContainerBuilder()
+        const container: ContainerBuilder = new ContainerBuilder()
             .setAccentColor(+deno.keys.accent)
             .addTextDisplayComponents(
                 new TextDisplayBuilder()
@@ -46,7 +46,7 @@ function invoke(client: Client) {
                     .setContent("Attachments:")
             )
 
-            const gallery = new MediaGalleryBuilder()
+            const gallery: MediaGalleryBuilder = new MediaGalleryBuilder()
 
             message.attachments.forEach(attachment => {
                 gallery.addItems(new MediaGalleryItemBuilder().setURL(attachment.url))
@@ -56,15 +56,15 @@ function invoke(client: Client) {
         }
         
         if (message.guild.id == deno.guilds.devserver) {
-            const channel = message.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
+            const channel: TextChannel | undefined = message.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         }
         if (message.guild.id == deno.guilds.legacyupdate) {
-            const channel = message.guild.channels.cache.get("1197666507925225662") as (TextChannel | undefined)
+            const channel: TextChannel | undefined = message.guild.channels.cache.get("1197666507925225662") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         }
         if (message.guild.id == deno.guilds.openplace) {
-            const channel = message.guild.channels.cache.get("1437280910558105703") as (TextChannel | undefined)
+            const channel: TextChannel | undefined = message.guild.channels.cache.get("1437280910558105703") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         }
     })
@@ -75,7 +75,7 @@ function invoke(client: Client) {
         if (newMessage.guild.id != deno.guilds.devserver && newMessage.guild.id != deno.guilds.legacyupdate && newMessage.guild.id != deno.guilds.openplace) return
 
         if (oldMessage.content != newMessage.content) {
-            const container = new ContainerBuilder()
+            const container: ContainerBuilder = new ContainerBuilder()
                 .setAccentColor(+deno.keys.accent)
                 .addTextDisplayComponents(
                     new TextDisplayBuilder()
@@ -119,7 +119,7 @@ function invoke(client: Client) {
                         .setContent("Old Attachments:")
                 )
 
-                const gallery = new MediaGalleryBuilder()
+                const gallery: MediaGalleryBuilder = new MediaGalleryBuilder()
 
                 oldMessage.attachments.forEach(attachment => {
                     gallery.addItems(new MediaGalleryItemBuilder().setURL(attachment.url))
@@ -152,7 +152,7 @@ function invoke(client: Client) {
                         .setContent("New Attachments:")
                 )
 
-                const gallery = new MediaGalleryBuilder()
+                const gallery: MediaGalleryBuilder = new MediaGalleryBuilder()
 
                 newMessage.attachments.forEach(attachment => {
                     gallery.addItems(new MediaGalleryItemBuilder().setURL(attachment.url))
@@ -162,15 +162,15 @@ function invoke(client: Client) {
             }
 
             if (newMessage.guild.id == deno.guilds.devserver) {
-                const channel = newMessage.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
+                const channel: TextChannel | undefined = newMessage.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
                 await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             }
             if (newMessage.guild.id == deno.guilds.legacyupdate) {
-                const channel = newMessage.guild.channels.cache.get("1197666507925225662") as (TextChannel | undefined)
+                const channel: TextChannel | undefined = newMessage.guild.channels.cache.get("1197666507925225662") as (TextChannel | undefined)
                 await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             }
             if (newMessage.guild.id == deno.guilds.openplace) {
-                const channel = newMessage.guild.channels.cache.get("1437280910558105703") as (TextChannel | undefined)
+                const channel: TextChannel | undefined = newMessage.guild.channels.cache.get("1437280910558105703") as (TextChannel | undefined)
                 await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             }
         }

@@ -1,4 +1,4 @@
-import { Client, MessageFlags } from "discord.js"
+import { Client, ContainerBuilder, MessageFlags } from "discord.js"
 import LZString from "lz-string"
 import globals from "../globals.ts"
 
@@ -6,15 +6,15 @@ function invoke(client: Client) {
     client.on("interactionCreate", async interaction => {
         if (!interaction.isStringSelectMenu()) return
 
-        let guild = false
-        let guildid = ""
+        let guild: boolean = false
+        let guildid: string = ""
         if (interaction.guild) {
             guild = true
             guildid = interaction.guild.id
         }
 
-        let name = ""
-        let message = ""
+        let name: string = ""
+        let message: string = ""
 
         if (interaction.customId.includes("custommenuid")) {
             name = interaction.customId.split("custommenuid")[0]
@@ -25,7 +25,7 @@ function invoke(client: Client) {
             message = id.game
         }
 
-        const data = await globals.pokeapiRequest(name, 1, false, false, false, guild, guildid, message)
+        const data: ContainerBuilder | undefined = await globals.pokeapiRequest(name, 1, false, false, false, guild, guildid, message)
         if (!data) return
 
         await interaction.update({ embeds: [], components: [data], flags: MessageFlags.IsComponentsV2 })
@@ -34,8 +34,8 @@ function invoke(client: Client) {
     client.on("interactionCreate", async interaction => {
         if (!interaction.isButton()) return
 
-        let guild = false
-        let guildid = ""
+        let guild: boolean = false
+        let guildid: string = ""
         if (interaction.guild) {
             guild = true
             guildid = interaction.guild.id
@@ -45,21 +45,21 @@ function invoke(client: Client) {
         try {
             id = JSON.parse(interaction.customId)
         } catch (e) {
-            const lz = LZString.decompressFromUTF16(interaction.customId)
+            const lz: string = LZString.decompressFromUTF16(interaction.customId)
             id = JSON.parse(lz)
         }
 
-        let mega = false
+        let mega: boolean = false
         if (id.hasOwnProperty("mega")) {
             mega = id.mega
         }
 
-        let gmax = false
+        let gmax: boolean = false
         if (id.hasOwnProperty("gmax")) {
             gmax = id.gmax
         }
 
-        let shiny = false
+        let shiny: boolean = false
         if (id.hasOwnProperty("shiny") && typeof id.shiny !== "boolean") {
             if (parseInt(id.shiny) == 0) {
                 shiny = false
@@ -71,7 +71,7 @@ function invoke(client: Client) {
             shiny = id.shiny
         }
 
-        const data = await globals.pokeapiRequest(id.name, parseInt(id.position), mega, gmax, shiny, guild, guildid, id.message)
+        const data: ContainerBuilder | undefined = await globals.pokeapiRequest(id.name, parseInt(id.position), mega, gmax, shiny, guild, guildid, id.message)
         if (!data) return
 
         await interaction.update({ components: [data], flags: MessageFlags.IsComponentsV2 })

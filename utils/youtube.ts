@@ -11,17 +11,17 @@ function invoke(client: Client) {
     client.on("messageCreate", async message => {
         if (message.author.bot || !message.content) return
 
-        const messageContent = message.content.replace(/(\r|\n|\r\n|<|>)/gm, " ")
+        const messageContent: string = message.content.replace(/(\r|\n|\r\n|<|>)/gm, " ")
     
         for (const word of messageContent.split(" ")) {
-            const rx = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\\w\/|embed\/|shorts\/)|(?:(?:watch)?\\?vi?=|&vi?=))([^#&?]*).*/
+            const rx: RegExp = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\\w\/|embed\/|shorts\/)|(?:(?:watch)?\\?vi?=|&vi?=))([^#&?]*).*/
             if (!word.match(rx)) return
             
-            const res = await fetch(`https://returnyoutubedislikeapi.com/votes?videoId=${word.match(rx)![1]}`)
+            const res: Response = await fetch(`https://returnyoutubedislikeapi.com/votes?videoId=${word.match(rx)![1]}`)
             if (!res.ok) return
             const data: resData = await res.json()
             
-            const container = new ContainerBuilder()
+            const container: ContainerBuilder = new ContainerBuilder()
                 .setAccentColor(+deno.keys.accent)
                 .addTextDisplayComponents(
                     new TextDisplayBuilder()

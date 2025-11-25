@@ -4,7 +4,7 @@ import { format } from "date-fns"
 
 function invoke(client: Client) {
     client.on("guildMemberAdd", async member => {
-        const container = new ContainerBuilder()
+        const container: ContainerBuilder = new ContainerBuilder()
             .setAccentColor(+deno.keys.accent)
             .addSectionComponents(
                 new SectionBuilder()
@@ -30,13 +30,13 @@ function invoke(client: Client) {
             )
 
         if (member.guild.id == deno.guilds.devserver) {
-            const channel = member.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
+            const channel: TextChannel | undefined = member.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         } else if (member.guild.id == deno.guilds.legacyupdate) {
-            const channel = member.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
+            const channel: TextChannel | undefined = member.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         } else if (member.guild.id == deno.guilds.openplace) {
-            const channel = member.guild.channels.cache.get("1437280756480344144") as (TextChannel | undefined)
+            const channel: TextChannel | undefined = member.guild.channels.cache.get("1437280756480344144") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         } else {
             await member.guild.systemChannel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
@@ -45,7 +45,7 @@ function invoke(client: Client) {
 
     client.on("guildMemberUpdate", async (oldMember, newMember) => {
         if (oldMember.pending && !newMember.pending) {
-            const container = new ContainerBuilder()
+            const container: ContainerBuilder = new ContainerBuilder()
                 .setAccentColor(+deno.keys.accent)
                 .addSectionComponents(
                     new SectionBuilder()
@@ -78,13 +78,13 @@ function invoke(client: Client) {
             }
             
             if (newMember.guild.id == deno.guilds.devserver) {
-                const channel = newMember.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
+                const channel: TextChannel | undefined = newMember.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
                 await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             } else if (newMember.guild.id == deno.guilds.legacyupdate) {
-                const channel = newMember.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
+                const channel: TextChannel | undefined = newMember.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
                 await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             } else if (newMember.guild.id == deno.guilds.openplace) {
-                const channel = newMember.guild.channels.cache.get("1437280756480344144") as (TextChannel | undefined)
+                const channel: TextChannel | undefined = newMember.guild.channels.cache.get("1437280756480344144") as (TextChannel | undefined)
                 await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             } else {
                 await newMember.guild.systemChannel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
@@ -93,7 +93,7 @@ function invoke(client: Client) {
     })
 
     client.on("guildMemberRemove", async member => {
-        const container = new ContainerBuilder()
+        const container: ContainerBuilder = new ContainerBuilder()
             .setAccentColor(+deno.keys.accent)
             .addSectionComponents(
                 new SectionBuilder()
@@ -126,13 +126,13 @@ function invoke(client: Client) {
         }
 
         if (member.guild.id == deno.guilds.devserver) {
-            const channel = member.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
+            const channel: TextChannel | undefined = member.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         } else if (member.guild.id == deno.guilds.legacyupdate) {
-            const channel = member.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
+            const channel: TextChannel | undefined = member.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         } else if (member.guild.id == deno.guilds.openplace) {
-            const channel = member.guild.channels.cache.get("1437280756480344144") as (TextChannel | undefined)
+            const channel: TextChannel | undefined = member.guild.channels.cache.get("1437280756480344144") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         } else {
             await member.guild.systemChannel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
