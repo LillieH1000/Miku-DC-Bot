@@ -35,13 +35,27 @@
   "permissions": {
     "default": {
       "env": true,
-      "net": true,
-      "read": ["commands","globals","utils"]
+      "net": [
+        "*.discord.com",
+        "*.discord.gg",
+        "*.fxtwitter.com",
+        "*.pokeapi.co",
+        "*.returnyoutubedislikeapi.com"
+      ],
+      "read": [
+        "commands",
+        "globals",
+        "utils"
+      ]
     },
     "register": {
       "env": true,
-      "net": true,
-      "read": ["commands"]
+      "net": [
+        "*.discord.com"
+      ],
+      "read": [
+        "commands"
+      ]
     }
   }
 }
