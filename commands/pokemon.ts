@@ -1,5 +1,5 @@
 import { ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js"
-import globals from "../globals.ts"
+import globals from "../globals/pokemon.ts"
 
 const info = new SlashCommandBuilder()
     .setName("pokemon")

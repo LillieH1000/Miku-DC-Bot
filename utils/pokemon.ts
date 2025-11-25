@@ -1,6 +1,6 @@
 import { Client, ContainerBuilder, MessageFlags } from "discord.js"
 import LZString from "lz-string"
-import globals from "../globals.ts"
+import globals from "../globals/pokemon.ts"
 
 function invoke(client: Client) {
     client.on("interactionCreate", async interaction => {
