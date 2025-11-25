@@ -8,8 +8,8 @@ function invoke(client: Client) {
     setInterval(function() {
         if (client.user) {
             const date: TZDate = TZDate.tz("America/New_York")
-            const currentdate: number = parseInt(format(date, "e"))
-            const currenthour: number = parseInt(format(date, "h"))
+            const currentdate: number = +format(date, "e")
+            const currenthour: number = +format(date, "h")
             if (currentdate == 2) {
                 hour = -1
                 client.user.setActivity("It's Miku monday", { type: ActivityType.Custom })
