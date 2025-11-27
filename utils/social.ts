@@ -32,7 +32,7 @@ function invoke(client: Client) {
 
         if (messageReply != "") {
             await message.suppressEmbeds(true)
-            await message.reply({ content: messageReply, allowedMentions: { repliedUser: false } })
+            await message.reply({ content: messageReply })
         }
     })
 }
