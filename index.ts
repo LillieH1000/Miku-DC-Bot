@@ -6,29 +6,31 @@ interface clientCollection extends Client {
 	commands: Collection<string, { info: SlashCommandBuilder; invoke: (interaction: ChatInputCommandInteraction) => Promise<void> }>
 }
 
-const client = new Client({ intents: [
-	GatewayIntentBits.AutoModerationConfiguration,
-	GatewayIntentBits.AutoModerationExecution,
-	GatewayIntentBits.DirectMessagePolls,
-	GatewayIntentBits.DirectMessageReactions,
-	GatewayIntentBits.DirectMessages,
-	GatewayIntentBits.DirectMessageTyping,
-	GatewayIntentBits.GuildExpressions,
-	GatewayIntentBits.GuildIntegrations,
-	GatewayIntentBits.GuildInvites,
-	GatewayIntentBits.GuildMembers,
-	GatewayIntentBits.GuildMessagePolls,
-	GatewayIntentBits.GuildMessageReactions,
-	GatewayIntentBits.GuildMessages,
-	GatewayIntentBits.GuildMessageTyping,
-	GatewayIntentBits.GuildModeration,
-	GatewayIntentBits.GuildPresences,
-	GatewayIntentBits.Guilds,
-	GatewayIntentBits.GuildScheduledEvents,
-	GatewayIntentBits.GuildVoiceStates,
-	GatewayIntentBits.GuildWebhooks,
-	GatewayIntentBits.MessageContent
-]}) as clientCollection
+const client = new Client({
+	intents: [
+		GatewayIntentBits.AutoModerationConfiguration,
+		GatewayIntentBits.AutoModerationExecution,
+		GatewayIntentBits.DirectMessagePolls,
+		GatewayIntentBits.DirectMessageReactions,
+		GatewayIntentBits.DirectMessages,
+		GatewayIntentBits.DirectMessageTyping,
+		GatewayIntentBits.GuildExpressions,
+		GatewayIntentBits.GuildIntegrations,
+		GatewayIntentBits.GuildInvites,
+		GatewayIntentBits.GuildMembers,
+		GatewayIntentBits.GuildMessagePolls,
+		GatewayIntentBits.GuildMessageReactions,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.GuildMessageTyping,
+		GatewayIntentBits.GuildModeration,
+		GatewayIntentBits.GuildPresences,
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildScheduledEvents,
+		GatewayIntentBits.GuildVoiceStates,
+		GatewayIntentBits.GuildWebhooks,
+		GatewayIntentBits.MessageContent
+	]
+}) as clientCollection
 
 client.commands = new Collection()
 
