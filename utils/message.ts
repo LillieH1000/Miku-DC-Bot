@@ -109,9 +109,9 @@ function invoke(client: Client) {
                 )
             }
 
-            // Old Attachments
+            // Old Attachments - Temporarily Disabled
 
-            if (oldMessage.attachments && oldMessage.attachments.size > 0) {
+            /* if (oldMessage.attachments && oldMessage.attachments.size > 0) {
                 container.addSeparatorComponents(
                     new SeparatorBuilder()
                 ).addTextDisplayComponents(
@@ -126,7 +126,7 @@ function invoke(client: Client) {
                 })
 
                 container.addMediaGalleryComponents(gallery)
-            }
+            } */
 
             // New Message
 
@@ -142,9 +142,9 @@ function invoke(client: Client) {
                 )
             }
 
-            // New Attachments
+            // New Attachments - Temporarily Disabled
 
-            if (newMessage.attachments && newMessage.attachments.size > 0) {
+            /* if (newMessage.attachments && newMessage.attachments.size > 0) {
                 container.addSeparatorComponents(
                     new SeparatorBuilder()
                 ).addTextDisplayComponents(
@@ -159,7 +159,7 @@ function invoke(client: Client) {
                 })
 
                 container.addMediaGalleryComponents(gallery)
-            }
+            } */
 
             if (newMessage.guild.id == deno.guilds.devserver) {
                 const channel: TextChannel | undefined = newMessage.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
