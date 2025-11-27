@@ -7,6 +7,12 @@ interface clientCollection extends Client {
 }
 
 const client = new Client({
+	allowedMentions: {
+		parse: [],
+		repliedUser: false,
+		roles: [],
+		users: []
+	},
 	intents: [
 		GatewayIntentBits.AutoModerationConfiguration,
 		GatewayIntentBits.AutoModerationExecution,
