@@ -22,11 +22,11 @@ function invoke(client: Client) {
                 messageReply += word.replace(/reddit.com/gm, "rxddit.com")
             }
 
-            if (word.match(/^http(?:s)?:\/\/(.*)tiktok\.com\//) && !word.match(/^http(?:s)?:\/\/(.*)vxtiktok\.com\//)) {
+            if (word.match(/^http(?:s)?:\/\/(.*)tiktok\.com\//) && !word.match(/^http(?:s)?:\/\/(.*)kktiktok\.com\//)) {
                 if (messageReply != "") {
                     messageReply += "\n"
                 }
-                messageReply += word.replace(/tiktok.com/gm, "vxtiktok.com")
+                messageReply += word.replace(/tiktok.com/gm, "kktiktok.com")
             }
         }
 
