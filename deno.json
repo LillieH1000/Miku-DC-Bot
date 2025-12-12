@@ -56,6 +56,11 @@
       "read": [
         "commands"
       ]
+    },
+    "test": {
+      "read": [
+        "globals"
+      ]
     }
   }
 }
