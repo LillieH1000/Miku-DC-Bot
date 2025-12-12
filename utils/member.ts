@@ -1,7 +1,6 @@
 import deno from "../deno.json" with { type: "json" }
-import checks from "../globals/checks.ts"
 import { bold, Client, ContainerBuilder, MessageFlags, SectionBuilder, SeparatorBuilder, TextChannel, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
-import { format } from "date-fns"
+import { differenceInDays, format } from "date-fns"
 
 function invoke(client: Client) {
     client.on("guildMemberAdd", async member => {
@@ -35,7 +34,8 @@ function invoke(client: Client) {
         // Bot Check
 
         let flagged: boolean = false
-        if (member.guild.id == deno.guilds.openplace.id && member.user.username.match(/^[a-zA-Z]*_[0-9]*$/) && !member.user.avatar && checks.checkDate(member.user.createdAt)) {
+        const diff = differenceInDays(new Date(), member.user.createdAt)
+        if (member.guild.id == deno.guilds.openplace.id && member.user.username.match(/^[a-zA-Z]*_[0-9]*$/) && !member.user.avatar && diff >= 0 && diff <= 30) {
             await member.timeout(1728000000, "Flagged")
             flagged = true
         }
