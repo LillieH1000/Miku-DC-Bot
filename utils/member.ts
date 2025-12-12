@@ -35,8 +35,8 @@ function invoke(client: Client) {
         } else if (member.guild.id == deno.guilds.legacyupdate) {
             const channel: TextChannel | undefined = member.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
-        } else if (member.guild.id == deno.guilds.openplace) {
-            const channel: TextChannel | undefined = member.guild.channels.cache.get("1437280756480344144") as (TextChannel | undefined)
+        } else if (member.guild.id == deno.guilds.openplace.id) {
+            const channel: TextChannel | undefined = member.guild.channels.cache.get(deno.guilds.openplace.logs.member) as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         } else {
             await member.guild.systemChannel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
@@ -83,8 +83,8 @@ function invoke(client: Client) {
             } else if (newMember.guild.id == deno.guilds.legacyupdate) {
                 const channel: TextChannel | undefined = newMember.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
                 await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
-            } else if (newMember.guild.id == deno.guilds.openplace) {
-                const channel: TextChannel | undefined = newMember.guild.channels.cache.get("1437280756480344144") as (TextChannel | undefined)
+            } else if (newMember.guild.id == deno.guilds.openplace.id) {
+                const channel: TextChannel | undefined = newMember.guild.channels.cache.get(deno.guilds.openplace.logs.member) as (TextChannel | undefined)
                 await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             } else {
                 await newMember.guild.systemChannel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
@@ -131,8 +131,8 @@ function invoke(client: Client) {
         } else if (member.guild.id == deno.guilds.legacyupdate) {
             const channel: TextChannel | undefined = member.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
-        } else if (member.guild.id == deno.guilds.openplace) {
-            const channel: TextChannel | undefined = member.guild.channels.cache.get("1437280756480344144") as (TextChannel | undefined)
+        } else if (member.guild.id == deno.guilds.openplace.id) {
+            const channel: TextChannel | undefined = member.guild.channels.cache.get(deno.guilds.openplace.logs.member) as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         } else {
             await member.guild.systemChannel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
