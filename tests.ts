@@ -1,9 +1,14 @@
 import checks from "./globals/checks.ts"
 import { subDays } from "date-fns"
-import { TZDate } from "@date-fns/tz"
 
 // Date Check
-const date: TZDate = TZDate.tz("America/New_York")
+
+const date = new Date();
+
+// 60 Days
+console.log(`60 Days: ${checks.checkDate(subDays(date, 60))}`)
+// 50 Days
+console.log(`50 Days: ${checks.checkDate(subDays(date, 50))}`)
 // 40 Days
 console.log(`40 Days: ${checks.checkDate(subDays(date, 40))}`)
 // 30 Days
