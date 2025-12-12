@@ -1,9 +1,12 @@
 import deno from "../deno.json" with { type: "json" }
+import checks from "../globals/checks.ts"
 import { bold, Client, ContainerBuilder, MessageFlags, SectionBuilder, SeparatorBuilder, TextChannel, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
 import { format } from "date-fns"
 
 function invoke(client: Client) {
     client.on("guildMemberAdd", async member => {
+        // Member Info
+
         const container: ContainerBuilder = new ContainerBuilder()
             .setAccentColor(+deno.keys.accent)
             .addSectionComponents(
@@ -29,6 +32,17 @@ function invoke(client: Client) {
                     .setContent(`Created At: ${format(member.user.createdAt, "MMMM d, yyyy")}`)
             )
 
+        // Bot Check
+
+        let flagged: boolean = false
+        if (member.guild.id == deno.guilds.openplace.id && member.user.username.match(/^[a-zA-Z]*_[0-9]*$/) && !member.user.avatar && checks.checkDate(member.user.createdAt)) {
+            await member.timeout(1728000000, "Flagged")
+            flagged = true
+        }
+
+
+        // Member Log
+
         if (member.guild.id == deno.guilds.devserver) {
             const channel: TextChannel | undefined = member.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
@@ -40,8 +54,20 @@ function invoke(client: Client) {
             return
         }
         if (member.guild.id == deno.guilds.openplace.id) {
+            if (flagged) {
+                container.addSeparatorComponents(
+                    new SeparatorBuilder()
+                ).addTextDisplayComponents(
+                    new TextDisplayBuilder()
+                        .setContent("Flagged Account, Muted")
+                )
+            }
             const channel: TextChannel | undefined = member.guild.channels.cache.get(deno.guilds.openplace.logs.member) as (TextChannel | undefined)
-            await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
+            const message = await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
+            if (flagged) {
+                const log: TextChannel | undefined = member.guild.channels.cache.get(deno.guilds.openplace.logs.other) as (TextChannel | undefined)
+                if (log) await message?.forward(log)
+            }
             return
         }
         await member.guild.systemChannel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
