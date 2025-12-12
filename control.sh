@@ -9,12 +9,6 @@ then
     deno install
     deno fmt *.ts **/*.ts
 fi
-if [ $1 == "test" ]
-then
-    set -e
-    cd fmt
-    deno run --check -P=test ./tests.ts
-fi
 if [ $1 == "register" ]
 then
     set -e
