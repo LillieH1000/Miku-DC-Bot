@@ -32,15 +32,19 @@ function invoke(client: Client) {
         if (member.guild.id == deno.guilds.devserver) {
             const channel: TextChannel | undefined = member.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
-        } else if (member.guild.id == deno.guilds.legacyupdate) {
+            return
+        }
+        if (member.guild.id == deno.guilds.legacyupdate) {
             const channel: TextChannel | undefined = member.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
-        } else if (member.guild.id == deno.guilds.openplace.id) {
+            return
+        }
+        if (member.guild.id == deno.guilds.openplace.id) {
             const channel: TextChannel | undefined = member.guild.channels.cache.get(deno.guilds.openplace.logs.member) as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
-        } else {
-            await member.guild.systemChannel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
+            return
         }
+        await member.guild.systemChannel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
     })
 
     client.on("guildMemberUpdate", async (oldMember, newMember) => {
@@ -80,15 +84,19 @@ function invoke(client: Client) {
             if (newMember.guild.id == deno.guilds.devserver) {
                 const channel: TextChannel | undefined = newMember.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
                 await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
-            } else if (newMember.guild.id == deno.guilds.legacyupdate) {
+                return
+            }
+            if (newMember.guild.id == deno.guilds.legacyupdate) {
                 const channel: TextChannel | undefined = newMember.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
                 await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
-            } else if (newMember.guild.id == deno.guilds.openplace.id) {
+                return
+            }
+            if (newMember.guild.id == deno.guilds.openplace.id) {
                 const channel: TextChannel | undefined = newMember.guild.channels.cache.get(deno.guilds.openplace.logs.member) as (TextChannel | undefined)
                 await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
-            } else {
-                await newMember.guild.systemChannel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
+                return
             }
+            await newMember.guild.systemChannel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         }
     })
 
@@ -128,15 +136,19 @@ function invoke(client: Client) {
         if (member.guild.id == deno.guilds.devserver) {
             const channel: TextChannel | undefined = member.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
-        } else if (member.guild.id == deno.guilds.legacyupdate) {
+            return
+        }
+        if (member.guild.id == deno.guilds.legacyupdate) {
             const channel: TextChannel | undefined = member.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
-        } else if (member.guild.id == deno.guilds.openplace.id) {
+            return
+        }
+        if (member.guild.id == deno.guilds.openplace.id) {
             const channel: TextChannel | undefined = member.guild.channels.cache.get(deno.guilds.openplace.logs.member) as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
-        } else {
-            await member.guild.systemChannel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
+            return
         }
+        await member.guild.systemChannel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
     })
 }
 
