@@ -1,5 +1,5 @@
 import deno from "../deno.json" with { type: "json" }
-import { bold, Client, ContainerBuilder, MessageFlags, SectionBuilder, SeparatorBuilder, TextChannel, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
+import { bold, Client, ContainerBuilder, Message, MessageFlags, SectionBuilder, SeparatorBuilder, TextChannel, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
 import { differenceInDays, format } from "date-fns"
 
 function invoke(client: Client) {
@@ -56,7 +56,7 @@ function invoke(client: Client) {
         }
         if (member.guild.id == deno.guilds.legacyupdate.id) {
             const channel: TextChannel | undefined = member.guild.channels.cache.get(deno.guilds.legacyupdate.logs.member) as (TextChannel | undefined)
-            const message = await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
+            const message: Message<boolean> | undefined = await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             if (flagged) {
                 const log: TextChannel | undefined = member.guild.channels.cache.get(deno.guilds.legacyupdate.logs.other) as (TextChannel | undefined)
                 if (log) await message?.forward(log)
@@ -65,7 +65,7 @@ function invoke(client: Client) {
         }
         if (member.guild.id == deno.guilds.openplace.id) {
             const channel: TextChannel | undefined = member.guild.channels.cache.get(deno.guilds.openplace.logs.member) as (TextChannel | undefined)
-            const message = await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
+            const message: Message<boolean> | undefined = await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             if (flagged) {
                 const log: TextChannel | undefined = member.guild.channels.cache.get(deno.guilds.openplace.logs.other) as (TextChannel | undefined)
                 if (log) await message?.forward(log)
