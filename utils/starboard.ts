@@ -5,11 +5,7 @@ function invoke(client: Client) {
     client.on("messageReactionAdd", async (reaction, member) => {
         if (member.bot || !reaction.message.guild) return
         
-        if (reaction.message.guild.id != deno.guilds.legacyupdate.id) {
-            return
-        }
-    
-        if (reaction.emoji.name == "⭐" && reaction.message.reactions.cache.get("⭐")?.count == 1) {
+        if (reaction.message.guild.id == deno.guilds.legacyupdate.id && reaction.emoji.name == "⭐" && reaction.message.reactions.cache.get("⭐")?.count == 1) {
             const channel: TextChannel | undefined = reaction.message.guild.channels.cache.get(deno.guilds.legacyupdate.channels.starboard) as (TextChannel | undefined)
             if (!channel) return
 
