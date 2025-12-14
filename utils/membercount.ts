@@ -7,7 +7,7 @@ function invoke(client: Client) {
         const channel1: TextChannel | undefined = guild1?.channels.cache.get("772878081907884072") as (TextChannel | undefined)
         await channel1?.setName(`Members: ${guild1?.memberCount}`)
 
-        const guild2: Guild | undefined = client.guilds.cache.get(deno.guilds.legacyupdate) as (Guild | undefined)
+        const guild2: Guild | undefined = client.guilds.cache.get(deno.guilds.legacyupdate.id) as (Guild | undefined)
         const channel2: TextChannel | undefined = guild2?.channels.cache.get("1441175481641865428") as (TextChannel | undefined)
         await channel2?.setName(`Members: ${guild2?.memberCount}`)
     }, 60000)

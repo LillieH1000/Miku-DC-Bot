@@ -6,7 +6,7 @@ function invoke(client: Client) {
     client.on("messageDelete", async message => {
         if (!message.author || message.author.bot || !message.guild) return
 
-        if (message.guild.id != deno.guilds.devserver && message.guild.id != deno.guilds.legacyupdate && message.guild.id != deno.guilds.openplace.id) return
+        if (message.guild.id != deno.guilds.devserver && message.guild.id != deno.guilds.legacyupdate.id && message.guild.id != deno.guilds.openplace.id) return
 
         const container: ContainerBuilder = new ContainerBuilder()
             .setAccentColor(+deno.keys.accent)
@@ -59,8 +59,8 @@ function invoke(client: Client) {
             const channel: TextChannel | undefined = message.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         }
-        if (message.guild.id == deno.guilds.legacyupdate) {
-            const channel: TextChannel | undefined = message.guild.channels.cache.get("1197666507925225662") as (TextChannel | undefined)
+        if (message.guild.id == deno.guilds.legacyupdate.id) {
+            const channel: TextChannel | undefined = message.guild.channels.cache.get(deno.guilds.legacyupdate.logs.message) as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
         }
         if (message.guild.id == deno.guilds.openplace.id) {
@@ -72,7 +72,7 @@ function invoke(client: Client) {
     client.on("messageUpdate", async (oldMessage, newMessage) => {
         if (!newMessage.author || newMessage.author.bot || !newMessage.guild) return
 
-        if (newMessage.guild.id != deno.guilds.devserver && newMessage.guild.id != deno.guilds.legacyupdate && newMessage.guild.id != deno.guilds.openplace.id) return
+        if (newMessage.guild.id != deno.guilds.devserver && newMessage.guild.id != deno.guilds.legacyupdate.id && newMessage.guild.id != deno.guilds.openplace.id) return
 
         if (oldMessage.content != newMessage.content) {
             const container: ContainerBuilder = new ContainerBuilder()
@@ -165,8 +165,8 @@ function invoke(client: Client) {
                 const channel: TextChannel | undefined = newMessage.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
                 await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             }
-            if (newMessage.guild.id == deno.guilds.legacyupdate) {
-                const channel: TextChannel | undefined = newMessage.guild.channels.cache.get("1197666507925225662") as (TextChannel | undefined)
+            if (newMessage.guild.id == deno.guilds.legacyupdate.id) {
+                const channel: TextChannel | undefined = newMessage.guild.channels.cache.get(deno.guilds.legacyupdate.logs.message) as (TextChannel | undefined)
                 await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             }
             if (newMessage.guild.id == deno.guilds.openplace.id) {

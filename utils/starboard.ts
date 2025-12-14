@@ -5,7 +5,7 @@ function invoke(client: Client) {
     client.on("messageReactionAdd", async (reaction, member) => {
         if (member.bot || !reaction.message.guild) return
         
-        if (reaction.message.guild.id != deno.guilds.legacyupdate) {
+        if (reaction.message.guild.id != deno.guilds.legacyupdate.id) {
             return
         }
     

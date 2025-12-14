@@ -48,8 +48,8 @@ function invoke(client: Client) {
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             return
         }
-        if (member.guild.id == deno.guilds.legacyupdate) {
-            const channel: TextChannel | undefined = member.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
+        if (member.guild.id == deno.guilds.legacyupdate.id) {
+            const channel: TextChannel | undefined = member.guild.channels.cache.get(deno.guilds.legacyupdate.logs.member) as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             return
         }
@@ -112,8 +112,8 @@ function invoke(client: Client) {
                 await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
                 return
             }
-            if (newMember.guild.id == deno.guilds.legacyupdate) {
-                const channel: TextChannel | undefined = newMember.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
+            if (newMember.guild.id == deno.guilds.legacyupdate.id) {
+                const channel: TextChannel | undefined = newMember.guild.channels.cache.get(deno.guilds.legacyupdate.logs.member) as (TextChannel | undefined)
                 await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
                 return
             }
@@ -164,8 +164,8 @@ function invoke(client: Client) {
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             return
         }
-        if (member.guild.id == deno.guilds.legacyupdate) {
-            const channel: TextChannel | undefined = member.guild.channels.cache.get("1197666440942198794") as (TextChannel | undefined)
+        if (member.guild.id == deno.guilds.legacyupdate.id) {
+            const channel: TextChannel | undefined = member.guild.channels.cache.get(deno.guilds.legacyupdate.logs.member) as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             return
         }
