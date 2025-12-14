@@ -10,7 +10,7 @@ function invoke(client: Client) {
         }
     
         if (reaction.emoji.name == "⭐" && reaction.message.reactions.cache.get("⭐")?.count == 1) {
-            const channel: TextChannel | undefined = reaction.message.guild.channels.cache.get("1318066740940242954") as (TextChannel | undefined)
+            const channel: TextChannel | undefined = reaction.message.guild.channels.cache.get(deno.guilds.legacyupdate.channels.starboard) as (TextChannel | undefined)
             if (!channel) return
 
             await channel.send("⭐")
