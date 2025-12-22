@@ -27,7 +27,7 @@ function invoke(client: Client) {
         for (const word of messageContent.split(" ")) {
             if ((word.match(/^http(?:s)?:\/\/(.*)twitter\.com\//) || word.match(/^http(?:s)?:\/\/x\.com\//)) && !word.match(/^http(?:s)?:\/\/(.*)fxtwitter\.com\//) && !word.match(/^http(?:s)?:\/\/(.*)vxtwitter\.com\//)) {
                 const res: Response = await fetch(word.replace(/twitter.com/gm, "api.fxtwitter.com").replace(/x.com/gm, "api.fxtwitter.com"))
-                if (!res.ok) return
+                if (!res.ok) continue
                 const data: resData = await res.json()
                 
                 const container: ContainerBuilder = new ContainerBuilder()

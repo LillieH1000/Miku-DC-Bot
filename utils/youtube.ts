@@ -15,10 +15,10 @@ function invoke(client: Client) {
     
         for (const word of messageContent.split(" ")) {
             const rx: RegExp = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\\w\/|embed\/|shorts\/)|(?:(?:watch)?\\?vi?=|&vi?=))([^#&?]*).*/
-            if (!word.match(rx)) return
+            if (!word.match(rx)) continue
             
             const res: Response = await fetch(`https://returnyoutubedislikeapi.com/votes?videoId=${word.match(rx)![1]}`)
-            if (!res.ok) return
+            if (!res.ok) continue
             const data: resData = await res.json()
             
             const container: ContainerBuilder = new ContainerBuilder()
