@@ -56,9 +56,6 @@ for (const file of utilsFiles) {
 
 client.once("clientReady", () => {
 	if (client.user) console.log(`Logged in as ${client.user.tag}`)
-	client.guilds.cache.forEach(guild => {
-		console.log(`${guild.name} - ${guild.id}`)
-	})
 })
 
 client.login(deno.keys.token)
