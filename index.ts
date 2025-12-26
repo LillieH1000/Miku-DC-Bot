@@ -55,7 +55,7 @@ for (const file of utilsFiles) {
 }
 
 client.once("clientReady", () => {
-	if (client.user) console.log(`Logged in as ${client.user.tag}`)
+	if (client.user) console.log(`Logged in as ${client.user.tag}.`)
 })
 
 client.login(deno.keys.token)
