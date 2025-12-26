@@ -129,6 +129,8 @@ function invoke(client: Client) {
     })
 
     client.on("guildMemberRemove", async member => {
+        // Member Info
+
         const container: ContainerBuilder = new ContainerBuilder()
             .setAccentColor(+deno.keys.accent)
             .addSectionComponents(
@@ -160,6 +162,8 @@ function invoke(client: Client) {
                     .setContent(`Joined At: ${format(member.joinedAt, "MMMM d, yyyy")}`)
             )
         }
+
+        // Member Log
 
         if (member.guild.id == deno.guilds.devserver) {
             const channel: TextChannel | undefined = member.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
