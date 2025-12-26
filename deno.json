@@ -25,6 +25,9 @@
     },
     "openplace": {
       "id": "1422571580181184644",
+      "channels": {
+        "serverstatus": "1454235921275944981"
+      },
       "logs": {
         "member": "1437280756480344144",
         "message": "1437280910558105703",
@@ -57,6 +60,7 @@
         "*.discord.com",
         "*.discord.gg",
         "*.fxtwitter.com",
+        "*.openplace.live",
         "*.pokeapi.co",
         "*.returnyoutubedislikeapi.com"
       ],
