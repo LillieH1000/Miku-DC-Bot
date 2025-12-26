@@ -10,30 +10,7 @@
   },
   "guilds": {
     "crowbarworld": "416350699794857986",
-    "devserver": "1128424035173273620",
-    "legacyupdate": {
-      "id": "1095995920409178112",
-      "channels": {
-        "membercount": "1441175481641865428",
-        "starboard": "1318066740940242954"
-      },
-      "logs": {
-        "member": "1197666440942198794",
-        "message": "1197666507925225662",
-        "other": "1197666541467078787"
-      }
-    },
-    "openplace": {
-      "id": "1422571580181184644",
-      "channels": {
-        "serverstatus": "1454235921275944981"
-      },
-      "logs": {
-        "member": "1437280756480344144",
-        "message": "1437280910558105703",
-        "other": "1437281871288467497"
-      }
-    }
+    "devserver": "1128424035173273620"
   },
   "imports": {
     "@date-fns/tz": "npm:@date-fns/tz@^1.4.1",
@@ -60,7 +37,6 @@
         "*.discord.com",
         "*.discord.gg",
         "*.fxtwitter.com",
-        "*.openplace.live",
         "*.pokeapi.co",
         "*.returnyoutubedislikeapi.com"
       ],
