@@ -1,8 +1,8 @@
-import { bold, Client, ContainerBuilder, MessageFlags, SectionBuilder, SeparatorBuilder, TextChannel, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
+import { bold, Client, ContainerBuilder, Events, MessageFlags, SectionBuilder, SeparatorBuilder, TextChannel, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
 import { format } from "date-fns"
 
 function invoke(client: Client) {
-    client.on("guildMemberAdd", async member => {
+    client.on(Events.GuildMemberAdd, async member => {
         // Member Info
 
         const container: ContainerBuilder = new ContainerBuilder()
@@ -40,7 +40,7 @@ function invoke(client: Client) {
         await member.guild.systemChannel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
     })
 
-    client.on("guildMemberRemove", async member => {
+    client.on(Events.GuildMemberRemove, async member => {
         // Member Info
 
         const container: ContainerBuilder = new ContainerBuilder()

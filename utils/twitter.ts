@@ -1,4 +1,4 @@
-import { ActionRowBuilder, bold, ButtonBuilder, ButtonStyle, Client, ContainerBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags, SectionBuilder, SeparatorBuilder, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
+import { ActionRowBuilder, bold, ButtonBuilder, ButtonStyle, Client, ContainerBuilder, Events, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags, SectionBuilder, SeparatorBuilder, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
 
 interface resData {
     tweet: {
@@ -18,7 +18,7 @@ interface resData {
 }
 
 function invoke(client: Client) {
-    client.on("messageCreate", async message => {
+    client.on(Events.MessageCreate, async message => {
         if (message.author.bot || !message.content) return
 
         const messageContent: string = message.content.replace(/(\r|\n|\r\n|<|>)/gm, " ")

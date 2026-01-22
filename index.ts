@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, Client, Collection, GatewayIntentBits, SlashCommandBuilder } from "discord.js"
+import { ChatInputCommandInteraction, Client, Collection, Events, GatewayIntentBits, SlashCommandBuilder } from "discord.js"
 import fs from "node:fs"
 
 interface clientCollection extends Client {
@@ -53,7 +53,7 @@ for (const file of utilsFiles) {
 	utils.invoke(client)
 }
 
-client.once("clientReady", () => {
+client.once(Events.ClientReady, () => {
 	if (client.user) console.log(`Logged in as ${client.user.tag}.`)
 })
 

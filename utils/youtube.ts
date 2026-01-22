@@ -1,4 +1,4 @@
-import { Client, ContainerBuilder, MessageFlags, TextDisplayBuilder } from "discord.js"
+import { Client, ContainerBuilder, Events, MessageFlags, TextDisplayBuilder } from "discord.js"
 
 interface resData {
     viewCount: number
@@ -7,7 +7,7 @@ interface resData {
 }
 
 function invoke(client: Client) {
-    client.on("messageCreate", async message => {
+    client.on(Events.MessageCreate, async message => {
         if (message.author.bot || !message.content) return
 
         const messageContent: string = message.content.replace(/(\r|\n|\r\n|<|>)/gm, " ")

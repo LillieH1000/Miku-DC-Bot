@@ -1,7 +1,7 @@
-import { Client } from "discord.js"
+import { Client, Events } from "discord.js"
 
 function invoke(client: Client) {
-    client.on("messageCreate", async message => {
+    client.on(Events.MessageCreate, async message => {
         if (message.author.bot || !message.content) return
 
         const messageContent: string = message.content.replace(/(\r|\n|\r\n|<|>)/gm, " ")

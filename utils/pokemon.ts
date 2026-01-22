@@ -1,9 +1,9 @@
-import { Client, ContainerBuilder, MessageFlags } from "discord.js"
+import { Client, ContainerBuilder, Events, MessageFlags } from "discord.js"
 import LZString from "lz-string"
 import globals from "../globals/pokemon.ts"
 
 function invoke(client: Client) {
-    client.on("interactionCreate", async interaction => {
+    client.on(Events.InteractionCreate, async interaction => {
         if (!interaction.isStringSelectMenu()) return
 
         let guild: boolean = false
@@ -31,7 +31,7 @@ function invoke(client: Client) {
         await interaction.update({ embeds: [], components: [data], flags: MessageFlags.IsComponentsV2 })
     })
 
-    client.on("interactionCreate", async interaction => {
+    client.on(Events.InteractionCreate, async interaction => {
         if (!interaction.isButton()) return
 
         let guild: boolean = false
