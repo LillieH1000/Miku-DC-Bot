@@ -1,6 +1,6 @@
 import { ChatInputCommandInteraction, GuildMember, InteractionContextType, MessageFlags, SlashCommandBuilder } from "discord.js"
 import { getVoiceConnection } from "@discordjs/voice"
-import globals from "../globals.ts"
+import globals from "../globals/player.ts"
 
 const info = new SlashCommandBuilder()
     .setName("stop")

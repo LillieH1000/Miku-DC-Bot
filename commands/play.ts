@@ -1,6 +1,6 @@
 import { AudioPlayerStatus, createAudioPlayer, createAudioResource, getVoiceConnection, joinVoiceChannel } from "@discordjs/voice"
 import { bold, ChatInputCommandInteraction, ContainerBuilder, GuildMember, InteractionContextType, MessageFlags, SlashCommandBuilder, TextDisplayBuilder } from "discord.js"
-import globals from "../globals.ts"
+import globals from "../globals/player.ts"
 
 interface resData {
     linksByPlatform: {
