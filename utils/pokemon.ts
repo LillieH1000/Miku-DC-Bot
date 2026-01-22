@@ -1,6 +1,6 @@
 import { Client, ContainerBuilder, Events, MessageFlags } from "discord.js"
 import LZString from "lz-string"
-import globals from "../globals/pokemon.ts"
+import globalsPokemon from "../globals/pokemon.ts"
 
 function invoke(client: Client) {
     client.on(Events.InteractionCreate, async interaction => {
@@ -25,7 +25,7 @@ function invoke(client: Client) {
             message = id.game
         }
 
-        const data: ContainerBuilder | undefined = await globals.pokeapiRequest(name, 1, false, false, false, guild, guildid, message)
+        const data: ContainerBuilder | undefined = await globalsPokemon.pokeapiRequest(name, 1, false, false, false, guild, guildid, message)
         if (!data) return
 
         await interaction.update({ embeds: [], components: [data], flags: MessageFlags.IsComponentsV2 })
@@ -71,7 +71,7 @@ function invoke(client: Client) {
             shiny = id.shiny
         }
 
-        const data: ContainerBuilder | undefined = await globals.pokeapiRequest(id.name, parseInt(id.position), mega, gmax, shiny, guild, guildid, id.message)
+        const data: ContainerBuilder | undefined = await globalsPokemon.pokeapiRequest(id.name, parseInt(id.position), mega, gmax, shiny, guild, guildid, id.message)
         if (!data) return
 
         await interaction.update({ components: [data], flags: MessageFlags.IsComponentsV2 })

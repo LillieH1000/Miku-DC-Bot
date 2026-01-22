@@ -1,5 +1,5 @@
 import { ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js"
-import globals from "../globals/pokemon.ts"
+import globalsPokemon from "../globals/pokemon.ts"
 
 const info = new SlashCommandBuilder()
     .setName("pokemon")
@@ -48,7 +48,7 @@ async function invoke(interaction: ChatInputCommandInteraction) {
         pokemon = name
     }
 
-    const data = await globals.pokeapiRequest(pokemon.replace(" ", "-").toLowerCase(), 1, false, false, false, guild, guildid, message)
+    const data = await globalsPokemon.pokeapiRequest(pokemon.replace(" ", "-").toLowerCase(), 1, false, false, false, guild, guildid, message)
     if (!data) return
 
     await interaction.editReply({ components: [data], flags: MessageFlags.IsComponentsV2 })
