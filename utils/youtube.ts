@@ -1,4 +1,3 @@
-import deno from "../deno.json" with { type: "json" }
 import { Client, ContainerBuilder, MessageFlags, TextDisplayBuilder } from "discord.js"
 
 interface resData {
@@ -22,7 +21,7 @@ function invoke(client: Client) {
             const data: resData = await res.json()
             
             const container: ContainerBuilder = new ContainerBuilder()
-                .setAccentColor(+deno.keys.accent)
+                .setAccentColor(+Deno.env.get("ACCENT")!)
                 .addTextDisplayComponents(
                     new TextDisplayBuilder()
                         .setContent(`Views: ${data.viewCount.toLocaleString()}`),

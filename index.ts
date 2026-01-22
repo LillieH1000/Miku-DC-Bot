@@ -1,4 +1,3 @@
-import deno from "./deno.json" with { type: "json" }
 import { ChatInputCommandInteraction, Client, Collection, GatewayIntentBits, SlashCommandBuilder } from "discord.js"
 import fs from "node:fs"
 
@@ -58,4 +57,4 @@ client.once("clientReady", () => {
 	if (client.user) console.log(`Logged in as ${client.user.tag}.`)
 })
 
-client.login(deno.keys.token)
+client.login(Deno.env.get("TOKEN"))

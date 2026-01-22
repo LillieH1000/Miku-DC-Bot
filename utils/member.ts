@@ -1,4 +1,3 @@
-import deno from "../deno.json" with { type: "json" }
 import { bold, Client, ContainerBuilder, MessageFlags, SectionBuilder, SeparatorBuilder, TextChannel, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
 import { format } from "date-fns"
 
@@ -7,7 +6,7 @@ function invoke(client: Client) {
         // Member Info
 
         const container: ContainerBuilder = new ContainerBuilder()
-            .setAccentColor(+deno.keys.accent)
+            .setAccentColor(+Deno.env.get("ACCENT")!)
             .addSectionComponents(
                 new SectionBuilder()
                     .addTextDisplayComponents(
@@ -33,7 +32,7 @@ function invoke(client: Client) {
 
         // Member Log
 
-        if (member.guild.id == deno.guilds.devserver) {
+        if (member.guild.id == "1128424035173273620") {
             const channel: TextChannel | undefined = member.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             return
@@ -45,7 +44,7 @@ function invoke(client: Client) {
         // Member Info
 
         const container: ContainerBuilder = new ContainerBuilder()
-            .setAccentColor(+deno.keys.accent)
+            .setAccentColor(+Deno.env.get("ACCENT")!)
             .addSectionComponents(
                 new SectionBuilder()
                     .addTextDisplayComponents(
@@ -78,7 +77,7 @@ function invoke(client: Client) {
 
         // Member Log
 
-        if (member.guild.id == deno.guilds.devserver) {
+        if (member.guild.id == "1128424035173273620") {
             const channel: TextChannel | undefined = member.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             return

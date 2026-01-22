@@ -1,4 +1,3 @@
-import deno from "../deno.json" with { type: "json" }
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ContainerBuilder, SectionBuilder, SeparatorBuilder, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
 import LZString from "lz-string"
 
@@ -243,7 +242,7 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
     // Container
 
     const container = new ContainerBuilder()
-        .setAccentColor(+deno.keys.accent)
+        .setAccentColor(+Deno.env.get("ACCENT")!)
 
     const section = new SectionBuilder()
         .addTextDisplayComponents(

@@ -1,4 +1,3 @@
-import deno from "../deno.json" with { type: "json" }
 import { AudioPlayerStatus, createAudioPlayer, createAudioResource, getVoiceConnection, joinVoiceChannel } from "@discordjs/voice"
 import { bold, ChatInputCommandInteraction, ContainerBuilder, GuildMember, InteractionContextType, MessageFlags, SlashCommandBuilder, TextDisplayBuilder } from "discord.js"
 import globals from "../globals.ts"
@@ -18,7 +17,7 @@ async function play(interaction: ChatInputCommandInteraction, id: string) {
     if (!data) return
 
     const container = new ContainerBuilder()
-        .setAccentColor(+deno.keys.accent)
+        .setAccentColor(+Deno.env.get("ACCENT")!)
         .addTextDisplayComponents(
             new TextDisplayBuilder()
                 .setContent(bold("Music Player")),

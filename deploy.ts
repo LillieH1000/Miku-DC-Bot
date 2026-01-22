@@ -1,4 +1,3 @@
-import deno from "./deno.json" with { type: "json" }
 import { REST, Routes } from "discord.js"
 import fs from "node:fs"
 
@@ -10,8 +9,8 @@ for (const file of commandFiles) {
 }
 
 const rest = new REST({ version: "10" })
-	.setToken(deno.keys.token)
+	.setToken(Deno.env.get("TOKEN")!)
 
-rest.put(Routes.applicationCommands(deno.keys.client), { body: commands })
+rest.put(Routes.applicationCommands(Deno.env.get("CLIENT")!), { body: commands })
 	.then(() => console.log("Successfully registered application commands."))
 	.catch(console.error)
