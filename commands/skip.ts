@@ -1,4 +1,4 @@
-import { bold, ChatInputCommandInteraction, ContainerBuilder, GuildMember, InteractionContextType, MessageFlags, SlashCommandBuilder, TextDisplayBuilder } from "discord.js"
+import { ChatInputCommandInteraction, GuildMember, InteractionContextType, MessageFlags, SlashCommandBuilder } from "discord.js"
 import { createAudioResource, getVoiceConnection } from "@discordjs/voice"
 import globals from "../globals.ts"
 
@@ -8,7 +8,7 @@ const info = new SlashCommandBuilder()
     .setContexts([InteractionContextType.Guild])
 
 async function invoke(interaction: ChatInputCommandInteraction) {
-    await interaction.deferReply()
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral })
 
     const voiceConnection = getVoiceConnection(interaction.guild!.id)
     if (voiceConnection && voiceConnection.joinConfig.channelId == (interaction.member as GuildMember).voice.channelId && globals.player[interaction.guild!.id].status == 1) {
@@ -24,20 +24,9 @@ async function invoke(interaction: ChatInputCommandInteraction) {
         globals.player[interaction.guild!.id].resource!.volume!.setVolume(globals.player[interaction.guild!.id].volume)
         globals.player[interaction.guild!.id].player.play(globals.player[interaction.guild!.id].resource!)
         voiceConnection.subscribe(globals.player[interaction.guild!.id].player)
-
-        const container = new ContainerBuilder()
-            .setAccentColor(+Deno.env.get("ACCENT")!)
-            .addTextDisplayComponents(
-                new TextDisplayBuilder()
-                    .setContent(bold("Music Player")),
-                new TextDisplayBuilder()
-                    .setContent("Skipped playing audio")
-            )
-
-        await interaction.editReply({ components: [container], flags: MessageFlags.IsComponentsV2 })
-    } else {
-        await interaction.deleteReply()
     }
+    
+    await interaction.deleteReply()
 }
 
 export { info, invoke }

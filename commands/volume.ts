@@ -1,4 +1,4 @@
-import { bold, ChatInputCommandInteraction, ContainerBuilder, GuildMember, InteractionContextType, MessageFlags, SlashCommandBuilder, TextDisplayBuilder } from "discord.js"
+import { ChatInputCommandInteraction, GuildMember, InteractionContextType, MessageFlags, SlashCommandBuilder } from "discord.js"
 import { getVoiceConnection } from "@discordjs/voice"
 import globals from "../globals.ts"
 
@@ -12,27 +12,16 @@ const info = new SlashCommandBuilder()
             .setRequired(true))
 
 async function invoke(interaction: ChatInputCommandInteraction) {
-    await interaction.deferReply()
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral })
     const volume = interaction.options.getInteger("volume")!
     
     const voiceConnection = getVoiceConnection(interaction.guild!.id)
     if (voiceConnection && voiceConnection.joinConfig.channelId == (interaction.member as GuildMember).voice.channelId && globals.player[interaction.guild!.id].status == 1) {
         globals.player[interaction.guild!.id].volume = volume / 100
         globals.player[interaction.guild!.id].resource!.volume!.setVolume(globals.player[interaction.guild!.id].volume)
-
-        const container = new ContainerBuilder()
-            .setAccentColor(+Deno.env.get("ACCENT")!)
-            .addTextDisplayComponents(
-                new TextDisplayBuilder()
-                    .setContent(bold("Music Player")),
-                new TextDisplayBuilder()
-                    .setContent(`Changed audio volume level to: ${volume}`)
-            )
-
-        await interaction.editReply({ components: [container], flags: MessageFlags.IsComponentsV2 })
-    } else {
-        await interaction.deleteReply()
     }
+
+    await interaction.deleteReply()
 }
 
 export { info, invoke }
