@@ -4,9 +4,9 @@ then
     set +e
     rm -rf fmt
     set -e
-    rsync -a --exclude "control.sh" --exclude "deno.lock" --exclude "profile.png" * fmt
+    rsync -a --exclude "control.sh" --exclude "deno.lock" --exclude "node_modules/" --exclude "profile.png" * fmt
     cd fmt
-    deno install
+    deno install --allow-scripts
     deno fmt *.ts **/*.ts
 fi
 if [ $1 == "register" ]
