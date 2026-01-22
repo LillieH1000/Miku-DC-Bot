@@ -1,10 +1,16 @@
 #!/bin/bash
+OS=$(uname -s)
 if [ $1 == "setup" ]
 then
     set +e
     rm -rf fmt
     set -e
-    rsync -a --exclude "control.sh" --exclude "deno.lock" --exclude "node_modules/" --exclude "profile.png" * fmt
+    if [[ $OS == "Darwin" || $OS == "Linux" ]]
+    then
+        rsync -a --exclude "control.sh" --exclude "deno.lock" --exclude "node_modules/" --exclude "profile.png" * fmt
+    else
+        robocopy "." "fmt" //E //XD "node_modules" //XF "control.sh" "deno.lock" "profile.png"
+    fi
     cd fmt
     deno install --allow-scripts
     deno fmt *.ts **/*.ts
