@@ -9,7 +9,6 @@
     "strict": true
   },
   "imports": {
-    "@date-fns/tz": "npm:@date-fns/tz@^1.4.1",
     "@discordjs/opus": "npm:@discordjs/opus@^0.10.0",
     "@discordjs/voice": "npm:@discordjs/voice@^0.19.0",
     "@snazzah/davey": "npm:@snazzah/davey@^0.1.9",
