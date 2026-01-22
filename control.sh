@@ -19,13 +19,13 @@ if [ $1 == "register" ]
 then
     set -e
     cd fmt
-    deno run --check -P=register ./deploy.ts
+    deno run --env-file=.env --check -P=register ./deploy.ts
 fi
 if [ $1 == "dev" ]
 then
     set -e
     cd fmt
-    deno run --check -P ./index.ts
+    deno run --env-file=.env --check -P ./index.ts
 fi
 if [ $1 == "start" ]
 then
@@ -35,7 +35,7 @@ then
     set -e
     cd fmt
     pm2 save --force
-    pm2 start ./index.ts --interpreter="deno" --interpreter-args="run --check -P" --name "discordbot"
+    pm2 start ./index.ts --interpreter="deno" --interpreter-args="run --env-file=.env --check -P" --name "discordbot"
     pm2 save --force
     echo "Successfully started application process."
 fi
