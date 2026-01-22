@@ -25,7 +25,7 @@ if [ $1 == "dev" ]
 then
     set -e
     cd fmt
-    deno run --env-file=.env --check -P ./index.ts
+    deno run --allow-read --env-file=.env --check -P ./index.ts
 fi
 if [ $1 == "start" ]
 then
