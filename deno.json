@@ -35,11 +35,19 @@
         "commands",
         "globals",
         "node_modules",
-        "utils"
+        "utils",
+        "/etc/alpine-release",
+        "/proc/self/exe",
+        "/usr/bin/ldd"
       ],
       "run": [
         "ffmpeg",
         "yt-dlp"
+      ],
+      "sys": [
+        "cpus",
+        "hostname",
+        "networkInterfaces"
       ]
     },
     "register": {
@@ -49,7 +57,9 @@
         "*.discord.com"
       ],
       "read": [
-        "commands"
+        "commands",
+        "/etc/alpine-release",
+        "/usr/bin/ldd"
       ]
     }
   }
