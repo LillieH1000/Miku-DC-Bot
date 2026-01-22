@@ -29,6 +29,7 @@
   "permissions": {
     "default": {
       "env": true,
+      "ffi": true,
       "net": true,
       "read": [
         "commands",
@@ -43,6 +44,7 @@
     },
     "register": {
       "env": true,
+      "ffi": true,
       "net": [
         "*.discord.com"
       ],
