@@ -8,10 +8,6 @@
     "module": "esnext",
     "strict": true
   },
-  "guilds": {
-    "crowbarworld": "416350699794857986",
-    "devserver": "1128424035173273620"
-  },
   "imports": {
     "@date-fns/tz": "npm:@date-fns/tz@^1.4.1",
     "@discordjs/opus": "npm:@discordjs/opus@^0.10.0",
@@ -21,11 +17,6 @@
     "discord.js": "npm:discord.js@^14.25.1",
     "lz-string": "npm:lz-string@^1.5.0",
     "sodium-native": "npm:sodium-native@^5.0.10"
-  },
-  "keys": {
-    "accent": "0xFFC0DD",
-    "client": "1065377660303310859",
-    "token": "MTA2NTM3NzY2MDMwMzMxMDg1OQ.GFrbqJ.xEePy1DpFKQMehJ7S3jul0SFua1fXK6ncfoZG4"
   },
   "lint": {
     "rules": {
