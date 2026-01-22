@@ -9,7 +9,7 @@ then
     then
         rsync -a --exclude "control.sh" --exclude "deno.lock" --exclude "node_modules/" --exclude "profile.png" * fmt
     else
-        robocopy "." "fmt" //E //XD "node_modules" //XF "control.sh" "deno.lock" "profile.png"
+        robocopy "." "fmt" //E //XD "node_modules" //XF "control.sh" "deno.lock" "profile.png" || true
     fi
     cd fmt
     deno install --allow-scripts
