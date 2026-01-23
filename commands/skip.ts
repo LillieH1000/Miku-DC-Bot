@@ -12,10 +12,11 @@ async function invoke(interaction: ChatInputCommandInteraction) {
 
     const voiceConnection = getVoiceConnection(interaction.guild!.id)
     if (voiceConnection && voiceConnection.joinConfig.channelId == (interaction.member as GuildMember).voice.channelId && globals.player[interaction.guild!.id].status == 1) {
-        globals.player[interaction.guild!.id].ids.shift()
+        globals.player[interaction.guild!.id].urls.shift()
 
-        const data = await globals.ytdlpRequest("null", globals.player[interaction.guild!.id].ids[0], "null")
+        const data = await globals.request(globals.player[interaction.guild!.id].urls[0])
         if (!data) {
+            await interaction.deleteReply()
             return
         }
         globals.player[interaction.guild!.id].resource = createAudioResource(data.url, {
