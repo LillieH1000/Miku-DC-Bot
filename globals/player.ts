@@ -5,9 +5,9 @@ import { AudioPlayer, AudioResource } from "@discordjs/voice"
 interface playerObject {
     [key: string]: {
         player: AudioPlayer
+        queries: string[]
         resource?: AudioResource
         status: number
-        urls: string[]
         volume: number
     }
 }

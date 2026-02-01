@@ -12,9 +12,9 @@ async function invoke(interaction: ChatInputCommandInteraction) {
 
     const voiceConnection = getVoiceConnection(interaction.guild!.id)
     if (voiceConnection && voiceConnection.joinConfig.channelId == (interaction.member as GuildMember).voice.channelId && globals.player[interaction.guild!.id].status == 1) {
-        globals.player[interaction.guild!.id].urls.shift()
+        globals.player[interaction.guild!.id].queries.shift()
 
-        const data = await globals.request(globals.player[interaction.guild!.id].urls[0])
+        const data = await globals.request(globals.player[interaction.guild!.id].queries[0])
         if (!data) {
             await interaction.deleteReply()
             return

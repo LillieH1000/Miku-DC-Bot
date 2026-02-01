@@ -13,7 +13,7 @@ const info = new SlashCommandBuilder()
 
 async function invoke(interaction: ChatInputCommandInteraction) {
     await interaction.deferReply()
-    let url: string = interaction.options.getString("url")!
+    let query: string = interaction.options.getString("query")!
     let voiceConnection: VoiceConnection | undefined = getVoiceConnection(interaction.guild!.id)
     
     if (!voiceConnection) {
@@ -25,11 +25,11 @@ async function invoke(interaction: ChatInputCommandInteraction) {
         if (!globalsPlayer.player.hasOwnProperty(interaction.guild!.id)) {
             globalsPlayer.player = {
                 [interaction.guild!.id]: {
-                    status: 0,
-                    urls: [],
                     player: createAudioPlayer(),
-                    volume: 0.1,
-                    resource: undefined
+                    queries: [],
+                    resource: undefined,
+                    status: 0,
+                    volume: 0.1
                 }
             }
         }
@@ -37,13 +37,13 @@ async function invoke(interaction: ChatInputCommandInteraction) {
 
     const bandcampRegex: RegExp = /^(.*?)(?:bandcamp)\.com(.*)/
     const soundcloudRegex: RegExp = /^(.*?)(?:soundcloud)\.com(.*)/
-    if (!url.match(bandcampRegex) && !url.match(soundcloudRegex)) {
-        url = `scsearch:${url}`
+    if (!query.match(bandcampRegex) && !query.match(soundcloudRegex)) {
+        query = `scsearch:${query}`
     }
     
-    globalsPlayer.player[interaction.guild!.id].urls.push(url)
+    globalsPlayer.player[interaction.guild!.id].queries.push(query)
 
-    const data = await globalsPlayer.request(url)
+    const data = await globalsPlayer.request(query)
     if (!data) {
         await interaction.deleteReply()
         return
@@ -77,12 +77,12 @@ async function invoke(interaction: ChatInputCommandInteraction) {
         voiceConnection.subscribe(globalsPlayer.player[interaction.guild!.id].player)
 
         globalsPlayer.player[interaction.guild!.id].player.on(AudioPlayerStatus.Idle, () => {
-            globalsPlayer.player[interaction.guild!.id].urls.shift()
-            if (globalsPlayer.player[interaction.guild!.id].urls.length == 0) {
+            globalsPlayer.player[interaction.guild!.id].queries.shift()
+            if (globalsPlayer.player[interaction.guild!.id].queries.length == 0) {
                 if (voiceConnection) voiceConnection.destroy()
                 delete globalsPlayer.player[interaction.guild!.id]
             } else {
-                globalsPlayer.request(globalsPlayer.player[interaction.guild!.id].urls[0]).then(data => {
+                globalsPlayer.request(globalsPlayer.player[interaction.guild!.id].queries[0]).then(data => {
                     if (!data) {
                         if (voiceConnection) voiceConnection.destroy()
                         delete globalsPlayer.player[interaction.guild!.id]
