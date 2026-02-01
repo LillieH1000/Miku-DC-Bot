@@ -16,6 +16,8 @@ async function invoke(interaction: ChatInputCommandInteraction) {
     let query: string = interaction.options.getString("query")!
     let voiceConnection: VoiceConnection | undefined = getVoiceConnection(interaction.guild!.id)
     
+    // Create Voice Connection
+    
     if (!voiceConnection) {
         voiceConnection = joinVoiceChannel({
             channelId: (interaction.member as GuildMember).voice.channelId!,
@@ -35,6 +37,8 @@ async function invoke(interaction: ChatInputCommandInteraction) {
         }
     }
 
+    // Supported Regex Checks
+
     const bandcampRegex: RegExp = /^(.*?)(?:bandcamp)\.com(.*)/
     const soundcloudRegex: RegExp = /^(.*?)(?:soundcloud)\.com(.*)/
     if (!query.match(bandcampRegex) && !query.match(soundcloudRegex)) {
@@ -43,11 +47,15 @@ async function invoke(interaction: ChatInputCommandInteraction) {
     
     globalsPlayer.player[interaction.guild!.id].queries.push(query)
 
+    // yt-dlp Request
+
     const data = await globalsPlayer.request(query)
     if (!data) {
         await interaction.deleteReply()
         return
     }
+
+    // Components v2 UI
 
     const container = new ContainerBuilder()
         .setAccentColor(+Deno.env.get("ACCENT")!)
@@ -66,6 +74,8 @@ async function invoke(interaction: ChatInputCommandInteraction) {
         )
 
     await interaction.editReply({ components: [container], flags: MessageFlags.IsComponentsV2 })
+
+    // Audio Resource Creation
 
     if (voiceConnection && globalsPlayer.player[interaction.guild!.id].status == 0) {
         globalsPlayer.player[interaction.guild!.id].status = 1
@@ -99,6 +109,8 @@ async function invoke(interaction: ChatInputCommandInteraction) {
                 })
             }
         })
+
+        // Player Errors
 
         globalsPlayer.player[interaction.guild!.id].player.on("error", _ => {
             if (voiceConnection) voiceConnection.destroy()
