@@ -35,7 +35,7 @@ interface retData {
 
 async function request(url: string): Promise<retData | undefined> {
     const command = new Deno.Command("yt-dlp", {
-        args: ["-J", "-f", "bestaudio", "--no-cache-dir", "--no-download", "--no-playlist", url],
+        args: ["-J", "-f", "bestaudio[acodec!=opus]", "--no-cache-dir", "--no-download", "--no-playlist", url],
         stdout: "piped"
     })
 
