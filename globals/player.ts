@@ -17,6 +17,11 @@ const player:playerObject = {}
 // yt-dlp Call
 
 interface ytdlpData {
+    entries?: [{
+        title: string
+        thumbnail: string
+        url: string
+    }]
     title: string
     thumbnail: string
     url: string
@@ -35,7 +40,10 @@ async function request(url: string): Promise<retData | undefined> {
     })
 
     const process: Deno.ChildProcess = command.spawn()
-    const data: ytdlpData = await process.stdout.json()
+    let data: ytdlpData = await process.stdout.json()
+    if (data.entries) {
+        data = data.entries[0]
+    }
 
     return {
         title: data.title,

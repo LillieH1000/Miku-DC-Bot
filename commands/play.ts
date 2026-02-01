@@ -13,7 +13,7 @@ const info = new SlashCommandBuilder()
 
 async function invoke(interaction: ChatInputCommandInteraction) {
     await interaction.deferReply()
-    const url: string = interaction.options.getString("url")!
+    let url: string = interaction.options.getString("url")!
     let voiceConnection: VoiceConnection | undefined = getVoiceConnection(interaction.guild!.id)
     
     if (!voiceConnection) {
@@ -38,8 +38,7 @@ async function invoke(interaction: ChatInputCommandInteraction) {
     const bandcampRegex: RegExp = /^(.*?)(?:bandcamp)\.com(.*)/
     const soundcloudRegex: RegExp = /^(.*?)(?:soundcloud)\.com(.*)/
     if (!url.match(bandcampRegex) && !url.match(soundcloudRegex)) {
-        await interaction.deleteReply()
-        return
+        url = `scsearch:${url}`
     }
     
     globalsPlayer.player[interaction.guild!.id].urls.push(url)
