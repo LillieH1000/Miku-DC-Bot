@@ -37,6 +37,23 @@ async function invoke(interaction: ChatInputCommandInteraction) {
         }
     }
 
+    // Unsupported Regex Checks
+
+    const youtubeRegex: RegExp = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\\w\/|embed\/|live\/|shorts\/)|(?:(?:watch)?\\?vi?=|&vi?=))([^#&?]*).*/
+    if (query.match(youtubeRegex)) {
+        // Components v2 UI
+        const container = new ContainerBuilder()
+            .setAccentColor(+Deno.env.get("ACCENT")!)
+            .addTextDisplayComponents(
+                new TextDisplayBuilder()
+                    .setContent(bold("Music Player")),
+                new TextDisplayBuilder()
+                    .setContent("YouTube is unsupported")
+            )
+        await interaction.editReply({ components: [container], flags: MessageFlags.IsComponentsV2 })
+        return
+    }
+
     // Supported Regex Checks
 
     const bandcampRegex: RegExp = /^(.*?)(?:bandcamp)\.com(.*)/
