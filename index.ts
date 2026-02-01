@@ -54,7 +54,7 @@ for (const file of utilsFiles) {
 }
 
 client.once(Events.ClientReady, () => {
-	if (client.user) console.log(`Logged in as ${client.user.tag}.`)
+	console.log(`Logged in as ${client.user!.tag}.`)
 })
 
 client.login(Deno.env.get("TOKEN"))
