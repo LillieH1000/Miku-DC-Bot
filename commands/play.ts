@@ -4,11 +4,11 @@ import globalsPlayer from "../globals/player.ts"
 
 const info = new SlashCommandBuilder()
     .setName("play")
-    .setDescription("Supports Bandcamp and SoundCloud")
+    .setDescription("Supports SoundCloud (Search & Url), Bandcamp (Url Only)")
     .setContexts([InteractionContextType.Guild])
     .addStringOption(option =>
-        option.setName("url")
-            .setDescription("Enter the audio url")
+        option.setName("query")
+            .setDescription("Enter the song name or url")
             .setRequired(true))
 
 async function invoke(interaction: ChatInputCommandInteraction) {
