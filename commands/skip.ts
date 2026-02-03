@@ -1,5 +1,5 @@
 import { ChatInputCommandInteraction, GuildMember, InteractionContextType, MessageFlags, SlashCommandBuilder } from "discord.js"
-import { createAudioResource, getVoiceConnection } from "@discordjs/voice"
+import { createAudioResource, getVoiceConnection, VoiceConnection } from "@discordjs/voice"
 import globals from "../globals/player.ts"
 
 const info = new SlashCommandBuilder()
@@ -10,7 +10,7 @@ const info = new SlashCommandBuilder()
 async function invoke(interaction: ChatInputCommandInteraction) {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral })
 
-    const voiceConnection = getVoiceConnection(interaction.guild!.id)
+    const voiceConnection: VoiceConnection | undefined = getVoiceConnection(interaction.guild!.id)
     if (voiceConnection && voiceConnection.joinConfig.channelId == (interaction.member as GuildMember).voice.channelId && globals.player[interaction.guild!.id].status == 1) {
         globals.player[interaction.guild!.id].queries.shift()
 

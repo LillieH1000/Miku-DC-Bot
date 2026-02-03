@@ -42,7 +42,7 @@ async function invoke(interaction: ChatInputCommandInteraction) {
     const youtubeRegex: RegExp = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\\w\/|embed\/|live\/|shorts\/)|(?:(?:watch)?\\?vi?=|&vi?=))([^#&?]*).*/
     if (query.match(youtubeRegex)) {
         // Components v2 UI
-        const container = new ContainerBuilder()
+        const container: ContainerBuilder = new ContainerBuilder()
             .setAccentColor(+Deno.env.get("ACCENT")!)
             .addTextDisplayComponents(
                 new TextDisplayBuilder()
@@ -74,7 +74,7 @@ async function invoke(interaction: ChatInputCommandInteraction) {
 
     // Components v2 UI
 
-    const container = new ContainerBuilder()
+    const container: ContainerBuilder = new ContainerBuilder()
         .setAccentColor(+Deno.env.get("ACCENT")!)
         .addSectionComponents(
             new SectionBuilder()
