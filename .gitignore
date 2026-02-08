@@ -2,9 +2,6 @@
 deno.lock
 fmt/
 
-# Env
-.env
-
 # macOS
 .DS_Store
 
