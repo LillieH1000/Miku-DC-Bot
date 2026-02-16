@@ -2,6 +2,14 @@ import { AudioPlayerStatus, createAudioPlayer, createAudioResource, getVoiceConn
 import { bold, ChatInputCommandInteraction, ContainerBuilder, GuildMember, InteractionContextType, MessageFlags, SectionBuilder, SlashCommandBuilder, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
 import globalsPlayer from "../globals/player.ts"
 
+interface resData {
+    linksByPlatform: {
+        soundcloud?: {
+            url: string
+        }
+    }
+}
+
 const info = new SlashCommandBuilder()
     .setName("play")
     .setDescription("Supports SoundCloud (Search & Url), Bandcamp (Url Only)")
@@ -48,10 +56,41 @@ async function invoke(interaction: ChatInputCommandInteraction) {
                 new TextDisplayBuilder()
                     .setContent(bold("Music Player")),
                 new TextDisplayBuilder()
-                    .setContent("YouTube is unsupported")
+                    .setContent("YouTube is unsupported, attempting to use Songlink to find provided song on SoundCloud")
             )
+
         await interaction.editReply({ components: [container], flags: MessageFlags.IsComponentsV2 })
-        return
+        
+        // Songlink Request
+        const res: Response = await fetch(`https://api.song.link/v1-alpha.1/links?platform=youtube&type=song&id=${query.match(youtubeRegex)![1]}&songIfSingle=true`)
+        let queryRes: boolean = false
+        if (res.ok) {
+            // Songlink Data
+            const data: resData = await res.json()
+            if (data.linksByPlatform.soundcloud) {
+                query = data.linksByPlatform.soundcloud.url
+                queryRes = true
+            } else {
+                queryRes = false
+            }
+        } else {
+            queryRes = false
+        }
+
+        if (!queryRes) {
+            // Components v2 UI
+            const container: ContainerBuilder = new ContainerBuilder()
+                .setAccentColor(+Deno.env.get("ACCENT")!)
+                .addTextDisplayComponents(
+                    new TextDisplayBuilder()
+                        .setContent(bold("Music Player")),
+                    new TextDisplayBuilder()
+                        .setContent("YouTube is unsupported, attempt to use Songlink to find provided song on SoundCloud failed")
+                )
+
+            await interaction.editReply({ components: [container], flags: MessageFlags.IsComponentsV2 })
+            return
+        }
     }
 
     // Supported Regex Checks
