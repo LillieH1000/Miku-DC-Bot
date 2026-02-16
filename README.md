@@ -19,4 +19,4 @@ And more...
 <br>
 
 ## Open Source Libraries
-- [date-fns](https://github.com/date-fns/date-fns), [Davey](https://github.com/Snazzah/davey), [Deno](https://github.com/denoland/deno), [discord.js](https://github.com/discordjs/discord.js), [lz-string](https://github.com/pieroxy/lz-string), [sodium-native](https://github.com/holepunchto/sodium-native), [yt-dlp](https://github.com/yt-dlp/yt-dlp)
+- [date-fns](https://github.com/date-fns/date-fns), [davey](https://github.com/Snazzah/davey), [Deno](https://github.com/denoland/deno), [discord.js](https://github.com/discordjs/discord.js), [lz-string](https://github.com/pieroxy/lz-string), [sodium-native](https://github.com/holepunchto/sodium-native), [yt-dlp](https://github.com/yt-dlp/yt-dlp)
