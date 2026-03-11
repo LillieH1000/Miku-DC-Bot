@@ -1,7 +1,24 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ContainerBuilder, SectionBuilder, SeparatorBuilder, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ContainerBuilder, SectionBuilder, SeparatorBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
 import LZString from "lz-string"
 
-// Pokemon Utils
+// Species Interface
+
+interface speciesData {
+    base_happiness?: number
+    capture_rate?: number
+    is_baby: boolean
+    is_legendary: boolean
+    is_mythical: boolean
+    varieties: [{
+        is_default: boolean
+        pokemon: {
+            name: string
+            url: string
+        }
+    }]
+}
+
+// Pokemon Interface
 
 interface pokemonData {
     abilities: [{
@@ -43,19 +60,7 @@ interface pokemonData {
     weight: number
 }
 
-interface speciesData {
-    base_happiness?: number
-    capture_rate?: number
-    is_baby: boolean
-    is_legendary: boolean
-    is_mythical: boolean
-    varieties: [{
-        pokemon: {
-            name: string
-            url: string
-        }
-    }]
-}
+// Types Interface
 
 interface typesData {
     damage_relations: {
@@ -71,7 +76,9 @@ interface typesData {
     }
 }
 
-interface pokeapiWeaknessType {
+// Weakness Interface
+
+interface weaknessType {
     normal: number,
     fire: number,
     water: number,
@@ -92,61 +99,21 @@ interface pokeapiWeaknessType {
     fairy: number
 }
 
-async function pokeapiRequest(name: string, position: number, mega: boolean, gmax: boolean, shiny: boolean, guild: boolean, guildid: string, message: string | null): Promise<ContainerBuilder | undefined> {
-    let data: pokemonData
+async function request(name: string, species: string | undefined, position: number, shiny: boolean, message: string | null): Promise<ContainerBuilder | undefined> {
+    // Species Request
+
+    const res1: Response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${name}`)
+    if (!res1.ok) return undefined
+    const speciesData: speciesData = await res1.json()
     
     // Pokemon Request
-    const res1 = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
-    if (!res1.ok) {
-        return undefined
-    }
-    data = await res1.json()
-    const origname = data.name
-
-    // Species Request
-    const res2 = await fetch(data.species.url!)
-    if (!res2.ok) {
-        return undefined
-    }
-    const speciesData: speciesData = await res2.json()
-
-    // Mega Check
-
-    let hasmega = false
-    let megaurl = ""
-    speciesData.varieties.forEach(variety => {
-        if (variety.pokemon.name.endsWith("-mega")) {
-            hasmega = true
-            megaurl = variety.pokemon.url
-        }
-    })
-
-    if (hasmega && mega) {
-        const res1 = await fetch(megaurl)
-        if (!res1.ok) {
-            return undefined
-        }
-        data = await res1.json()
-    }
-
-    // Gmax Check
-
-    let hasgmax = false
-    let gmaxurl = ""
-    speciesData.varieties.forEach(variety => {
-        if (variety.pokemon.name.endsWith("-gmax")) {
-            hasgmax = true
-            gmaxurl = variety.pokemon.url
-        }
-    })
-
-    if (hasgmax && gmax) {
-        const res1 = await fetch(gmaxurl)
-        if (!res1.ok) {
-            return undefined
-        }
-        data = await res1.json()
-    }
+    
+    const speciesVariety: speciesData["varieties"][0] | undefined = speciesData.varieties.find(variety => (variety.is_default && !species) || (species == variety.pokemon.name))
+    if (!speciesVariety) return undefined
+    
+    const res2: Response = await fetch(speciesVariety.pokemon.url)
+    if (!res2.ok) return undefined
+    const pokemonData: pokemonData = await res2.json()
 
     // Types & Weaknesses
 
@@ -173,31 +140,31 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
     
     let typescount = 0
     let types = ""
-    for (const type of data.types) {
+    for (const type of pokemonData.types) {
         // Type Info
         const res1 = await fetch(type.type.url)
         const data1:typesData = await res1.json()
 
         if (data1.damage_relations.double_damage_from) {
             for (const double of data1.damage_relations.double_damage_from) {
-                weakness[double.name as keyof pokeapiWeaknessType] *= 2
+                weakness[double.name as keyof weaknessType] *= 2
             }
         }
         if (data1.damage_relations.half_damage_from) {
             for (const half of data1.damage_relations.half_damage_from) {
-                weakness[half.name as keyof pokeapiWeaknessType] *= 0.5
+                weakness[half.name as keyof weaknessType] *= 0.5
             }
         }
         if (data1.damage_relations.no_damage_from) {
             for (const none of data1.damage_relations.no_damage_from) {
-                weakness[none.name as keyof pokeapiWeaknessType] = 0
+                weakness[none.name as keyof weaknessType] = 0
             }
         }
 
         // Type Name
         types += type.type.name.charAt(0).toUpperCase() + type.type.name.slice(1)
         typescount += 1
-        if (data.types.length != typescount) {
+        if (pokemonData.types.length != typescount) {
             types += ", "
         }
     }
@@ -205,7 +172,7 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
     let weaknessescount = 0
     let weaknesses = ""
     for (const weaknessobject in weakness) {
-        weaknesses += `${weaknessobject.charAt(0).toUpperCase()}${weaknessobject.slice(1)}: ${weakness[weaknessobject as keyof pokeapiWeaknessType]}x`
+        weaknesses += `${weaknessobject.charAt(0).toUpperCase()}${weaknessobject.slice(1)}: ${weakness[weaknessobject as keyof weaknessType]}x`
         weaknessescount += 1
         if (Object.keys(weakness).length != weaknessescount) {
             weaknesses += "\n"
@@ -216,13 +183,13 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
 
     let abilitiescount = 0
     let abilities = ""
-    for (const ability of data.abilities) {
+    for (const ability of pokemonData.abilities) {
         abilities += ability.ability.name.charAt(0).toUpperCase() + ability.ability.name.slice(1)
         if (ability.is_hidden == true) {
             abilities += " (Hidden)"
         }
         abilitiescount += 1
-        if (data.abilities.length != abilitiescount) {
+        if (pokemonData.abilities.length != abilitiescount) {
             abilities += ", "
         }
     }
@@ -231,10 +198,10 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
 
     let basestatscount = 0
     let basestats = ""
-    for (const basestat of data.stats) {
+    for (const basestat of pokemonData.stats) {
         basestats += basestat.stat.name.charAt(0).toUpperCase() + basestat.stat.name.slice(1) + ": " + basestat.base_stat.toString()
         basestatscount += 1
-        if (data.stats.length != basestatscount) {
+        if (pokemonData.stats.length != basestatscount) {
             basestats += "\n"
         }
     }
@@ -247,23 +214,21 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
     const section = new SectionBuilder()
         .addTextDisplayComponents(
             new TextDisplayBuilder()
-                .setContent(data.name.charAt(0).toUpperCase() + data.name.slice(1)),
+                .setContent(pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)),
         )
 
-    if (data.sprites.other.home.front_default == undefined) {
-        return
-    }
+    if (pokemonData.sprites.other.home.front_default == undefined) return
     
     if (!shiny) {
         section.setThumbnailAccessory(
             new ThumbnailBuilder()
-                .setURL(data.sprites.other.home.front_default)
+                .setURL(pokemonData.sprites.other.home.front_default)
         )
     }
     if (shiny) {
         section.setThumbnailAccessory(
             new ThumbnailBuilder()
-                .setURL(data.sprites.other.home.front_shiny!)
+                .setURL(pokemonData.sprites.other.home.front_shiny!)
         )
     }
 
@@ -276,13 +241,13 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
     if (position == 1) {
         container.addTextDisplayComponents(
             new TextDisplayBuilder()
-                .setContent(`Pokedex ID: ${data.id}`),
+                .setContent(`Pokedex ID: ${pokemonData.id}`),
             new TextDisplayBuilder()
                 .setContent(`Types: ${types}`),
             new TextDisplayBuilder()
                 .setContent(`Abilities: ${abilities}`)
         )
-        if (guild && guildid == "416350699794857986" && message) {
+        if (message) {
             container.addTextDisplayComponents(
                 new TextDisplayBuilder()
                     .setContent("Game And Count"),
@@ -296,7 +261,7 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
             new TextDisplayBuilder()
                 .setContent(`Capture Rate (Max 255): ${speciesData.capture_rate}`),
             new TextDisplayBuilder()
-                .setContent(`Base Experience: ${data.base_experience}`),
+                .setContent(`Base Experience: ${pokemonData.base_experience}`),
             new TextDisplayBuilder()
                 .setContent("Base Stats"),
             new TextDisplayBuilder()
@@ -311,6 +276,10 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
                 .setContent(weaknesses)
         )
     }
+
+    container.addSeparatorComponents(
+		new SeparatorBuilder()
+	)
 
     // Components Row
 
@@ -329,143 +298,95 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
         id2 = 3
     }
 
-    const row = new ActionRowBuilder<ButtonBuilder>()
+    const row1 = new ActionRowBuilder<StringSelectMenuBuilder>()
+
+    // Varities Menu
+
+    const varieties = new StringSelectMenuBuilder()
+        .setPlaceholder("Select The Pokemon Species")
+        .setCustomId(LZString.compressToUTF16(JSON.stringify({
+            name: name,
+            species: species,
+            position: position,
+            shiny: shiny,
+            message: message
+        })))
+
+    speciesData.varieties.forEach(variety => {
+        varieties.addOptions(
+            new StringSelectMenuOptionBuilder()
+                .setLabel(variety.pokemon.name.charAt(0).toUpperCase() + variety.pokemon.name.slice(1))
+                .setValue(variety.pokemon.name)
+        )
+    })
+
+    container.addActionRowComponents(row1.addComponents(varieties))
 
     // Page Buttons
 
+    const row2 = new ActionRowBuilder<ButtonBuilder>()
+
     if (position > 1) {
-        row.addComponents(
+        row2.addComponents(
             new ButtonBuilder()
                 .setLabel("<-")
                 .setStyle(ButtonStyle.Secondary)
                 .setCustomId(LZString.compressToUTF16(JSON.stringify({
-                    name: origname,
+                    name: name,
+                    species: species,
                     position: id1,
-                    mega: mega,
-                    gmax: gmax,
                     shiny: shiny,
                     message: message
                 })))
         )
     }
     if (position < 3) {
-        row.addComponents(
+        row2.addComponents(
             new ButtonBuilder()
                 .setLabel("->")
                 .setStyle(ButtonStyle.Secondary)
                 .setCustomId(LZString.compressToUTF16(JSON.stringify({
-                    name: origname,
+                    name: name,
+                    species: species,
                     position: id2,
-                    mega: mega,
-                    gmax: gmax,
                     shiny: shiny,
                     message: message
                 })))
         )
     }
 
-    // Mega Buttons
-
-    if (hasmega) {
-        if (!mega) {
-            row.addComponents(
-                new ButtonBuilder()
-                    .setLabel("Mega Evolve")
-                    .setStyle(ButtonStyle.Secondary)
-                    .setCustomId(LZString.compressToUTF16(JSON.stringify({
-                        name: origname,
-                        position: position,
-                        mega: true,
-                        gmax: false,
-                        shiny: shiny,
-                        message: message
-                    })))
-            )
-        } else {
-            row.addComponents(
-                new ButtonBuilder()
-                    .setLabel("Un-Mega Evolve")
-                    .setStyle(ButtonStyle.Secondary)
-                    .setCustomId(LZString.compressToUTF16(JSON.stringify({
-                        name: origname,
-                        position: position,
-                        mega: false,
-                        gmax: false,
-                        shiny: shiny,
-                        message: message
-                    })))
-            )
-        }
-    }
-
-    // Gmax Buttons
-
-    if (hasgmax) {
-        if (!gmax) {
-            row.addComponents(
-                new ButtonBuilder()
-                    .setLabel("Gigantamax")
-                    .setStyle(ButtonStyle.Secondary)
-                    .setCustomId(LZString.compressToUTF16(JSON.stringify({
-                        name: origname,
-                        position: position,
-                        mega: false,
-                        gmax: true,
-                        shiny: shiny,
-                        message: message
-                    })))
-            )
-        } else {
-            row.addComponents(
-                new ButtonBuilder()
-                    .setLabel("Un-Gigantamax")
-                    .setStyle(ButtonStyle.Secondary)
-                    .setCustomId(LZString.compressToUTF16(JSON.stringify({
-                        name: origname,
-                        position: position,
-                        mega: false,
-                        gmax: false,
-                        shiny: shiny,
-                        message: message
-                    })))
-            )
-        }
-    }
-
     // Shiny Buttons
 
     if (!shiny) {
-        row.addComponents(
+        row2.addComponents(
             new ButtonBuilder()
                 .setLabel("Show Shiny")
                 .setStyle(ButtonStyle.Secondary)
                 .setCustomId(LZString.compressToUTF16(JSON.stringify({
-                    name: origname,
+                    name: name,
+                    species: species,
                     position: position,
-                    mega: mega,
-                    gmax: gmax,
                     shiny: true,
                     message: message
                 })))
         )
     }
     if (shiny) {
-        row.addComponents(
+        row2.addComponents(
             new ButtonBuilder()
                 .setLabel("Hide Shiny")
                 .setStyle(ButtonStyle.Secondary)
                 .setCustomId(LZString.compressToUTF16(JSON.stringify({
-                    name: origname,
+                    name: name,
+                    species: species,
                     position: position,
-                    mega: mega,
-                    gmax: gmax,
                     shiny: false,
                     message: message
                 })))
         )
     }
 
-    container.addActionRowComponents(row)
+    container.addActionRowComponents(row2)
 
     // Return
     
@@ -475,5 +396,5 @@ async function pokeapiRequest(name: string, position: number, mega: boolean, gma
 // Exports
 
 export default {
-    pokeapiRequest
+    request
 }

@@ -1,22 +1,14 @@
-import { ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js"
+import { ChatInputCommandInteraction, InteractionContextType, MessageFlags, SlashCommandBuilder } from "discord.js"
 import globalsPokemon from "../globals/pokemon.ts"
 
 const info = new SlashCommandBuilder()
     .setName("pokemon")
     .setDescription("Gives you info about the specified pokemon")
+    .setContexts([InteractionContextType.Guild])
     .addStringOption(option =>
-        option.setName("name")
-            .setDescription("Enter the pokemon name")
+        option.setName("id")
+            .setDescription("Enter the pokemon name or pokedex id")
             .setRequired(true))
-    .addStringOption(option =>
-        option.setName("form")
-            .setDescription("Enter the pokemon form")
-            .addChoices(
-                { name: "Alola", value: "alola" },
-                { name: "Galar", value: "galar" },
-                { name: "Hisui", value: "hisui" },
-                { name: "Paldea", value: "paldea" }
-            ))
     .addStringOption(option =>
         option.setName("message")
             .setDescription("Enter your message"))
@@ -24,34 +16,23 @@ const info = new SlashCommandBuilder()
 async function invoke(interaction: ChatInputCommandInteraction) {
     await interaction.deferReply()
 
-    const name = interaction.options.getString("name")!
-    const form = interaction.options.getString("form")
-    const message = interaction.options.getString("message")
+    const data = await globalsPokemon.request(
+        interaction.options.getString("id")!.replace(" ", "-").toLowerCase(),
+        undefined,
+        1,
+        false,
+        interaction.options.getString("message")
+    )
 
-    let guild = false
-    let guildid = ""
-    if (interaction.guild) {
-        guild = true
-        guildid = interaction.guild.id
+    if (!data) {
+        await interaction.deleteReply()
+        return
     }
 
-    let pokemon = ""
-    if (form == "alola") {
-        pokemon = name + "-alola"
-    } else if (form == "galar") {
-        pokemon = name + "-galar"
-    } else if (form == "hisui") {
-        pokemon = name + "-hisui"
-    } else if (form == "paldea") {
-        pokemon = name + "-paldea"
-    } else {
-        pokemon = name
-    }
-
-    const data = await globalsPokemon.pokeapiRequest(pokemon.replace(" ", "-").toLowerCase(), 1, false, false, false, guild, guildid, message)
-    if (!data) return
-
-    await interaction.editReply({ components: [data], flags: MessageFlags.IsComponentsV2 })
+    await interaction.editReply({
+        components: [data],
+        flags: MessageFlags.IsComponentsV2
+    })
 }
 
 export { info, invoke }
