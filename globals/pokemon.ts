@@ -103,8 +103,18 @@ async function request(name: string, species: string | undefined, position: numb
     // Species Request
 
     const res1: Response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${name}`)
-    if (!res1.ok) return undefined
-    const speciesData: speciesData = await res1.json()
+    let speciesData: speciesData
+    if (!res1.ok) {
+        const res1: Response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
+        if (!res1.ok) return undefined
+        const pokemonData: pokemonData = await res1.json()
+
+        const res2: Response = await fetch(pokemonData.species.url)
+        if (!res2.ok) return undefined
+        speciesData = await res2.json()
+    } else {
+        speciesData = await res1.json()
+    }
     
     // Pokemon Request
     
