@@ -33,6 +33,7 @@ function invoke(client: Client) {
 
         await interaction.update({
             components: [data],
+            embeds: [],
             flags: MessageFlags.IsComponentsV2
         })
     })
@@ -59,6 +60,7 @@ function invoke(client: Client) {
 
         await interaction.update({
             components: [data],
+            embeds: [],
             flags: MessageFlags.IsComponentsV2
         })
     })
