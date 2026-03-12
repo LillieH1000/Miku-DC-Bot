@@ -32,7 +32,7 @@ interface pokemonData {
     id: number
     name: string
     species: {
-        url?: string
+        url: string
     }
     sprites: {
         other: {
