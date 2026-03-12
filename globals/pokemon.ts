@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ContainerBuilder, SectionBuilder, SeparatorBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
+import { ActionRowBuilder, bold, ButtonBuilder, ButtonStyle, ContainerBuilder, SectionBuilder, SeparatorBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, TextDisplayBuilder, ThumbnailBuilder } from "discord.js"
 import LZString from "lz-string"
 
 // Species Interface
@@ -224,7 +224,7 @@ async function request(name: string, species: string | undefined, position: numb
     const section = new SectionBuilder()
         .addTextDisplayComponents(
             new TextDisplayBuilder()
-                .setContent(pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)),
+                .setContent(bold(pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1))),
         )
 
     if (pokemonData.sprites.other.home.front_default == undefined) return
