@@ -8,6 +8,7 @@ interface customId {
     position: number
     shiny: boolean | number
     message: string | null
+    game: string | null
 }
 
 function invoke(client: Client) {
@@ -15,16 +16,37 @@ function invoke(client: Client) {
         if (!interaction.isStringSelectMenu()) return
 
         let id: customId
-        try {
-            id = JSON.parse(interaction.customId)
-        } catch (_) {
-            const lz: string = LZString.decompressFromUTF16(interaction.customId)
-            id = JSON.parse(lz)
+
+        if (interaction.customId.includes("custommenuid")) {
+            id = {
+                name: interaction.customId.split("custommenuid")[0],
+                species: undefined,
+                position: 1,
+                shiny: false,
+                message: interaction.customId.split("custommenuid")[1],
+                game: null
+            }
+        } else {
+            try {
+                id = JSON.parse(interaction.customId)
+            } catch (_) {
+                const lz: string = LZString.decompressFromUTF16(interaction.customId)
+                id = JSON.parse(lz)
+            }
+
+            if (id.game) {
+                id.species = undefined
+                id.position = 1
+                id.shiny = false
+                id.message = id.game
+            } else {
+                id.species = interaction.values[0]
+            }
         }
 
         const data: ContainerBuilder | undefined = await globalsPokemon.request(
             id.name,
-            interaction.values[0],
+            id.species,
             id.position,
             !!id.shiny,
             id.message
