@@ -322,13 +322,13 @@ async function request(name: string, species: string | undefined, position: numb
             message: message
         })))
 
-    speciesData.varieties.forEach(variety => {
+    for (const variety of speciesData.varieties) {
         varieties.addOptions(
             new StringSelectMenuOptionBuilder()
                 .setLabel(variety.pokemon.name.charAt(0).toUpperCase() + variety.pokemon.name.slice(1))
                 .setValue(variety.pokemon.name)
         )
-    })
+    }
 
     container.addActionRowComponents(row1.addComponents(varieties))
 
