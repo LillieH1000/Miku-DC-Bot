@@ -42,6 +42,10 @@ interface pokemonData {
                 front_shiny?: string
                 front_shiny_female?: string
             }
+            "official-artwork": {
+                front_default?: string
+                front_shiny?: string
+            }
         }
     }
     stats: [{
@@ -227,19 +231,35 @@ async function request(name: string, species: string | undefined, position: numb
                 .setContent(bold(pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1))),
         )
 
-    if (pokemonData.sprites.other.home.front_default == undefined) return
+    if (!pokemonData.sprites.other.home.front_default && !pokemonData.sprites.other["official-artwork"].front_default) return
     
     if (!shiny) {
-        section.setThumbnailAccessory(
-            new ThumbnailBuilder()
-                .setURL(pokemonData.sprites.other.home.front_default)
-        )
+        if (pokemonData.sprites.other.home.front_default) {
+            section.setThumbnailAccessory(
+                new ThumbnailBuilder()
+                    .setURL(pokemonData.sprites.other.home.front_default)
+            )
+        }
+        if (!pokemonData.sprites.other.home.front_default && pokemonData.sprites.other["official-artwork"].front_default) {
+            section.setThumbnailAccessory(
+                new ThumbnailBuilder()
+                    .setURL(pokemonData.sprites.other["official-artwork"].front_default)
+            )
+        }
     }
     if (shiny) {
-        section.setThumbnailAccessory(
-            new ThumbnailBuilder()
-                .setURL(pokemonData.sprites.other.home.front_shiny!)
-        )
+        if (pokemonData.sprites.other.home.front_shiny) {
+            section.setThumbnailAccessory(
+                new ThumbnailBuilder()
+                    .setURL(pokemonData.sprites.other.home.front_shiny)
+            )
+        }
+        if (!pokemonData.sprites.other.home.front_shiny && pokemonData.sprites.other["official-artwork"].front_shiny) {
+            section.setThumbnailAccessory(
+                new ThumbnailBuilder()
+                    .setURL(pokemonData.sprites.other["official-artwork"].front_shiny)
+            )
+        }
     }
 
     container.addSectionComponents(section)
