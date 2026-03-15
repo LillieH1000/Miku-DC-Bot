@@ -350,7 +350,9 @@ async function request(name: string, species: string | undefined, position: numb
         )
     }
 
-    container.addActionRowComponents(row1.addComponents(varieties))
+    if (speciesData.varieties.length > 1) {
+        container.addActionRowComponents(row1.addComponents(varieties))
+    }
 
     // Page Buttons
 
