@@ -21,6 +21,7 @@ async function invoke(interaction: ChatInputCommandInteraction) {
         undefined,
         1,
         false,
+        interaction.guild!.id,
         interaction.options.getString("message")
     )
 

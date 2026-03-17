@@ -103,7 +103,7 @@ interface weaknessType {
     fairy: number
 }
 
-async function request(name: string, species: string | undefined, position: number, shiny: boolean, message: string | null): Promise<ContainerBuilder | undefined> {
+async function request(name: string, species: string | undefined, position: number, shiny: boolean, guild: string, message: string | null): Promise<ContainerBuilder | undefined> {
     // Species Request
 
     const res1: Response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${name}`)
@@ -231,7 +231,7 @@ async function request(name: string, species: string | undefined, position: numb
                 .setContent(bold(pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1))),
         )
 
-    if (message) {
+    if ((guild == "1128424035173273620" || guild == "416350699794857986") && message) {
         section.addTextDisplayComponents(
             new TextDisplayBuilder()
                 .setContent(message)

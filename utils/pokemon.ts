@@ -49,6 +49,7 @@ function invoke(client: Client) {
             id.species,
             id.position,
             !!id.shiny,
+            interaction.guild!.id,
             id.message
         )
         if (!data) return
@@ -76,6 +77,7 @@ function invoke(client: Client) {
             id.species,
             id.position,
             !!id.shiny,
+            interaction.guild!.id,
             id.message
         )
         if (!data) return
