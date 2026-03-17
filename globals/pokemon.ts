@@ -231,6 +231,13 @@ async function request(name: string, species: string | undefined, position: numb
                 .setContent(bold(pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1))),
         )
 
+    if (message) {
+        section.addTextDisplayComponents(
+            new TextDisplayBuilder()
+                .setContent(message)
+        )
+    }
+
     if (!pokemonData.sprites.other.home.front_default && !pokemonData.sprites.other["official-artwork"].front_default) return
     
     if (!shiny) {
@@ -277,14 +284,6 @@ async function request(name: string, species: string | undefined, position: numb
             new TextDisplayBuilder()
                 .setContent(`Abilities: ${abilities}`)
         )
-        if (message) {
-            container.addTextDisplayComponents(
-                new TextDisplayBuilder()
-                    .setContent("Game And Count"),
-                new TextDisplayBuilder()
-                    .setContent(message)
-            )
-        }
     }
     if (position == 2) {
         container.addTextDisplayComponents(
