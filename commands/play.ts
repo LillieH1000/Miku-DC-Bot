@@ -32,7 +32,7 @@ async function invoke(interaction: ChatInputCommandInteraction) {
             guildId: interaction.guild!.id,
             adapterCreator: interaction.guild!.voiceAdapterCreator,
         })
-        if (!globalsPlayer.player.hasOwnProperty(interaction.guild!.id)) {
+        if (!globalsPlayer.player[interaction.guild!.id]) {
             globalsPlayer.player = {
                 [interaction.guild!.id]: {
                     player: createAudioPlayer(),
