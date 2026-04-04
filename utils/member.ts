@@ -32,7 +32,7 @@ function invoke(client: Client) {
 
         // Member Log
 
-        if (member.guild.id == "1128424035173273620") {
+        if (member.guild.id === "1128424035173273620") {
             const channel: TextChannel | undefined = member.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             return
@@ -77,7 +77,7 @@ function invoke(client: Client) {
 
         // Member Log
 
-        if (member.guild.id == "1128424035173273620") {
+        if (member.guild.id === "1128424035173273620") {
             const channel: TextChannel | undefined = member.guild.channels.cache.get("1440059965925494804") as (TextChannel | undefined)
             await channel?.send({ components: [container], flags: MessageFlags.IsComponentsV2 })
             return

@@ -133,7 +133,7 @@ async function invoke(interaction: ChatInputCommandInteraction) {
 
     // Audio Resource Creation
 
-    if (voiceConnection && globalsPlayer.player[interaction.guild!.id].status == 0) {
+    if (voiceConnection && globalsPlayer.player[interaction.guild!.id].status === 0) {
         globalsPlayer.player[interaction.guild!.id].status = 1
         globalsPlayer.player[interaction.guild!.id].resource = createAudioResource(data.url, {
             inlineVolume: true
@@ -144,7 +144,7 @@ async function invoke(interaction: ChatInputCommandInteraction) {
 
         globalsPlayer.player[interaction.guild!.id].player.on(AudioPlayerStatus.Idle, () => {
             globalsPlayer.player[interaction.guild!.id].queries.shift()
-            if (globalsPlayer.player[interaction.guild!.id].queries.length == 0) {
+            if (globalsPlayer.player[interaction.guild!.id].queries.length === 0) {
                 if (voiceConnection) voiceConnection.destroy()
                 delete globalsPlayer.player[interaction.guild!.id]
             } else {

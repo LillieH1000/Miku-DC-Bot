@@ -20,6 +20,9 @@
   },
   "lint": {
     "rules": {
+      "include": [
+        "eqeqeq"
+      ],
       "tags": [
         "recommended"
       ]

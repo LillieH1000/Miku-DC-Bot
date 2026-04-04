@@ -16,7 +16,7 @@ async function invoke(interaction: ChatInputCommandInteraction) {
     const volume: number = interaction.options.getInteger("volume")!
     
     const voiceConnection: VoiceConnection | undefined = getVoiceConnection(interaction.guild!.id)
-    if (voiceConnection && voiceConnection.joinConfig.channelId == (interaction.member as GuildMember).voice.channelId && globals.player[interaction.guild!.id].status == 1) {
+    if (voiceConnection && voiceConnection.joinConfig.channelId === (interaction.member as GuildMember).voice.channelId && globals.player[interaction.guild!.id].status === 1) {
         globals.player[interaction.guild!.id].volume = volume / 100
         globals.player[interaction.guild!.id].resource!.volume!.setVolume(globals.player[interaction.guild!.id].volume)
     }

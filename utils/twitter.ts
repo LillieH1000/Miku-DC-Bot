@@ -44,7 +44,7 @@ function invoke(client: Client) {
                         .setURL(data.tweet.author.avatar_url)
                 )
 
-            if (data.tweet.text != "") {
+            if (data.tweet.text !== "") {
                 section.addTextDisplayComponents(
                     new TextDisplayBuilder()
                         .setContent(data.tweet.text),

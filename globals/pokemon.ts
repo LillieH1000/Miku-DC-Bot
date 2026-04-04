@@ -122,7 +122,7 @@ async function request(name: string, species: string | undefined, position: numb
     
     // Pokemon Request
     
-    const speciesVariety: speciesData["varieties"][0] | undefined = speciesData.varieties.find(variety => (variety.is_default && !species) || (species == variety.pokemon.name))
+    const speciesVariety: speciesData["varieties"][0] | undefined = speciesData.varieties.find(variety => (variety.is_default && !species) || (species === variety.pokemon.name))
     if (!speciesVariety) return undefined
     
     const res2: Response = await fetch(speciesVariety.pokemon.url)
@@ -178,7 +178,7 @@ async function request(name: string, species: string | undefined, position: numb
         // Type Name
         types += type.type.name.charAt(0).toUpperCase() + type.type.name.slice(1)
         typescount += 1
-        if (pokemonData.types.length != typescount) {
+        if (pokemonData.types.length !== typescount) {
             types += ", "
         }
     }
@@ -188,7 +188,7 @@ async function request(name: string, species: string | undefined, position: numb
     for (const weaknessobject in weakness) {
         weaknesses += `${weaknessobject.charAt(0).toUpperCase()}${weaknessobject.slice(1)}: ${weakness[weaknessobject as keyof weaknessType]}x`
         weaknessescount += 1
-        if (Object.keys(weakness).length != weaknessescount) {
+        if (Object.keys(weakness).length !== weaknessescount) {
             weaknesses += "\n"
         }
     }
@@ -199,11 +199,11 @@ async function request(name: string, species: string | undefined, position: numb
     let abilities = ""
     for (const ability of pokemonData.abilities) {
         abilities += ability.ability.name.charAt(0).toUpperCase() + ability.ability.name.slice(1)
-        if (ability.is_hidden == true) {
+        if (ability.is_hidden === true) {
             abilities += " (Hidden)"
         }
         abilitiescount += 1
-        if (pokemonData.abilities.length != abilitiescount) {
+        if (pokemonData.abilities.length !== abilitiescount) {
             abilities += ", "
         }
     }
@@ -215,7 +215,7 @@ async function request(name: string, species: string | undefined, position: numb
     for (const basestat of pokemonData.stats) {
         basestats += basestat.stat.name.charAt(0).toUpperCase() + basestat.stat.name.slice(1) + ": " + basestat.base_stat.toString()
         basestatscount += 1
-        if (pokemonData.stats.length != basestatscount) {
+        if (pokemonData.stats.length !== basestatscount) {
             basestats += "\n"
         }
     }
@@ -231,7 +231,7 @@ async function request(name: string, species: string | undefined, position: numb
                 .setContent(bold(pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1))),
         )
 
-    if ((guild == "1128424035173273620" || guild == "416350699794857986") && message) {
+    if ((guild === "1128424035173273620" || guild === "416350699794857986") && message) {
         section.addTextDisplayComponents(
             new TextDisplayBuilder()
                 .setContent(message)
@@ -275,7 +275,7 @@ async function request(name: string, species: string | undefined, position: numb
 		new SeparatorBuilder()
 	)
 
-    if (position == 1) {
+    if (position === 1) {
         container.addTextDisplayComponents(
             new TextDisplayBuilder()
                 .setContent(`Pokedex ID: ${pokemonData.id}`),
@@ -285,7 +285,7 @@ async function request(name: string, species: string | undefined, position: numb
                 .setContent(`Abilities: ${abilities}`)
         )
     }
-    if (position == 2) {
+    if (position === 2) {
         container.addTextDisplayComponents(
             new TextDisplayBuilder()
                 .setContent(`Capture Rate (Max 255): ${speciesData.capture_rate}`),
@@ -297,7 +297,7 @@ async function request(name: string, species: string | undefined, position: numb
                 .setContent(basestats)
         )
     }
-    if (position == 3) {
+    if (position === 3) {
         container.addTextDisplayComponents(
             new TextDisplayBuilder()
                 .setContent("Weaknesses"),
@@ -314,15 +314,15 @@ async function request(name: string, species: string | undefined, position: numb
 
     let id1 = 0
     let id2 = 0
-    if (position == 1) {
+    if (position === 1) {
         id1 = 1
         id2 = 2
     }
-    if (position == 2) {
+    if (position === 2) {
         id1 = 1
         id2 = 3
     }
-    if (position == 3) {
+    if (position === 3) {
         id1 = 2
         id2 = 3
     }
