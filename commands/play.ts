@@ -18,6 +18,9 @@ const info = new SlashCommandBuilder()
         option.setName("query")
             .setDescription("Enter the song name or url")
             .setRequired(true))
+    .addIntegerOption(option =>
+        option.setName("volume")
+            .setDescription("Enter the desired volume (1 - 100) [Default: 30]"))
 
 async function invoke(interaction: ChatInputCommandInteraction) {
     await interaction.deferReply()
@@ -39,7 +42,7 @@ async function invoke(interaction: ChatInputCommandInteraction) {
                     queries: [],
                     resource: undefined,
                     status: 0,
-                    volume: 0.1
+                    volume: (interaction.options.getInteger("volume") ?? 30) / 100
                 }
             }
         }
