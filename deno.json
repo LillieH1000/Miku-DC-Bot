@@ -14,7 +14,7 @@
     "@discordjs/voice": "npm:@discordjs/voice@^0.19.2",
     "@snazzah/davey": "npm:@snazzah/davey@^0.1.11",
     "date-fns": "npm:date-fns@^4.1.0",
-    "discord.js": "npm:discord.js@^14.26.0",
+    "discord.js": "npm:discord.js@^14.26.2",
     "lz-string": "npm:lz-string@^1.5.0",
     "sodium-native": "npm:sodium-native@^5.1.0"
   },
