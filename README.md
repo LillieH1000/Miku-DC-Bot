@@ -2,11 +2,9 @@
 
 # Miku - Discord Bot
 
-#### Powered by Deno, discord.js, yt-dlp and uses Discords full Components v2 UI.
+#### My custom Discord Bot powered by Deno, discord.js, yt-dlp and uses Discords full Components v2 UI.
 
 </div><br>
-
-**Invite**: [discord.com](https://discord.com/api/oauth2/authorize?client_id=1065377660303310859&permissions=8&scope=bot%20applications.commands)
 
 **Features**:
 - Music Player, supports SoundCloud and Bandcamp.
