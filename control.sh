@@ -7,12 +7,12 @@ then
     set -e
     if [[ $OS == "Darwin" || $OS == "Linux" ]]
     then
-        rsync -a --exclude "control.sh" --exclude "deno.lock" --exclude "node_modules/" * fmt
+        rsync -a --exclude "control.sh" --exclude "deno.lock" * fmt
     else
-        robocopy "." "fmt" //E //XD "node_modules" //XF "control.sh" "deno.lock" || true
+        robocopy "." "fmt" //E //XF "control.sh" "deno.lock" || true
     fi
     cd fmt
-    deno install --allow-scripts
+    deno install
     deno fmt *.ts **/*.ts
 fi
 if [ $1 == "register" ]
