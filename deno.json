@@ -41,6 +41,7 @@
         "globals",
         "utils",
         "/etc/alpine-release",
+        "/home/lillieh/.cache/deno",
         "/proc/self/exe",
         "/usr/bin/ldd"
       ],
