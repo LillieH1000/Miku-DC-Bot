@@ -10,12 +10,12 @@
   },
   "imports": {
     "@date-fns/tz": "npm:@date-fns/tz@^1.5.0",
-    "@discordjs/opus": "npm:@discordjs/opus@^0.10.0",
     "@discordjs/voice": "npm:@discordjs/voice@^0.19.2",
     "@snazzah/davey": "npm:@snazzah/davey@^0.1.12",
     "date-fns": "npm:date-fns@^4.4.0",
     "discord.js": "npm:discord.js@^14.26.4",
     "lz-string": "npm:lz-string@^1.5.0",
+    "opusscript": "npm:opusscript@^0.1.1",
     "sodium-native": "npm:sodium-native@^5.1.0"
   },
   "lint": {
@@ -28,7 +28,9 @@
       ]
     }
   },
-  "nodeModulesDir": "auto",
+  "overrides": {
+    "@discordjs/opus": "npm:opusscript@^0.1.1"
+  },
   "permissions": {
     "default": {
       "env": true,
@@ -37,7 +39,6 @@
       "read": [
         "commands",
         "globals",
-        "node_modules",
         "utils",
         "/etc/alpine-release",
         "/proc/self/exe",
