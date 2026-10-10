@@ -1,5 +1,5 @@
 import { ChatInputCommandInteraction, InteractionContextType, MessageFlags, SlashCommandBuilder } from "discord.js"
-import globalsPokemon from "../globals/pokemon.ts"
+import globalsPokemon from "../globals/pokemon"
 
 const info = new SlashCommandBuilder()
     .setName("pokemon")

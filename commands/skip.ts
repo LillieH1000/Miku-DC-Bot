@@ -1,6 +1,6 @@
 import { ChatInputCommandInteraction, GuildMember, InteractionContextType, MessageFlags, SlashCommandBuilder } from "discord.js"
 import { createAudioResource, getVoiceConnection, VoiceConnection } from "@discordjs/voice"
-import globals from "../globals/player.ts"
+import globals from "../globals/player"
 
 const info = new SlashCommandBuilder()
     .setName("skip")

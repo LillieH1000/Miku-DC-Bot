@@ -1,6 +1,6 @@
 import { Client, ContainerBuilder, Events, MessageFlags } from "discord.js"
 import LZString from "lz-string"
-import globalsPokemon from "../globals/pokemon.ts"
+import globalsPokemon from "../globals/pokemon"
 
 interface customId {
     name: string
