@@ -2,7 +2,7 @@
 
 # Miku - Discord Bot
 
-#### My custom Discord Bot powered by Deno, discord.js, yt-dlp and uses Discords full Components v2 UI.
+#### My custom Discord Bot powered by node.js, discord.js, yt-dlp and uses Discords full Components v2 UI.
 
 </div><br>
 
@@ -17,4 +17,4 @@ And more...
 <br>
 
 ## Open Source Libraries
-- [date-fns](https://github.com/date-fns/date-fns), [davey](https://github.com/Snazzah/davey), [Deno](https://github.com/denoland/deno), [discord.js](https://github.com/discordjs/discord.js), [lz-string](https://github.com/pieroxy/lz-string), [opusscript](https://github.com/abalabahaha/opusscript), [sodium-native](https://github.com/holepunchto/sodium-native), [yt-dlp](https://github.com/yt-dlp/yt-dlp)
+- [date-fns](https://github.com/date-fns/date-fns), [davey](https://github.com/Snazzah/davey), [discord.js](https://github.com/discordjs/discord.js), [lz-string](https://github.com/pieroxy/lz-string), [node.js](https://github.com/nodejs/node), [opusscript](https://github.com/abalabahaha/opusscript), [sodium-native](https://github.com/holepunchto/sodium-native), [yt-dlp](https://github.com/yt-dlp/yt-dlp)
