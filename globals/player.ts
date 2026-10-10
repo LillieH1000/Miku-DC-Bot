@@ -1,4 +1,5 @@
 import { AudioPlayer, AudioResource } from "@discordjs/voice"
+import { execFileSync } from "node:child_process"
 
 // Player Object
 
@@ -34,13 +35,19 @@ interface retData {
 }
 
 async function request(url: string): Promise<retData | undefined> {
-    const command = new Deno.Command("yt-dlp", {
-        args: ["-J", "-f", "bestaudio[acodec!=opus]", "--no-cache-dir", "--no-download", "--no-playlist", url],
-        stdout: "piped"
-    })
+    const args: string[] = [
+        "-J",
+        "-f",
+        "bestaudio[acodec!=opus]",
+        "--no-cache-dir",
+        "--no-download",
+        "--no-playlist",
+        url
+    ]
 
-    const process: Deno.ChildProcess = command.spawn()
-    let data: ytdlpData = await process.stdout.json()
+    const stdout = execFileSync("yt-dlp", args, { encoding: "utf-8" })
+
+    let data: ytdlpData = JSON.parse(stdout)
     if (data.entries) {
         data = data.entries[0]
     }
