@@ -9,8 +9,8 @@ for (const file of commandFiles) {
 }
 
 const rest = new REST({ version: "10" })
-	.setToken(Deno.env.get("TOKEN")!)
+	.setToken(process.env.DISCORD_TOKEN!)
 
-rest.put(Routes.applicationCommands(Deno.env.get("CLIENT")!), { body: commands })
+rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT!), { body: commands })
 	.then(() => console.log("Successfully registered application commands."))
 	.catch(console.error)

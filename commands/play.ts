@@ -54,7 +54,7 @@ async function invoke(interaction: ChatInputCommandInteraction) {
     if (query.match(youtubeRegex)) {
         // Components v2 UI
         const container: ContainerBuilder = new ContainerBuilder()
-            .setAccentColor(+Deno.env.get("ACCENT")!)
+            .setAccentColor(+process.env.DISCORD_ACCENT!)
             .addTextDisplayComponents(
                 new TextDisplayBuilder()
                     .setContent(bold("Music Player")),
@@ -83,7 +83,7 @@ async function invoke(interaction: ChatInputCommandInteraction) {
         if (!queryRes) {
             // Components v2 UI
             const container: ContainerBuilder = new ContainerBuilder()
-                .setAccentColor(+Deno.env.get("ACCENT")!)
+                .setAccentColor(+process.env.DISCORD_ACCENT!)
                 .addTextDisplayComponents(
                     new TextDisplayBuilder()
                         .setContent(bold("Music Player")),
@@ -117,7 +117,7 @@ async function invoke(interaction: ChatInputCommandInteraction) {
     // Components v2 UI
 
     const container: ContainerBuilder = new ContainerBuilder()
-        .setAccentColor(+Deno.env.get("ACCENT")!)
+        .setAccentColor(+process.env.DISCORD_ACCENT!)
         .addSectionComponents(
             new SectionBuilder()
                  .addTextDisplayComponents(

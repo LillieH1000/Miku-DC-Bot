@@ -57,4 +57,4 @@ client.once(Events.ClientReady, () => {
 	console.log(`Logged in as ${client.user!.tag}.`)
 })
 
-client.login(Deno.env.get("TOKEN"))
+client.login(process.env.DISCORD_TOKEN)

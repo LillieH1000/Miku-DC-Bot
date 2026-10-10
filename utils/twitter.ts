@@ -32,7 +32,7 @@ function invoke(client: Client) {
             const data: resData = await res.json()
             
             const container: ContainerBuilder = new ContainerBuilder()
-                .setAccentColor(+Deno.env.get("ACCENT")!)
+                .setAccentColor(+process.env.DISCORD_ACCENT!)
 
             const section: SectionBuilder = new SectionBuilder()
                 .addTextDisplayComponents(

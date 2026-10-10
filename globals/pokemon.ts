@@ -223,7 +223,7 @@ async function request(name: string, species: string | undefined, position: numb
     // Container
 
     const container = new ContainerBuilder()
-        .setAccentColor(+Deno.env.get("ACCENT")!)
+        .setAccentColor(+process.env.DISCORD_ACCENT!)
 
     const section = new SectionBuilder()
         .addTextDisplayComponents(

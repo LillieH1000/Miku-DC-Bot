@@ -21,7 +21,7 @@ function invoke(client: Client) {
             const data: resData = await res.json()
             
             const container: ContainerBuilder = new ContainerBuilder()
-                .setAccentColor(+Deno.env.get("ACCENT")!)
+                .setAccentColor(+process.env.DISCORD_ACCENT!)
                 .addTextDisplayComponents(
                     new TextDisplayBuilder()
                         .setContent(`Views: ${data.viewCount.toLocaleString()}`),

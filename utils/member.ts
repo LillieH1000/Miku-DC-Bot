@@ -6,7 +6,7 @@ function invoke(client: Client) {
         // Member Info
 
         const container: ContainerBuilder = new ContainerBuilder()
-            .setAccentColor(+Deno.env.get("ACCENT")!)
+            .setAccentColor(+process.env.DISCORD_ACCENT!)
             .addSectionComponents(
                 new SectionBuilder()
                     .addTextDisplayComponents(
@@ -44,7 +44,7 @@ function invoke(client: Client) {
         // Member Info
 
         const container: ContainerBuilder = new ContainerBuilder()
-            .setAccentColor(+Deno.env.get("ACCENT")!)
+            .setAccentColor(+process.env.DISCORD_ACCENT!)
             .addSectionComponents(
                 new SectionBuilder()
                     .addTextDisplayComponents(
