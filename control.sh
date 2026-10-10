@@ -3,29 +3,20 @@ OS=$(uname -s)
 if [ $1 == "setup" ]
 then
     set +e
-    rm -rf fmt
+    rm -rf package-lock.json node_modules
     set -e
-    if [[ $OS == "Darwin" || $OS == "Linux" ]]
-    then
-        rsync -a --exclude "control.sh" --exclude "deno.lock" * fmt
-    else
-        robocopy "." "fmt" //E //XF "control.sh" "deno.lock" || true
-    fi
-    cd fmt
-    deno install
-    deno fmt *.ts **/*.ts
+    npm install
+    npx tsc
 fi
 if [ $1 == "register" ]
 then
     set -e
-    cd fmt
-    deno run --env-file=.env --check -P=register ./deploy.ts
+    npx tsx --env-file=../.env ./deploy.ts
 fi
 if [ $1 == "dev" ]
 then
     set -e
-    cd fmt
-    deno run --allow-read --env-file=.env --check -P ./index.ts
+    npx tsx --env-file=../.env ./index.ts
 fi
 if [ $1 == "start" ]
 then
@@ -33,9 +24,8 @@ then
     pm2 stop "discordbot"
     pm2 delete "discordbot"
     set -e
-    cd fmt
     pm2 save --force
-    pm2 start ./index.ts --interpreter="deno" --interpreter-args="run --env-file=.env --check -P" --name "discordbot"
+    pm2 start "npx tsx --env-file=../.env ./index.ts" --name "discordbot"
     pm2 save --force
     echo "Successfully started application process."
 fi
