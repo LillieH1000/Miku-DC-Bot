@@ -1,5 +1,4 @@
 #!/bin/bash
-OS=$(uname -s)
 if [ $1 == "setup" ]
 then
     set +e
