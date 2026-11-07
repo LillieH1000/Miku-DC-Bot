@@ -13,15 +13,7 @@ function invoke(client: Client) {
                     messageReply += "\n"
                 }
                 messageReply += word.replace(/bsky.app/gm, "fxbsky.app")
-            }
-            
-            if (word.match(/^http(?:s)?:\/\/(.*)reddit\.com\//) && !word.match(/^http(?:s)?:\/\/(.*)rxddit\.com\//)) {
-                if (messageReply !== "") {
-                    messageReply += "\n"
-                }
-                messageReply += word.replace(/reddit.com/gm, "rxddit.com")
-            }
-
+            }            
             if (word.match(/^http(?:s)?:\/\/(.*)tiktok\.com\//) && !word.match(/^http(?:s)?:\/\/(.*)kktiktok\.com\//)) {
                 if (messageReply !== "") {
                     messageReply += "\n"
