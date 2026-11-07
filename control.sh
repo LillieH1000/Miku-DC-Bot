@@ -19,11 +19,7 @@ then
 fi
 if [ $1 == "start" ]
 then
-    set +e
-    pm2 stop "discordbot"
-    pm2 delete "discordbot"
     set -e
-    pm2 save --force
     pm2 start "npx tsx --env-file=../.env ./index.ts" --name "discordbot"
     pm2 save --force
     echo "Successfully started application process."
